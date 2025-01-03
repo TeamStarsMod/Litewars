@@ -1,3 +1,6 @@
 name: Litewars
 version: '${project.version}'
 main: xyz.litewars.litewars.Litewars
+authors:
+  - "NekoEpisode"
+  - "CYsonHab"
