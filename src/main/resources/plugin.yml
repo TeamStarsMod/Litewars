@@ -4,3 +4,22 @@ main: xyz.litewars.litewars.Litewars
 authors:
   - "NekoEpisode"
   - "CYsonHab"
+
+commands:
+  version-control:
+    description: ""
+    permission: Litewars.admin
+    aliases: [ "vc" ]
+  litewars:
+    description: "Litewars主命令"
+    permission: Litewars.litewars
+    aliases: ["lw"]
+
+permissions:
+  Litewars.admin:
+    description: ""
+    default: op
+
+  Litewars.litewars:
+    description: ""
+    default: true
