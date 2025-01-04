@@ -5,10 +5,14 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Bukkit;
+import xyz.litewars.litewars.api.command.LiteCommandManager;
 import xyz.litewars.litewars.api.support.VersionControl;
 import xyz.litewars.litewars.commands.LitewarsCommand;
+import xyz.litewars.litewars.commands.Test;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.logging.Logger;
 
@@ -19,6 +23,7 @@ public final class Litewars extends JavaPlugin {
     public static Plugin plugin;
     public static File dataFolder;
     public static VersionControl nms;
+    public static LiteCommandManager commandManager;
 
     @Override
     public void onEnable() {
@@ -29,18 +34,26 @@ public final class Litewars extends JavaPlugin {
         server = getServer();
         pluginManager = server.getPluginManager();
         dataFolder = getDataFolder();
+        commandManager= new LiteCommandManager(this);
         saveDefaultConfig();
         File languageFolder = new File(dataFolder, "Languages");
         if (languageFolder.mkdirs()) logger.info("已创建语言文件夹");
+        try {
+            RunningData.init();
+        } catch (URISyntaxException | IOException e) {
+            throw new RuntimeException(e);
+        }
 
         // NMS
-        nms = getNMS();
+        /*nms = getNMS();
         if (nms == null) {
-            throw new RuntimeException("无法找到NMS支持类，请检查服务器版本！");
-        }
+            //throw new RuntimeException("无法找到NMS支持类，请检查服务器版本！");
+        }*/
+
         // Commands
-        getCommand("version-control").setExecutor(nms.VCMainCommand());
-        getCommand("Litewars").setExecutor(new LitewarsCommand());
+        //getCommand("version-control").setExecutor(nms.VCMainCommand());
+        new LitewarsCommand();
+        new Test ();
 
         logger.info("本次启动耗时 " + (Instant.now().toEpochMilli() - start) + " ms");
     }

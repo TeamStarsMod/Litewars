@@ -1,14 +1,19 @@
 package xyz.litewars.litewars.api.arena.interfaces;
 
 import org.bukkit.World;
+import xyz.litewars.litewars.api.arena.ArenaGroup;
 import xyz.litewars.litewars.api.arena.ArenaStatus;
+import xyz.litewars.litewars.api.game.Game;
 
 public interface GameArena {
-    //我想想要写什么
     void setName(String name);
     String getName();
     void setStatus (ArenaStatus status);
     ArenaStatus getStatus ();
     World getArenaWorld ();
     void setArenaWorld (World world);
+    ArenaGroup getArenaGroup ();
+    void setArenaGroup (ArenaGroup arenaGroup);
+    Game getGame();
+    void setGame(Game game);
 }
