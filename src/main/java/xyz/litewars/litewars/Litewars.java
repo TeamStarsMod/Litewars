@@ -30,6 +30,9 @@ public final class Litewars extends JavaPlugin {
         pluginManager = server.getPluginManager();
         dataFolder = getDataFolder();
         saveDefaultConfig();
+        File languageFolder = new File(dataFolder, "Languages");
+        if (languageFolder.mkdirs()) logger.info("已创建语言文件夹");
+
         // NMS
         nms = getNMS();
         if (nms == null) {

@@ -1,0 +1,5 @@
+#Litewars简体中文翻译文件
+prefix: "&3Lite&6wars &7> "
+#命令
+arena_group: "竞技场组"
+lw_arenas_message: "查看所有(指定竞技场组的)竞技场"
