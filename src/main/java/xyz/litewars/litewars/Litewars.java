@@ -9,6 +9,7 @@ import xyz.litewars.litewars.api.command.LiteCommandManager;
 import xyz.litewars.litewars.api.support.VersionControl;
 import xyz.litewars.litewars.commands.LitewarsCommand;
 import xyz.litewars.litewars.commands.Test;
+import xyz.litewars.litewars.scoreboard.Lobby;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,9 +54,11 @@ public final class Litewars extends JavaPlugin {
         // Commands
         //getCommand("version-control").setExecutor(nms.VCMainCommand());
         new LitewarsCommand();
-        new Test ();
+        new Test();
 
-        logger.info("本次启动耗时 " + (Instant.now().toEpochMilli() - start) + " ms");
+        Lobby.initScoreBoard();
+
+        logger.info("本次启动耗时 " + (Instant.now().toEpochMilli() - start) + "ms");
     }
 
     @Override
