@@ -4,6 +4,9 @@ main: xyz.litewars.litewars.Litewars
 authors:
   - "NekoEpisode"
   - "CYsonHab"
+softdepend:
+  - "DecentHolograms"
+  - "PlaceholderAPI"
 
 commands:
   version-control:

@@ -2,43 +2,47 @@ package xyz.litewars.litewars;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import xyz.litewars.litewars.api.arena.ArenaGroup;
+import xyz.litewars.litewars.api.database.hikaricp.DatabaseManager;
+import xyz.litewars.litewars.api.database.hikaricp.HikariCPSupport;
 import xyz.litewars.litewars.api.game.GameManager;
 import xyz.litewars.litewars.game.SimpleGameManager;
+import xyz.litewars.litewars.scoreboard.Lobby;
 
 import java.io.*;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import static xyz.litewars.litewars.Litewars.dataFolder;
 import static xyz.litewars.litewars.Litewars.plugin;
 
 public class RunningData {
+    public static boolean hasPlaceholderAPI = false;
+
     public static List<ArenaGroup> arenaGroups = new ArrayList<>();
     public static GameManager gameManager = new SimpleGameManager();
     public static YamlConfiguration languageFile;
     public static YamlConfiguration config;
     public static String languageName;
+    public static Lobby lobby;
+    private static final List<String> languages = new ArrayList<>();
+    public static HikariCPSupport cpSupport;
+    public static DatabaseManager databaseManager;
 
     public static void init () throws URISyntaxException, IOException {
-        /*URL url = RunningData.class.getClassLoader().getResource("languages");
-        if (url != null) {
-            Path path = Paths.get(url.toURI());
-            try (Stream<Path> walk = Files.walk(path)) {
-                    walk.forEach(item -> {
-                    try {
-                        Files.copy(item, Paths.get(plugin.getDataFolder() + "/Languages"));
-                    } catch (IOException e) {
-                        logger.severe("发生异常");
-                        StringWriter sw = new StringWriter();
-                        PrintWriter pw = new PrintWriter(sw);
-                        e.printStackTrace(pw);
-                        logger.severe(sw.toString());
-                    }
-                });
+        languages.add("zh_cn");
+        for (String languageName : languages){
+            if (!(new File(dataFolder + "/Languages/" + languageName + ".yml").exists())) {
+                Files.copy(Objects.requireNonNull(
+                                RunningData.class.getClassLoader().getResourceAsStream("languages/" + languageName + ".yml")),
+                        Paths.get(dataFolder + "/Languages/" + languageName + ".yml")
+                );
             }
-        } else {
-            logger.warning("没有找到languages文件夹，这可能是个错误！");
-        }*/
+        }
+        lobby = new Lobby();
         config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
         languageName = config.getString("language");
         languageFile = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Languages/" + languageName + ".yml"));

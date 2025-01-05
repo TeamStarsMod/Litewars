@@ -2,6 +2,7 @@ package xyz.litewars.litewars.api.languages;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import xyz.litewars.litewars.RunningData;
+import xyz.litewars.litewars.utils.Utils;
 
 public class Messages {
     public static String PREFIX = "prefix";
@@ -17,9 +18,23 @@ public class Messages {
     public static String AVAILABLE_COMMANDS = "available_commands";
     public static String FOUND_ARENA = "found_arena";
     public static String FOUND_ARENA_GROUP = "found_arena_group";
+    public static String WORLD_NOT_FOUND = "world_not_found";
+    public static String WORLD_LOAD_ERROR = "world_load_error";
+    public static String WORLD_LOAD_SUCCESS = "world_load_success";
+    public static String TP_TO_WORLD = "tp_to_world";
 
     public static Object readLanguageFile(String key) {
         YamlConfiguration languageFile = RunningData.languageFile;
         return languageFile.get(key);
+    }
+
+    public static String readMessage(String key, String color) {
+        Object read = readLanguageFile(key);
+        if (read instanceof String){
+            String readString = (String) read;
+            return Utils.reColor(readLanguageFile(Messages.PREFIX) + color + readString);
+        }else {
+            return null;
+        }
     }
 }

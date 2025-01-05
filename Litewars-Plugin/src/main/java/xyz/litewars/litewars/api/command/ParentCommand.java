@@ -34,7 +34,7 @@ public abstract class ParentCommand implements CommandExecutor { //qwq
             boolean exe = this.execute(sender, command, s, args);
             StringBuilder sb = new StringBuilder();
             sb.append(String.format("&3Lite&ewars &7%s%n", Messages.readLanguageFile(Messages.COMMAND_SYSTEM)));
-            sb.append(Utils.reColor("&c" + Messages.readLanguageFile(Messages.AVAILABLE_COMMANDS) + "\n"));
+            sb.append(Utils.reColor("&6" + Messages.readLanguageFile(Messages.AVAILABLE_COMMANDS) + "\n"));
             subCommands.forEach(sub -> {
                 if (sub.getPermission() == null) {
                     sb

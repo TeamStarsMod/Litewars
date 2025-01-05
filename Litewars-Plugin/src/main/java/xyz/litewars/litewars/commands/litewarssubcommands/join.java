@@ -34,7 +34,7 @@ public class join extends SubCommand {
                     if (arena.getName().equalsIgnoreCase(arenaName)) {
                         isFound = true;
                         if (!game.isStart()) {
-                            player.sendMessage(Utils.reColor(Messages.readLanguageFile(Messages.PREFIX) + "&a" + Messages.readLanguageFile(Messages.FOUND_ARENA)));
+                            player.sendMessage(Messages.readMessage(Messages.FOUND_ARENA, "&a"));
                             game.addPlayer(player);
                         }
                         break;
@@ -45,7 +45,7 @@ public class join extends SubCommand {
                     for (ArenaGroup arenaGroup : RunningData.arenaGroups) {
                         if (arenaGroup.getName().equalsIgnoreCase(arenaName)) {
                             isFound = true;
-                            player.sendMessage(Utils.reColor(Messages.readLanguageFile(Messages.PREFIX) + "&a" + Messages.readLanguageFile(Messages.FOUND_ARENA_GROUP)));
+                            player.sendMessage(Messages.readMessage(Messages.FOUND_ARENA_GROUP, "&a"));
                             Arena mostPlayersArena = getArena(arenaGroup);
                             if (mostPlayersArena != null) {
                                 mostPlayersArena.getGame().addPlayer(player);
@@ -59,10 +59,10 @@ public class join extends SubCommand {
                 }
 
                 if (!isFound) {
-                    player.sendMessage(Utils.reColor(Messages.readLanguageFile(Messages.PREFIX) + "&c" + Messages.readLanguageFile(Messages.CANT_FOUND_GROUP_OR_ARENA)));
+                    player.sendMessage(Messages.readMessage(Messages.CANT_FOUND_GROUP_OR_ARENA, "&c"));
                 }
             } else {
-                player.sendMessage(Utils.reColor(Messages.readLanguageFile(Messages.PREFIX) + "&c" + Messages.readLanguageFile(Messages.NEED_MORE_ARGS)));
+                player.sendMessage(Messages.readMessage(Messages.NEED_MORE_ARGS, "&c"));
                 return false;
             }
         }
