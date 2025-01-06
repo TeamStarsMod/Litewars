@@ -1,4 +1,4 @@
-package xyz.litewars.litewars.api.support;
+package xyz.litewars.litewars.api.versionsupport;
 
 import org.bukkit.command.CommandExecutor;
 

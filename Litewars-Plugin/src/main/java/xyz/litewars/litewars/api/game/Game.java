@@ -16,4 +16,6 @@ public interface Game {
     boolean isStart ();
     void forceStart ();
     void forceEnd ();
+    int getMaxPlayers();
+    int getMinPlayers();
 }

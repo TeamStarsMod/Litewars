@@ -56,6 +56,6 @@ public class setup extends SubCommand {
 
     @Override
     public String getDescription () {
-        return Utils.reColor("&2setup <世界文件夹名称> : 设置竞技场");
+        return Utils.reColor(String.format("setup <%s> : %s", Messages.readLanguageFile(Messages.WORLD_FOLDER_NAME), Messages.readLanguageFile(Messages.LW_SETUP_MESSAGE)));
     }
 }

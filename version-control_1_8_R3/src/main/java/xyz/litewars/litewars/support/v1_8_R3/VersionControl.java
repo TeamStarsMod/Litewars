@@ -3,7 +3,7 @@ package xyz.litewars.litewars.support.v1_8_R3;
 import org.bukkit.command.CommandExecutor;
 import xyz.litewars.litewars.utils.Utils;
 
-public class VersionControl implements xyz.litewars.litewars.api.support.VersionControl {
+public class VersionControl implements xyz.litewars.litewars.api.versionsupport.VersionControl {
     @Override
     public CommandExecutor VCMainCommand() {
         return (commandSender, command, s, strings) -> {

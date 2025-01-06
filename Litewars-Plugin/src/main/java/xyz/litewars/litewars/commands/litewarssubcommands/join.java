@@ -71,14 +71,14 @@ public class join extends SubCommand {
 
     @Override
     public String getDescription () {
-        return Utils.reColor(String.format("&2<%s/%s> : %s", Messages.readLanguageFile(Messages.ARENA_NAME), Messages.readLanguageFile(Messages.ARENA_GROUP), Messages.readLanguageFile(Messages.LW_JOIN_MESSAGE)));
+        return Utils.reColor(String.format("<%s/%s> : %s", Messages.readLanguageFile(Messages.ARENA_NAME), Messages.readLanguageFile(Messages.ARENA_GROUP), Messages.readLanguageFile(Messages.LW_JOIN_MESSAGE)));
     }
 
     private static Arena getArena(ArenaGroup arenaGroup) {
         Arena mostPlayersArena = null;
         int arenaPlayers = 0;
         for (Arena arena : arenaGroup.getArenas()){
-            int currArenaPlayer = arena.getGame().getPlayers().size() + 1;
+            int currArenaPlayer = arena.getGame().getPlayers().size();
             if (currArenaPlayer >= arenaPlayers){
                 arenaPlayers = currArenaPlayer;
                 mostPlayersArena = arena;

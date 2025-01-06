@@ -5,11 +5,12 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Bukkit;
+import org.slf4j.LoggerFactory;
 import xyz.litewars.litewars.api.command.LiteCommandManager;
 import xyz.litewars.litewars.api.database.hikaricp.DatabaseManager;
 import xyz.litewars.litewars.api.database.hikaricp.HikariCPConfig;
 import xyz.litewars.litewars.api.database.hikaricp.HikariCPSupport;
-import xyz.litewars.litewars.api.support.VersionControl;
+import xyz.litewars.litewars.api.versionsupport.VersionControl;
 import xyz.litewars.litewars.commands.AddKillCount;
 import xyz.litewars.litewars.commands.LitewarsCommand;
 import xyz.litewars.litewars.commands.Test;
@@ -26,6 +27,7 @@ import java.time.Instant;
 import java.util.logging.Logger;
 
 public final class Litewars extends JavaPlugin {
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(Litewars.class);
     public static Logger logger;
     public static Server server;
     public static PluginManager pluginManager;
@@ -98,9 +100,12 @@ public final class Litewars extends JavaPlugin {
         }
 
         // NMS
+        logger.info("正在检查当前版本NMS...");
         nms = getNMS();
         if (nms == null) {
-            throw new RuntimeException("无法找到NMS支持类，请检查服务器版本！");
+            pluginManager.disablePlugin(this);
+        }else {
+            logger.info("成功寻找到当前版本NMS支持类！");
         }
         //Events
         pluginManager.registerEvents(new OnPlayerJoin(), plugin);

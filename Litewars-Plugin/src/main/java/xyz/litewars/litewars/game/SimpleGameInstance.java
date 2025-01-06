@@ -12,6 +12,9 @@ public class SimpleGameInstance implements Game {
     private final List<String> offlinePlayers = new ArrayList<>();
     private Arena bindArena;
     private boolean start;
+    int maxPlayers = 0;
+    int minPlayers = 0;
+
     @Override
     public List<Player> getPlayers () {
         return players;
@@ -62,5 +65,15 @@ public class SimpleGameInstance implements Game {
     @Override
     public void forceEnd () {
         this.start = false;
+    }
+
+    @Override
+    public int getMinPlayers() {
+        return maxPlayers;
+    }
+
+    @Override
+    public int getMaxPlayers() {
+        return minPlayers;
     }
 }

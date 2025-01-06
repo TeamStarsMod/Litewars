@@ -4,6 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.litewars.litewars.api.command.SubCommand;
+import xyz.litewars.litewars.api.languages.Messages;
 import xyz.litewars.litewars.commands.LitewarsCommand;
 import xyz.litewars.litewars.utils.Utils;
 
@@ -22,6 +23,6 @@ public class tp extends SubCommand {
 
     @Override
     public String getDescription () {
-        return Utils.reColor("&2tp <竞技场名称> : 传送到指定竞技场");
+        return Utils.reColor(String.format("tp <%s> : %s", Messages.readLanguageFile(Messages.PLAYER_NAME), Messages.readLanguageFile(Messages.LW_TP_MESSAGE)));
     }
 }

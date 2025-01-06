@@ -19,15 +19,13 @@ public class LiteCommandManager {
     }
 
     public CommandMap getCommandMap() {
-        if (Bukkit.getPluginManager() instanceof SimplePluginManager) {
-            SimplePluginManager pluginManager = (SimplePluginManager) Bukkit.getPluginManager();
+        if (Bukkit.getPluginManager() instanceof SimplePluginManager pluginManager) {
             try {
                 Field field = SimplePluginManager.class.getDeclaredField("commandMap");
                 field.setAccessible(true);
                 return (CommandMap) field.get(pluginManager);
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 plugin.getLogger().severe("无法获取CommandMap" + e.getMessage());
-                e.printStackTrace();
             }
         }
         return null;
@@ -45,10 +43,9 @@ public class LiteCommandManager {
                         command = constructor.newInstance(commandName, plugin);
                         command.setExecutor(executor);
                         commandMap.register(plugin.getName(), command);
-                        plugin.getLogger().info("注册命令：" + commandName);
+                        plugin.getLogger().info("注册命令：" + commandName.toLowerCase());
                     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
                         plugin.getLogger().severe("未能成功创建命令 " + commandName + "，原因: " + e.getMessage());
-                        e.printStackTrace();
                     }
                 } else {
                     command.setExecutor(executor);
