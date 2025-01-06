@@ -17,7 +17,7 @@ public class LobbyPlaceHolder extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "litewars";
+        return "litewars-lobby";
     }
 
     @Override
