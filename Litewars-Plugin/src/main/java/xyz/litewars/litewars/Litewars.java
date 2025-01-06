@@ -19,6 +19,8 @@ import xyz.litewars.litewars.supports.papi.LobbyPlaceHolder;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.logging.Logger;
@@ -98,13 +100,13 @@ public final class Litewars extends JavaPlugin {
         // NMS
         nms = getNMS();
         if (nms == null) {
-            //throw new RuntimeException("无法找到NMS支持类，请检查服务器版本！");
+            throw new RuntimeException("无法找到NMS支持类，请检查服务器版本！");
         }
         //Events
         pluginManager.registerEvents(new OnPlayerJoin(), plugin);
 
         // Commands
-        //getCommand("version-control").setExecutor(nms.VCMainCommand());
+        getCommand("version-control").setExecutor(nms.VCMainCommand());
         new LitewarsCommand();
         new Test();
         new AddKillCount();
@@ -128,13 +130,20 @@ public final class Litewars extends JavaPlugin {
         }
         try {
             String serverVersion = Bukkit.getServer().getClass().getName().split("\\.")[3];
-            return (VersionControl) Class.forName("xyz.litewars.litewars.support." + serverVersion + ".VersionControl").newInstance();
+            Class<?> versionControlClass = Class.forName("xyz.litewars.litewars.support." + serverVersion + ".VersionControl");
+            Constructor<?> constructor = versionControlClass.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            return (VersionControl) constructor.newInstance();
         } catch (ClassNotFoundException e) {
             logger.severe("无法找到 NMS 支持类，请检查插件版本是否与服务器版本匹配：" + e.getMessage());
+        } catch (NoSuchMethodException e) {
+            logger.severe("无法找到无参构造器：" + e.getMessage());
         } catch (IllegalAccessException e) {
             logger.severe("无法访问 NMS 支持类：" + e.getMessage());
         } catch (InstantiationException e) {
             logger.severe("无法实例化 NMS 支持类：" + e.getMessage());
+        } catch (InvocationTargetException e) {
+            logger.severe("构造器抛出异常：" + e.getCause().getMessage());
         }
         logger.info("正在卸载插件……");
         return null;
