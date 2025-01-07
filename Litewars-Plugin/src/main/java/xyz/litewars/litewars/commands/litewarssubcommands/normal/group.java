@@ -20,6 +20,6 @@ public class group extends SubCommand {
 
     @Override
     public String getDescription () {
-        return Utils.reColor("&2group : 设置竞技组");
+        return Utils.reColor("group : 设置竞技组");
     }
 }

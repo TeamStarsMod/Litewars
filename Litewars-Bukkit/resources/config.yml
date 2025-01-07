@@ -15,7 +15,7 @@ language: zh_cn
 #数据库设置
 #插件使用的数据库类型 (SQLite, MySQL)
 database-type: "SQLite" #默认SQLite
-#仅当类型设置为MySQL时，以下设置才生效(Litewars为MySQL数据库名称)
+#仅当类型设置为MySQL时，以下设置才生效
 database-host: "localhost"
 database-port: 3306
 database-name: "litewars"

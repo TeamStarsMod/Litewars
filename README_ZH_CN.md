@@ -1,6 +1,6 @@
 ![litewars_small](https://github.com/user-attachments/assets/b6178c0a-11a4-4a2a-a773-0dc5bfcd842b)
 # Lite(Bed)wars by NekoEpisode & CYsonHab
-## English | 简体中文
+## [English](README.md) | 简体中文
 # 什么是Litewars?
 ## 一个我的世界小游戏插件
 你需要收集资源来对抗你的对手，同时保护自己的床不被破坏，如果你的床被破坏，你就无法再次重生
