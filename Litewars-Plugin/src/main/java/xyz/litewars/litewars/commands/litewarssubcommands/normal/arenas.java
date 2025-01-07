@@ -21,6 +21,6 @@ public class arenas extends SubCommand {
 
     @Override
     public String getDescription () {
-        return Utils.reColor(String.format("&2arenas [%s] : %s", Messages.readLanguageFile(Messages.ARENA_GROUP), Messages.readLanguageFile(Messages.LW_ARENAS_MESSAGE)));
+        return Utils.reColor(String.format("arenas [%s] : %s", Messages.readLanguageFile(Messages.ARENA_GROUP), Messages.readLanguageFile(Messages.LW_ARENAS_MESSAGE)));
     }
 }

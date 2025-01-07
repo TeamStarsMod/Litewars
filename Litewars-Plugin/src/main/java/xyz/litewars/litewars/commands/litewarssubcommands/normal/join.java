@@ -69,7 +69,7 @@ public class join extends SubCommand {
 
     @Override
     public String getDescription () {
-        return Utils.reColor(String.format("<%s/%s> : %s", Messages.readLanguageFile(Messages.ARENA_NAME), Messages.readLanguageFile(Messages.ARENA_GROUP), Messages.readLanguageFile(Messages.LW_JOIN_MESSAGE)));
+        return Utils.reColor(String.format("join <%s/%s> : %s", Messages.readLanguageFile(Messages.ARENA_NAME), Messages.readLanguageFile(Messages.ARENA_GROUP), Messages.readLanguageFile(Messages.LW_JOIN_MESSAGE)));
     }
 
     private static Arena getArena(ArenaGroup arenaGroup) {

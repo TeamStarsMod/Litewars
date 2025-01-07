@@ -14,7 +14,7 @@ public class Messages {
     public static String COLOR = "color";
     public static String LW_ARENAS_MESSAGE = "lw_arenas_message";
     public static String LW_JOIN_MESSAGE = "lw_join_message";
-    public static String LW_CREATE_ARENA_MESSAGE = "lw_create_arena_message";
+    public static String LW_CREATE_ARENA_MESSAGE = "lw_create_arenas_message";
     public static String LW_GROUP_MESSAGE = "lw_group_message";
     public static String LW_SETUP_MESSAGE = "lw_setup_message";
     public static String LW_TP_MESSAGE = "lw_tp_message";
