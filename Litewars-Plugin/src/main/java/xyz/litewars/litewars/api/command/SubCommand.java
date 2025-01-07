@@ -3,6 +3,9 @@ package xyz.litewars.litewars.api.command;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
+
+import java.util.Arrays;
 
 public abstract class SubCommand implements CommandExecutor {
     private final ParentCommand parent;
@@ -11,6 +14,7 @@ public abstract class SubCommand implements CommandExecutor {
     private String permission;
     private final boolean isOnlyPlayer;
     private final boolean isOnlySetup;
+    private String[] subs;
 
     public SubCommand (ParentCommand parent, String name, String description, String permission, boolean isOnlyPlayer, boolean isOnlySetup) {
         this.parent = parent;
@@ -19,6 +23,16 @@ public abstract class SubCommand implements CommandExecutor {
         this.permission = permission;
         this.isOnlyPlayer = isOnlyPlayer;
         this.isOnlySetup = isOnlySetup;
+    }
+
+    public SubCommand (ParentCommand parent, String name, String description, String permission, boolean isOnlyPlayer, boolean isOnlySetup, String... subs) {
+        this.parent = parent;
+        this.name = name;
+        this.description = description;
+        this.permission = permission;
+        this.isOnlyPlayer = isOnlyPlayer;
+        this.isOnlySetup = isOnlySetup;
+        this.subs = subs;
     }
 
     public ParentCommand getParent () {
@@ -69,5 +83,20 @@ public abstract class SubCommand implements CommandExecutor {
 
     public boolean getIsOnlySetup() {
         return this.isOnlySetup;
+    }
+
+    public String[] getSubs () {
+        return subs;
+    }
+
+    public void addSub (String sub) {
+        String[] newSubs = new String[this.subs.length + 1];
+        if (this.subs.length - 1 >= 0) System.arraycopy(this.subs, 0, newSubs, 0, this.subs.length - 1);
+        newSubs[newSubs.length - 1] = sub;
+        this.subs = newSubs;
+    }
+
+    public TabCompleter getTabcompleter () {
+        return (commandSender, command, s, strings) -> Arrays.stream(this.subs).toList();
     }
 }

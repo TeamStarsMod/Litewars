@@ -17,8 +17,7 @@ public class AddKillCount extends ParentCommand {
 
     @Override
     public boolean execute(CommandSender sender, Command command, String s, String[] args) {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
+        if (sender instanceof Player player) {
             try {
                 if (!databaseManager.checkDataExists("player_datas", "player_uuid", player.getUniqueId().toString())) {
                     databaseManager.insert("player_datas", new String[] {

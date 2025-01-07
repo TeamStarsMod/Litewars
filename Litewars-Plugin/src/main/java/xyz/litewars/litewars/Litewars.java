@@ -13,6 +13,7 @@ import xyz.litewars.litewars.api.database.hikaricp.HikariCPSupport;
 import xyz.litewars.litewars.api.versionsupport.VersionControl;
 import xyz.litewars.litewars.commands.AddKillCount;
 import xyz.litewars.litewars.commands.LitewarsCommand;
+import xyz.litewars.litewars.commands.Party;
 import xyz.litewars.litewars.database.CreateTables;
 import xyz.litewars.litewars.event.OnPlayerJoin;
 import xyz.litewars.litewars.supports.papi.LobbyPlaceHolder;
@@ -130,6 +131,7 @@ public final class Litewars extends JavaPlugin {
         getCommand("version-control").setExecutor(nms.VCMainCommand());
         new LitewarsCommand();
         new AddKillCount();
+        new Party();
         loadVersionSupport();
 
         RunningData.lobby.run();

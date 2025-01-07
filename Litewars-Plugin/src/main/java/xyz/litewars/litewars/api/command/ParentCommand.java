@@ -157,6 +157,26 @@ public abstract class ParentCommand implements CommandExecutor, TabCompleter {
                     }
                 }
             }
+        } else {
+            for (SubCommand sub : subCommands) {
+                if (sub.getName().equals(args[0])) {
+                    boolean isPlayer = commandSender instanceof Player;
+                    boolean playerInSetupMode = isPlayer && RunningData.onSetupPlayerMap.containsKey((Player) commandSender);
+
+                    if ((sub.getIsOnlySetup() && playerInSetupMode) || (!sub.getIsOnlySetup() && !playerInSetupMode)) {
+                        if (sub.getIsOnlyPlayer() && !isPlayer) {
+                            continue;
+                        }
+                        if (sub.getPermission() == null || commandSender.hasPermission(sub.getPermission())) {
+                            for (String str : sub.getSubs()) {
+                                if (str.startsWith(args[1])) {
+                                    completions.add(str);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         return completions;
     }
