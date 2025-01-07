@@ -22,5 +22,7 @@ database-name: "litewars"
 database-user: "litewars"
 database-password: "litewars@database1101"
 
-
+#控制台相关设置
+#是否在控制台展示颜色(仅命令系统)，如果设置为false则命令系统不会显示任何颜色代码，防止无法解析而导致不可读问题
+ConsoleColor: true
 

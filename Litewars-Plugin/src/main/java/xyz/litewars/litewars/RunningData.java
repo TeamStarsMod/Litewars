@@ -1,6 +1,7 @@
 package xyz.litewars.litewars;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import xyz.litewars.litewars.api.arena.ArenaGroup;
 import xyz.litewars.litewars.api.database.hikaricp.DatabaseManager;
 import xyz.litewars.litewars.api.database.hikaricp.HikariCPSupport;
@@ -12,9 +13,7 @@ import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static xyz.litewars.litewars.Litewars.dataFolder;
 import static xyz.litewars.litewars.Litewars.plugin;
@@ -31,6 +30,7 @@ public class RunningData {
     private static final List<String> languages = new ArrayList<>();
     public static HikariCPSupport cpSupport;
     public static DatabaseManager databaseManager;
+    public static Map<Player, String> onSetupPlayerMap = new HashMap<>();
 
     public static void init () throws URISyntaxException, IOException {
         languages.add("zh_cn");

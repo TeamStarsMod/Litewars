@@ -9,12 +9,16 @@ public abstract class SubCommand implements CommandExecutor {
     private final String name;
     private String description;
     private String permission;
+    private final boolean isOnlyPlayer;
+    private final boolean isOnlySetup;
 
-    public SubCommand (ParentCommand parent, String name, String description, String permission) {
+    public SubCommand (ParentCommand parent, String name, String description, String permission, boolean isOnlyPlayer, boolean isOnlySetup) {
         this.parent = parent;
         this.name = name;
         this.description = description;
         this.permission = permission;
+        this.isOnlyPlayer = isOnlyPlayer;
+        this.isOnlySetup = isOnlySetup;
     }
 
     public ParentCommand getParent () {
@@ -57,5 +61,13 @@ public abstract class SubCommand implements CommandExecutor {
 
     public void setPermission (String permission) {
         this.permission = permission;
+    }
+
+    public boolean getIsOnlyPlayer() {
+        return this.isOnlyPlayer;
+    }
+
+    public boolean getIsOnlySetup() {
+        return this.isOnlySetup;
     }
 }

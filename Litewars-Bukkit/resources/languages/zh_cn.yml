@@ -1,16 +1,19 @@
 #Litewars简体中文翻译文件
 prefix: "&3Lite&ewars &7> "
 
+#名词
 arena_group: "竞技场组"
 arena_name: "竞技场名称"
 player_name: "玩家名"
 world_folder_name: "世界文件夹名称"
-
+color: "颜色"
+#信息
 lw_arenas_message: "查看所有(指定竞技场组的)竞技场"
 lw_join_message: "加入指定竞技场"
 lw_group_message: "竞技场组相关设置"
 lw_setup_message: "设置竞技场"
 lw_tp_message: "传送到指定玩家所在的竞技场"
+lw_add_color_message: "增加队伍颜色"
 only_players: "这个命令只能由玩家使用！"
 need_more_args: "此命令需要更多参数！"
 cant_found_group_or_arena: "未能找到指定组或竞技场"
@@ -22,6 +25,8 @@ world_not_found: "未找到世界文件夹"
 world_load_error: "在加载世界时发生了错误"
 world_load_success: "世界加载成功！"
 tp_to_world: "正在将您传送至世界 %world%"
+not_in_setup_mode: "你没有在编辑任何竞技场！"
+something_was_wrong: "发生了些许错误！请查看控制台了解更多信息！"
 #计分板
 #大厅计分版
 lobby_scoreboard_title: "&3起床&e战争"

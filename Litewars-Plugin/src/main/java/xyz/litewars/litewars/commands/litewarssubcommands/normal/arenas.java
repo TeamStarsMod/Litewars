@@ -1,4 +1,4 @@
-package xyz.litewars.litewars.commands.litewarssubcommands;
+package xyz.litewars.litewars.commands.litewarssubcommands.normal;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -10,14 +10,12 @@ import xyz.litewars.litewars.utils.Utils;
 
 public class arenas extends SubCommand {
     public arenas (LitewarsCommand parent) {
-        super (parent, "arenas", "", null); //az
+        super (parent, "arenas", "", null, false, false);
     }
 
     @Override
     public boolean execute (CommandSender sender, Command command, String s, String[] strings) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
-        }
+        Player p = (Player) sender;
         return false;
     }
 
