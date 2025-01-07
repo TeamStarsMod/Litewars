@@ -30,8 +30,8 @@ public class Messages {
     public static String WORLD_LOAD_ERROR = "world_load_error";
     public static String WORLD_LOAD_SUCCESS = "world_load_success";
     public static String TP_TO_WORLD = "tp_to_world";
-    public static String NOT_IN_SETUP_MODE = "not_in_setup_mode";
     public static String SOMETHING_WAS_WRONG = "something_was_wrong";
+    public static String NOT_AVAILABLE_IN_YOUR_MODE = "not_available_in_your_mode";
 
     public static Object readLanguageFile(String key) {
         YamlConfiguration languageFile = RunningData.languageFile;

@@ -3,7 +3,6 @@ package xyz.litewars.litewars.commands.litewarssubcommands.setup;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import xyz.litewars.litewars.RunningData;
 import xyz.litewars.litewars.api.command.SubCommand;
 import xyz.litewars.litewars.api.languages.Messages;
 import xyz.litewars.litewars.commands.LitewarsCommand;
@@ -23,13 +22,8 @@ public class addColor extends SubCommand {
     @Override
     public boolean execute(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
-        if (RunningData.onSetupPlayerMap.containsKey(player)) {
-
-            return true;
-        }else {
-            player.sendMessage(Messages.readMessage(Messages.NOT_IN_SETUP_MODE, "&c"));
-            return false;
-        }
+        sender.sendMessage("yes");
+        return true;
     }
 
     @Override

@@ -27,6 +27,7 @@ world_load_success: "世界加载成功！"
 tp_to_world: "正在将您传送至世界 %world%"
 not_in_setup_mode: "你没有在编辑任何竞技场！"
 something_was_wrong: "发生了些许错误！请查看控制台了解更多信息！"
+not_available_in_your_mode: "此命令在您当前所处的模式中不可用！"
 #计分板
 #大厅计分版
 lobby_scoreboard_title: "&3起床&e战争"

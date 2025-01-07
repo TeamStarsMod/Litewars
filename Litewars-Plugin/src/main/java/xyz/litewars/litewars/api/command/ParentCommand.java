@@ -84,14 +84,39 @@ public abstract class ParentCommand implements CommandExecutor { //qwq
             return exe;
         } else {
             boolean executed = false;
+            boolean isPlayerInSetupMode = sender instanceof Player && RunningData.onSetupPlayerMap.containsKey((Player) sender);
+
             for (SubCommand sub : subCommands) {
-                if (!sub.getIsOnlyPlayer() || (sub.getIsOnlyPlayer() && sender instanceof Player)) { //如果命令不允许非玩家执行而被非玩家执行，将不会执行并返回一条消息
+                // 检查是否是玩家且是否在setup模式下，或者执行者不是玩家
+                if ((sub.getIsOnlySetup() && isPlayerInSetupMode) || (!sub.getIsOnlySetup() && !isPlayerInSetupMode)) {
+                    // 如果玩家在非setup模式下尝试执行setup命令，或者想在setup模式下执行非setup命令，则不允许并显示消息
+                    if ((sub.getIsOnlySetup() && !isPlayerInSetupMode) || (!sub.getIsOnlySetup() && isPlayerInSetupMode)) {
+                        sender.sendMessage(Messages.readMessage(Messages.NOT_AVAILABLE_IN_YOUR_MODE, "&c"));
+                        continue;
+                    }
+
+                    // 如果子命令是只允许玩家执行的，并且执行者不是玩家，则显示错误消息
+                    if (sub.getIsOnlyPlayer() && !(sender instanceof Player)) {
+                        sender.sendMessage(Messages.readMessage(Messages.ONLY_PLAYERS, "&c"));
+                        continue;
+                    }
+
+                    // 执行子命令
                     if (sub.onCommand(sender, command, s, args)) {
                         executed = true;
                         break;
                     }
-                }else {
-                    sender.sendMessage(Messages.readMessage(Messages.ONLY_PLAYERS, "&c"));
+                } else {
+                    // 如果执行者不是玩家，则按照非setup模式处理
+                    if (!(sender instanceof Player)) {
+                        if (sub.onCommand(sender, command, s, args)) {
+                            executed = true;
+                            break;
+                        }
+                    } else {
+                        // 如果玩家在错误的模式下执行命令，则显示错误消息
+                        sender.sendMessage(Messages.readMessage(Messages.NOT_AVAILABLE_IN_YOUR_MODE, "&c"));
+                    }
                 }
             }
             return executed;
