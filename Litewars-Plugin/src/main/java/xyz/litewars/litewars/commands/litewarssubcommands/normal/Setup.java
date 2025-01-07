@@ -1,11 +1,13 @@
 package xyz.litewars.litewars.commands.litewarssubcommands.normal;
 
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import xyz.litewars.litewars.RunningData;
 import xyz.litewars.litewars.api.command.SubCommand;
 import xyz.litewars.litewars.api.languages.Messages;
 import xyz.litewars.litewars.commands.LitewarsCommand;
@@ -14,8 +16,8 @@ import xyz.litewars.litewars.utils.Utils;
 
 import java.io.File;
 
-public class setup extends SubCommand {
-    public setup (LitewarsCommand parent) {
+public class Setup extends SubCommand {
+    public Setup(LitewarsCommand parent) {
         super (parent, "setup", "", "Litewars.admin", true, false);
     }
 
@@ -32,6 +34,11 @@ public class setup extends SubCommand {
             return false;
         }
 
+        if (Bukkit.getWorlds().get(0).getName().equalsIgnoreCase(strings[0])) {
+            sender.sendMessage(Messages.readMessage(Messages.CANT_SETUP_DEFAULT_WORLD, "&c"));
+            return false;
+        }
+
         WorldCreator worldCreator = new WorldCreator(strings[0]);
         worldCreator.environment(World.Environment.NORMAL);
         worldCreator.type(WorldType.FLAT);
@@ -41,6 +48,7 @@ public class setup extends SubCommand {
         if (world1 != null) {
             player.sendMessage(Messages.readMessage(Messages.WORLD_LOAD_SUCCESS, "&a"));
             Teleport.tpPlayerToWorld(player, world1);
+            RunningData.onSetupPlayerMap.put(player, world1.getName());
             return true;
         }else {
             player.sendMessage(Messages.readMessage(Messages.WORLD_LOAD_ERROR, "&c"));

@@ -5,8 +5,8 @@ import org.bukkit.command.CommandSender;
 import xyz.litewars.litewars.api.command.SubCommand;
 import xyz.litewars.litewars.commands.LitewarsCommand;
 
-public class setlobby extends SubCommand {
-    public setlobby(LitewarsCommand parent) {
+public class SetLobby extends SubCommand {
+    public SetLobby(LitewarsCommand parent) {
         super(parent, "setlobby", "", "Litewars.admin", true, false);
     }
 

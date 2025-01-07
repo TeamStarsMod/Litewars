@@ -1,4 +1,4 @@
-package xyz.litewars.litewars.commands;
+package xyz.litewars.litewars.support.v1_8_R3;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,11 +16,10 @@ public class Test extends ParentCommand {
 
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             return false;
         }
 
-        Player player = (Player) sender;
         Location playerLocation = player.getLocation();
         int radius = 0;
         Block bedBlock = null;

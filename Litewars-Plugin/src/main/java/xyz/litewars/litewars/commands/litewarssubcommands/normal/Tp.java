@@ -4,12 +4,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.litewars.litewars.api.command.SubCommand;
+import xyz.litewars.litewars.api.languages.Messages;
 import xyz.litewars.litewars.commands.LitewarsCommand;
 import xyz.litewars.litewars.utils.Utils;
 
-public class group extends SubCommand {
-    public group (LitewarsCommand parent) {
-        super (parent, "group", "", "Litewars.admin", true, false);
+public class Tp extends SubCommand {
+    public Tp(LitewarsCommand parent) {
+        super (parent, "tp", "", "Litewars.tp", true, false);
     }
 
     @Override
@@ -20,6 +21,6 @@ public class group extends SubCommand {
 
     @Override
     public String getDescription () {
-        return Utils.reColor("group : 设置竞技组");
+        return Utils.reColor(String.format("tp <%s> : %s", Messages.readLanguageFile(Messages.PLAYER_NAME), Messages.readLanguageFile(Messages.LW_TP_MESSAGE)));
     }
 }

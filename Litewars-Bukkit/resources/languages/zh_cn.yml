@@ -24,10 +24,14 @@ found_arena_group: "已找到竞技场组！我们正在将您发送到此竞技
 world_not_found: "未找到世界文件夹"
 world_load_error: "在加载世界时发生了错误"
 world_load_success: "世界加载成功！"
+cant_setup_default_world: "你不能设置默认世界！"
 tp_to_world: "正在将您传送至世界 %world%"
 not_in_setup_mode: "你没有在编辑任何竞技场！"
 something_was_wrong: "发生了些许错误！请查看控制台了解更多信息！"
 not_available_in_your_mode: "此命令在您当前所处的模式中不可用！"
+command_not_found: "未找到此(子)命令！"
+no_permission: "你没有权限做这个！"
+settings_saved: "设置已保存！"
 #计分板
 #大厅计分版
 lobby_scoreboard_title: "&3起床&e战争"

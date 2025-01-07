@@ -13,12 +13,13 @@ import xyz.litewars.litewars.api.database.hikaricp.HikariCPSupport;
 import xyz.litewars.litewars.api.versionsupport.VersionControl;
 import xyz.litewars.litewars.commands.AddKillCount;
 import xyz.litewars.litewars.commands.LitewarsCommand;
-import xyz.litewars.litewars.commands.Test;
 import xyz.litewars.litewars.database.CreateTables;
 import xyz.litewars.litewars.event.OnPlayerJoin;
 import xyz.litewars.litewars.supports.papi.LobbyPlaceHolder;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -36,7 +37,7 @@ public final class Litewars extends JavaPlugin {
     public static VersionControl nms;
     public static LiteCommandManager commandManager;
 
-    @Override//计分板
+    @Override
     public void onEnable() {
         long start = Instant.now().toEpochMilli();
         logger = getLogger();
@@ -50,6 +51,7 @@ public final class Litewars extends JavaPlugin {
         File languageFolder = new File(dataFolder, "Languages");
         if (languageFolder.mkdirs()) logger.info("已创建语言文件夹");
         try {
+            // ScoreBoard in here
             RunningData.init();
         } catch (URISyntaxException | IOException e) {
             throw new RuntimeException(e);
@@ -73,9 +75,9 @@ public final class Litewars extends JavaPlugin {
                     RunningData.config.getString("database-password")
             ), false);
         } else if (databaseType.equalsIgnoreCase("SQLite")) {
-            File cacheFolder = new File(dataFolder + "/Cache");
-            if (cacheFolder.mkdirs()) logger.info("已创建缓存文件夹");
-            String url = "jdbc:sqlite:" + dataFolder + "/Cache/database.db";
+            File cacheFolder = new File(dataFolder + "/Data");
+            if (cacheFolder.mkdirs()) logger.info("已创建数据文件夹");
+            String url = "jdbc:sqlite:" + dataFolder + "/Data/database.db";
             RunningData.cpSupport = new HikariCPSupport(new HikariCPConfig(
                     url,
                     null,
@@ -83,6 +85,19 @@ public final class Litewars extends JavaPlugin {
             ), true);
         } else {
             logger.severe("插件在启动时遇到错误！");
+        }
+
+        // 添加一个用于警告的文件
+        try {
+            File warningFile = new File(dataFolder + "/Data/LOOK_THIS.txt");
+            if (warningFile.createNewFile()) {
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(warningFile));
+                bufferedWriter.append("DO NOT DELETE THIS FOLDER! YOU WILL LOSE ALL DATA!");
+                bufferedWriter.flush();
+                bufferedWriter.close();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         RunningData.cpSupport.start();
@@ -107,14 +122,15 @@ public final class Litewars extends JavaPlugin {
         }else {
             logger.info("成功寻找到当前版本NMS支持类！");
         }
+
         //Events
         pluginManager.registerEvents(new OnPlayerJoin(), plugin);
 
         // Commands
         getCommand("version-control").setExecutor(nms.VCMainCommand());
         new LitewarsCommand();
-        new Test();
         new AddKillCount();
+        loadVersionSupport();
 
         RunningData.lobby.run();
 
@@ -152,5 +168,19 @@ public final class Litewars extends JavaPlugin {
         }
         logger.info("正在卸载插件……");
         return null;
+    }
+
+    public static void loadVersionSupport() {
+        try {
+            String serverVersion = Bukkit.getServer().getClass().getName().split("\\.")[3];
+            Class<?> testClass;
+            testClass = Class.forName("xyz.litewars.litewars.support." + serverVersion + ".Test");
+            Constructor<?> constructor;
+            constructor = testClass.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            constructor.newInstance();
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassNotFoundException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -14,7 +14,6 @@ public class Messages {
     public static String COLOR = "color";
     public static String LW_ARENAS_MESSAGE = "lw_arenas_message";
     public static String LW_JOIN_MESSAGE = "lw_join_message";
-    public static String LW_CREATE_ARENA_MESSAGE = "lw_create_arenas_message";
     public static String LW_GROUP_MESSAGE = "lw_group_message";
     public static String LW_SETUP_MESSAGE = "lw_setup_message";
     public static String LW_TP_MESSAGE = "lw_tp_message";
@@ -29,9 +28,13 @@ public class Messages {
     public static String WORLD_NOT_FOUND = "world_not_found";
     public static String WORLD_LOAD_ERROR = "world_load_error";
     public static String WORLD_LOAD_SUCCESS = "world_load_success";
+    public static String CANT_SETUP_DEFAULT_WORLD = "cant_setup_default_world";
     public static String TP_TO_WORLD = "tp_to_world";
     public static String SOMETHING_WAS_WRONG = "something_was_wrong";
     public static String NOT_AVAILABLE_IN_YOUR_MODE = "not_available_in_your_mode";
+    public static String COMMAND_NOT_FOUND = "command_not_found";
+    public static String NO_PERMISSION = "no_permission";
+    public static String SETTINGS_SAVED = "settings_saved";
 
     public static Object readLanguageFile(String key) {
         YamlConfiguration languageFile = RunningData.languageFile;

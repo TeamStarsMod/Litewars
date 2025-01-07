@@ -3,6 +3,7 @@ package xyz.litewars.litewars.api.command;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import xyz.litewars.litewars.RunningData;
 import xyz.litewars.litewars.api.languages.Messages;
@@ -13,7 +14,7 @@ import java.util.List;
 
 import static xyz.litewars.litewars.Litewars.commandManager;
 
-public abstract class ParentCommand implements CommandExecutor { //qwq
+public abstract class ParentCommand implements CommandExecutor, TabCompleter {
     private final List<SubCommand> subCommands = new ArrayList<>();
     private final String[] name;
 
@@ -35,10 +36,10 @@ public abstract class ParentCommand implements CommandExecutor { //qwq
         if (args.length == 0) {
             boolean exe = this.execute(sender, command, s, args);
             StringBuilder sb = new StringBuilder();
-            if (RunningData.config.getBoolean("ConsoleColor")){
+            if (RunningData.config.getBoolean("ConsoleColor")) {
                 sb.append(String.format("&3Lite&ewars &7%s%n", Messages.readLanguageFile(Messages.COMMAND_SYSTEM)));
                 sb.append(Utils.reColor("&6" + Messages.readLanguageFile(Messages.AVAILABLE_COMMANDS) + "\n"));
-            }else {
+            } else {
                 sb.append(String.format("Litewars %s%n", Messages.readLanguageFile(Messages.COMMAND_SYSTEM)));
                 sb.append(Utils.reColor(Messages.readLanguageFile(Messages.AVAILABLE_COMMANDS) + "\n"));
             }
@@ -67,7 +68,7 @@ public abstract class ParentCommand implements CommandExecutor { //qwq
                                 .append("&c | ")
                                 .append("&2").append(sub.getDescription())
                                 .append("\n");
-                    }else {
+                    } else {
                         // 防止因控制台不能正常解析颜色代码而导致不可读问题(可选)
                         if (!RunningData.config.getBoolean("ConsoleColor")) {
                             sb.append("  + ")
@@ -75,7 +76,7 @@ public abstract class ParentCommand implements CommandExecutor { //qwq
                                     .append(" | ")
                                     .append(sub.getDescription())
                                     .append("\n");
-                        }else {
+                        } else {
                             sb.append("&c  + ")
                                     .append("&6").append(sub.getName())
                                     .append("&c | ")
@@ -85,45 +86,48 @@ public abstract class ParentCommand implements CommandExecutor { //qwq
                     }
                 }
             });
+            //检查最后一个是不是换行符
+            if (!sb.isEmpty() && sb.charAt(sb.length() - 1) == '\n') {
+                //如果是，将其移除
+                sb.setLength(sb.length() - 1);
+            }
+
             sender.sendMessage(Utils.reColor(sb.toString()));
             return exe;
         } else {
             boolean executed = false;
-            boolean isPlayerInSetupMode = sender instanceof Player && RunningData.onSetupPlayerMap.containsKey((Player) sender);
+            boolean commandFound = false;
 
             for (SubCommand sub : subCommands) {
-                // 检查是否是玩家且是否在setup模式下，或者执行者不是玩家
-                if ((sub.getIsOnlySetup() && isPlayerInSetupMode) || (!sub.getIsOnlySetup() && !isPlayerInSetupMode)) {
-                    // 如果玩家在非setup模式下尝试执行setup命令，或者想在setup模式下执行非setup命令，则不允许并显示消息
-                    if ((sub.getIsOnlySetup() && !isPlayerInSetupMode) || (!sub.getIsOnlySetup() && isPlayerInSetupMode)) {
-                        sender.sendMessage(Messages.readMessage(Messages.NOT_AVAILABLE_IN_YOUR_MODE, "&c"));
-                        continue;
-                    }
+                if (sub.getName().equalsIgnoreCase(args[0])) {
+                    commandFound = true;
 
-                    // 如果子命令是只允许玩家执行的，并且执行者不是玩家，则显示错误消息
-                    if (sub.getIsOnlyPlayer() && !(sender instanceof Player)) {
+                    boolean isPlayer = sender instanceof Player;
+                    Player player = isPlayer ? (Player) sender : null;
+                    boolean isSetupMode = isPlayer && RunningData.onSetupPlayerMap.containsKey(player);
+
+                    if (sub.getIsOnlyPlayer() && !isPlayer) {
                         sender.sendMessage(Messages.readMessage(Messages.ONLY_PLAYERS, "&c"));
-                        continue;
-                    }
-
-                    // 执行子命令
-                    if (sub.onCommand(sender, command, s, args)) {
-                        executed = true;
                         break;
-                    }
-                } else {
-                    // 如果执行者不是玩家，则按照非setup模式处理
-                    if (!(sender instanceof Player)) {
+                    } else if ((sub.getIsOnlySetup() && !isSetupMode) || (!sub.getIsOnlySetup() && isSetupMode)) {
+                        sender.sendMessage(Messages.readMessage(Messages.NOT_AVAILABLE_IN_YOUR_MODE, "&c"));
+                        break;
+                    } else if (sub.getPermission() == null || sender.hasPermission(sub.getPermission())) {
                         if (sub.onCommand(sender, command, s, args)) {
                             executed = true;
-                            break;
                         }
+                        break;
                     } else {
-                        // 如果玩家在错误的模式下执行命令，则显示错误消息
-                        sender.sendMessage(Messages.readMessage(Messages.NOT_AVAILABLE_IN_YOUR_MODE, "&c"));
+                        sender.sendMessage(Messages.readMessage(Messages.NO_PERMISSION, "&c"));
+                        break;
                     }
                 }
             }
+
+            if (!commandFound) {
+                sender.sendMessage(Messages.readMessage(Messages.COMMAND_NOT_FOUND, "&c"));
+            }
+
             return executed;
         }
     }
@@ -132,5 +136,28 @@ public abstract class ParentCommand implements CommandExecutor { //qwq
 
     public String[] getName() {
         return name;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] args) {
+        List<String> completions = new ArrayList<>();
+        if (args.length == 1) {
+            for (SubCommand subCommand : subCommands) {
+                boolean isPlayer = commandSender instanceof Player;
+                boolean playerInSetupMode = isPlayer && RunningData.onSetupPlayerMap.containsKey((Player) commandSender);
+
+                if ((subCommand.getIsOnlySetup() && playerInSetupMode) || (!subCommand.getIsOnlySetup() && !playerInSetupMode)) {
+                    if (subCommand.getIsOnlyPlayer() && !isPlayer) {
+                        continue;
+                    }
+                    if (subCommand.getPermission() == null || commandSender.hasPermission(subCommand.getPermission())) {
+                        if (subCommand.getName().toLowerCase().startsWith(args[0].toLowerCase())) {
+                            completions.add(subCommand.getName());
+                        }
+                    }
+                }
+            }
+        }
+        return completions;
     }
 }

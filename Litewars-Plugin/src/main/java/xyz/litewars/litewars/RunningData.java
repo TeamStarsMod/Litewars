@@ -42,6 +42,7 @@ public class RunningData {
                 );
             }
         }
+
         lobby = new Lobby();
         config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
         languageName = config.getString("language");

@@ -4,13 +4,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.litewars.litewars.api.command.SubCommand;
-import xyz.litewars.litewars.api.languages.Messages;
 import xyz.litewars.litewars.commands.LitewarsCommand;
 import xyz.litewars.litewars.utils.Utils;
 
-public class arenas extends SubCommand {
-    public arenas (LitewarsCommand parent) {
-        super (parent, "arenas", "", null, false, false);
+public class Group extends SubCommand {
+    public Group(LitewarsCommand parent) {
+        super (parent, "group", "", "Litewars.admin", true, false);
     }
 
     @Override
@@ -21,6 +20,6 @@ public class arenas extends SubCommand {
 
     @Override
     public String getDescription () {
-        return Utils.reColor(String.format("arenas [%s] : %s", Messages.readLanguageFile(Messages.ARENA_GROUP), Messages.readLanguageFile(Messages.LW_ARENAS_MESSAGE)));
+        return Utils.reColor("group : 设置竞技组");
     }
 }

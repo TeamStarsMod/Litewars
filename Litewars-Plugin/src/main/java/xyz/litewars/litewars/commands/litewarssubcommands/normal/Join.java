@@ -15,9 +15,9 @@ import xyz.litewars.litewars.utils.Utils;
 
 import static xyz.litewars.litewars.Litewars.logger;
 
-public class join extends SubCommand {
+public class Join extends SubCommand {
 
-    public join (LitewarsCommand parent) {
+    public Join(LitewarsCommand parent) {
         super (parent, "join", "", null, true, false);
     }
 
