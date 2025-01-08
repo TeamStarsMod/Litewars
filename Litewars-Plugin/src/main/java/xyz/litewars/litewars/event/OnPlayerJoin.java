@@ -9,5 +9,6 @@ public class OnPlayerJoin implements Listener {
     @EventHandler
     public void onJoin (PlayerJoinEvent event) {
         RunningData.lobby.addPlayer(event.getPlayer());
+        RunningData.playersInLobby.add(event.getPlayer());
     }
 }

@@ -1,6 +1,9 @@
 package xyz.litewars.litewars.support.v1_12_R1;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.entity.Player;
 import xyz.litewars.litewars.utils.Utils;
 
 public class VersionControl implements xyz.litewars.litewars.api.versionsupport.VersionControl {
@@ -14,5 +17,10 @@ public class VersionControl implements xyz.litewars.litewars.api.versionsupport.
             }
             return false;
         };
+    }
+
+    @Override
+    public void sendActionBar(Player player, String message) {
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
     }
 }

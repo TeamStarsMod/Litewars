@@ -7,7 +7,7 @@ import xyz.litewars.litewars.api.database.hikaricp.DatabaseManager;
 import xyz.litewars.litewars.api.database.hikaricp.HikariCPSupport;
 import xyz.litewars.litewars.api.game.GameManager;
 import xyz.litewars.litewars.game.SimpleGameManager;
-import xyz.litewars.litewars.scoreboard.Lobby;
+import xyz.litewars.litewars.lobby.scoreboard.Lobby;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -31,6 +31,8 @@ public class RunningData {
     public static HikariCPSupport cpSupport;
     public static DatabaseManager databaseManager;
     public static Map<Player, String> onSetupPlayerMap = new HashMap<>();
+    public static String serverVersion; // Just like 1_12_R1, 1_8_R3...
+    public static List<Player> playersInLobby = new ArrayList<>();
 
     public static void init () throws URISyntaxException, IOException {
         languages.add("zh_cn");

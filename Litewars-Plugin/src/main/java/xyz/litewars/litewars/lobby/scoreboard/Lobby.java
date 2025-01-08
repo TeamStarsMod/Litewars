@@ -1,4 +1,4 @@
-package xyz.litewars.litewars.scoreboard;
+package xyz.litewars.litewars.lobby.scoreboard;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;

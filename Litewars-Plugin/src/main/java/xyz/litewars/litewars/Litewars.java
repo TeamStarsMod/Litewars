@@ -16,6 +16,7 @@ import xyz.litewars.litewars.commands.LitewarsCommand;
 import xyz.litewars.litewars.commands.Party;
 import xyz.litewars.litewars.database.CreateTables;
 import xyz.litewars.litewars.event.OnPlayerJoin;
+import xyz.litewars.litewars.lobby.tips.Tips;
 import xyz.litewars.litewars.supports.papi.LobbyPlaceHolder;
 
 import java.io.BufferedWriter;
@@ -48,7 +49,18 @@ public final class Litewars extends JavaPlugin {
         pluginManager = server.getPluginManager();
         dataFolder = getDataFolder();
         commandManager= new LiteCommandManager(this);
+        RunningData.serverVersion = Bukkit.getServer().getClass().getName().split("\\.")[3];
         saveDefaultConfig();
+
+        // NMS
+        logger.info("正在检查当前版本NMS...");
+        nms = getNMS();
+        if (nms == null) {
+            pluginManager.disablePlugin(this);
+        }else {
+            logger.info("成功寻找到当前版本NMS支持类！");
+        }
+
         File languageFolder = new File(dataFolder, "Languages");
         if (languageFolder.mkdirs()) logger.info("已创建语言文件夹");
         try {
@@ -115,15 +127,6 @@ public final class Litewars extends JavaPlugin {
             new LobbyPlaceHolder().register();
         }
 
-        // NMS
-        logger.info("正在检查当前版本NMS...");
-        nms = getNMS();
-        if (nms == null) {
-            pluginManager.disablePlugin(this);
-        }else {
-            logger.info("成功寻找到当前版本NMS支持类！");
-        }
-
         //Events
         pluginManager.registerEvents(new OnPlayerJoin(), plugin);
 
@@ -132,9 +135,16 @@ public final class Litewars extends JavaPlugin {
         new LitewarsCommand();
         new AddKillCount();
         new Party();
-        loadVersionSupport();
+        loadVersionSupportClasses();
 
         RunningData.lobby.run();
+
+        try {
+            Tips.init();
+            Tips.startTips();
+        } catch (IOException e) {
+            logger.severe("发生错误！" + e);
+        }
 
         logger.info("本次启动耗时 " + (Instant.now().toEpochMilli() - start) + "ms");
     }
@@ -144,6 +154,7 @@ public final class Litewars extends JavaPlugin {
         long start = Instant.now().toEpochMilli();
         logger.info("Litewars正在卸载中...");
         RunningData.cpSupport.stop();
+        Tips.stopTips();
         logger.info("本次卸载耗时 " + (Instant.now().toEpochMilli() - start) + " ms");
     }
 
@@ -152,8 +163,7 @@ public final class Litewars extends JavaPlugin {
             return nms;
         }
         try {
-            String serverVersion = Bukkit.getServer().getClass().getName().split("\\.")[3];
-            Class<?> versionControlClass = Class.forName("xyz.litewars.litewars.support." + serverVersion + ".VersionControl");
+            Class<?> versionControlClass = Class.forName("xyz.litewars.litewars.support." + RunningData.serverVersion + ".VersionControl");
             Constructor<?> constructor = versionControlClass.getDeclaredConstructor();
             constructor.setAccessible(true);
             return (VersionControl) constructor.newInstance();
@@ -172,7 +182,7 @@ public final class Litewars extends JavaPlugin {
         return null;
     }
 
-    public static void loadVersionSupport() {
+    public static void loadVersionSupportClasses() {
         try {
             String serverVersion = Bukkit.getServer().getClass().getName().split("\\.")[3];
             Class<?> testClass;
