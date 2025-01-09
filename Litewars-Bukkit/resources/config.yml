@@ -26,3 +26,7 @@ database-password: "litewars@database1101"
 #是否在控制台展示颜色(仅命令系统)，如果设置为false则命令系统不会显示任何颜色代码，防止无法解析而导致不可读问题
 ConsoleColor: true
 
+#Tip系统设置
+#是否在玩家在大厅时为他们显示提示信息? (提示信息与切换速度可在Tips.yml自定义)
+Tips: true
+
