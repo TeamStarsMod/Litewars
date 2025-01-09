@@ -135,7 +135,6 @@ public final class Litewars extends JavaPlugin {
         new LitewarsCommand();
         new AddKillCount();
         new Party();
-        loadVersionSupportClasses();
 
         RunningData.lobby.run();
 
@@ -182,19 +181,5 @@ public final class Litewars extends JavaPlugin {
         }
         logger.info("正在卸载插件……");
         return null;
-    }
-
-    public static void loadVersionSupportClasses() {
-        try {
-            String serverVersion = Bukkit.getServer().getClass().getName().split("\\.")[3];
-            Class<?> testClass;
-            testClass = Class.forName("xyz.litewars.litewars.support." + serverVersion + ".Test");
-            Constructor<?> constructor;
-            constructor = testClass.getDeclaredConstructor();
-            constructor.setAccessible(true);
-            constructor.newInstance();
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassNotFoundException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
