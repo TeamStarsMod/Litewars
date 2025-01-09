@@ -139,8 +139,10 @@ public final class Litewars extends JavaPlugin {
         RunningData.lobby.run();
 
         try {
-            Tips.init();
-            Tips.startTips();
+            if (RunningData.config.getBoolean("Tips")) {
+                Tips.init();
+                Tips.startTips();
+            }
         } catch (IOException e) {
             logger.severe("发生错误！" + e);
         }
