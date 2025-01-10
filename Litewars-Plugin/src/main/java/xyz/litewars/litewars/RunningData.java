@@ -16,8 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static xyz.litewars.litewars.Litewars.dataFolder;
-import static xyz.litewars.litewars.Litewars.plugin;
+import static xyz.litewars.litewars.Litewars.*;
 
 public class RunningData {
     public static boolean hasPlaceholderAPI = false;
