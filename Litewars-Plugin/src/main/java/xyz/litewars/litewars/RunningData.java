@@ -1,5 +1,6 @@
 package xyz.litewars.litewars;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import xyz.litewars.litewars.api.arena.ArenaGroup;
@@ -49,5 +50,9 @@ public class RunningData {
         config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
         languageName = config.getString("language");
         languageFile = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Languages/" + languageName + ".yml"));
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            RunningData.lobby.addPlayer(p);
+            RunningData.playersInLobby.add(p);
+        }
     }
 }
