@@ -50,7 +50,7 @@ public class Setup extends SubCommand {
             Teleport.tpPlayerToWorld(player, world1);
             RunningData.onSetupPlayerMap.put(player, world1.getName());
             return true;
-        }else {
+        } else {
             player.sendMessage(Messages.readMessage(Messages.WORLD_LOAD_ERROR, "&c"));
             return false;
         }
