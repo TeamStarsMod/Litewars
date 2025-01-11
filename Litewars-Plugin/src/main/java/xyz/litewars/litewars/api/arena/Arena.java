@@ -1,6 +1,7 @@
 package xyz.litewars.litewars.api.arena;
 
 import org.bukkit.World;
+import org.bukkit.configuration.file.YamlConfiguration;
 import xyz.litewars.litewars.api.arena.interfaces.GameArena;
 import xyz.litewars.litewars.api.game.Game;
 
@@ -10,9 +11,11 @@ public class Arena implements GameArena {
     private World world;
     private ArenaGroup arenaGroup;
     private Game bindGame;
+    private YamlConfiguration yaml;
 
-    public Arena (String name) {
+    public Arena (String name, YamlConfiguration yaml) {
         this.name = name;
+        this.yaml = yaml;
     }
 
     @Override
@@ -63,5 +66,10 @@ public class Arena implements GameArena {
     @Override
     public void setGame(Game game) {
         this.bindGame = game;
+    }
+
+    @Override
+    public YamlConfiguration getYaml () {
+        return yaml;
     }
 }

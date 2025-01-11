@@ -24,7 +24,7 @@ public class Tips {
     private static int currentTipIndex = -1;
 
     public static void init() throws IOException {
-        File tipsFile1 = new File(Litewars.dataFolder + "Tips.yml");
+        File tipsFile1 = new File(Litewars.dataFolder + "/Tips.yml");
         if (!tipsFile1.exists()) {
             Files.copy(Objects.requireNonNull(Tips.class.getClassLoader().getResourceAsStream("Tips.yml")), tipsFile1.toPath());
         }
@@ -53,7 +53,7 @@ public class Tips {
                     Litewars.nms.sendActionBar(player, Utils.reColor("&e" + tip));
                 }
 
-                repeatCount--;
+                repeatCount--;//你看tips干什么
             }
         }.runTaskTimer(Litewars.plugin, 0L, tipsYaml.getLong("UpdateSpeed"));
     }

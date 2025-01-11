@@ -17,6 +17,7 @@ import xyz.litewars.litewars.commands.Party;
 import xyz.litewars.litewars.database.CreateTables;
 import xyz.litewars.litewars.event.OnPlayerJoin;
 import xyz.litewars.litewars.event.OnPlayerLeave;
+import xyz.litewars.litewars.lobby.listener.OnLobbyMessage;
 import xyz.litewars.litewars.lobby.tips.Tips;
 import xyz.litewars.litewars.supports.papi.LobbyPlaceHolder;
 
@@ -131,6 +132,7 @@ public final class Litewars extends JavaPlugin {
         //Events
         pluginManager.registerEvents(new OnPlayerJoin(), plugin);
         pluginManager.registerEvents(new OnPlayerLeave(), plugin);
+        pluginManager.registerEvents(new OnLobbyMessage(), plugin);
 
         // Commands
         getCommand("version-control").setExecutor(nms.VCMainCommand());

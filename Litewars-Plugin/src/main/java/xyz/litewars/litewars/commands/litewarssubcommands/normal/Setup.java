@@ -6,8 +6,11 @@ import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import xyz.litewars.litewars.Litewars;
 import xyz.litewars.litewars.RunningData;
+import xyz.litewars.litewars.api.arena.Arena;
 import xyz.litewars.litewars.api.command.SubCommand;
 import xyz.litewars.litewars.api.languages.Messages;
 import xyz.litewars.litewars.commands.LitewarsCommand;
@@ -15,6 +18,7 @@ import xyz.litewars.litewars.utils.Teleport;
 import xyz.litewars.litewars.utils.Utils;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Setup extends SubCommand {
     public Setup(LitewarsCommand parent) {
@@ -48,7 +52,15 @@ public class Setup extends SubCommand {
         if (world1 != null) {
             player.sendMessage(Messages.readMessage(Messages.WORLD_LOAD_SUCCESS, "&a"));
             Teleport.tpPlayerToWorld(player, world1);
-            RunningData.onSetupPlayerMap.put(player, world1.getName());
+            if ((new File(Litewars.dataFolder, "Data/Arenas").mkdirs())) Litewars.logger.info("已创建竞技场配置文件夹");
+            File arenaFile = new File(Litewars.dataFolder, "Data/Arenas/" + world1.getName() + ".yml");
+            try {
+                if (arenaFile.createNewFile()) Litewars.logger.info("已创建新竞技场配置文件：" + arenaFile.getName());
+            } catch (IOException e) {
+                Litewars.logger.severe("无法创建竞技场文件：" + e.getMessage());
+            }
+            RunningData.onSetupPlayerMap.put(player, new Arena(world1.getName(), YamlConfiguration.loadConfiguration(arenaFile)));
+            player.performCommand("lw");
             return true;
         } else {
             player.sendMessage(Messages.readMessage(Messages.WORLD_LOAD_ERROR, "&c"));

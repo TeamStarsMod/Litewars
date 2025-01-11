@@ -3,6 +3,7 @@ package xyz.litewars.litewars;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import xyz.litewars.litewars.api.arena.Arena;
 import xyz.litewars.litewars.api.arena.ArenaGroup;
 import xyz.litewars.litewars.api.database.hikaricp.DatabaseManager;
 import xyz.litewars.litewars.api.database.hikaricp.HikariCPSupport;
@@ -20,7 +21,7 @@ import java.util.*;
 
 import static xyz.litewars.litewars.Litewars.*;
 
-public class RunningData { //有端口转发，你可以进服务器
+public class RunningData {
     public static boolean hasPlaceholderAPI = false;
 
     public static List<ArenaGroup> arenaGroups = new ArrayList<>();
@@ -32,7 +33,7 @@ public class RunningData { //有端口转发，你可以进服务器
     private static final List<String> languages = new ArrayList<>();
     public static HikariCPSupport cpSupport;
     public static DatabaseManager databaseManager;
-    public static Map<Player, String> onSetupPlayerMap = new HashMap<>();
+    public static Map<Player, Arena> onSetupPlayerMap = new HashMap<>();// <玩家, 地图名> 要不写在Arena类里吧
     public static String serverVersion; // Just like 1_12_R1, 1_8_R3...
     public static List<Player> playersInLobby = new ArrayList<>();
     public static List<String> lobbyScoreboardLines;

@@ -30,3 +30,7 @@ ConsoleColor: true
 #是否在玩家在大厅时为他们显示提示信息? (提示信息与切换速度可在Tips.yml自定义)
 Tips: true
 
+#主大厅设置
+#主大厅聊天格式
+LobbyMessageType: "&7[%litewars-lobby_level%] %litewars-lobby_player-name% > {message}"
+

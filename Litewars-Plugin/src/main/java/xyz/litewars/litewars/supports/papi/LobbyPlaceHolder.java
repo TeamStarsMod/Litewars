@@ -32,7 +32,7 @@ public class LobbyPlaceHolder extends PlaceholderExpansion {
     public String onRequest(OfflinePlayer player, @NotNull String params) {
         switch (params) {
             case "level" -> {
-                return "0";
+                return "✰0";
             }
             case "party" -> {
                 return "当前没有";
