@@ -27,9 +27,8 @@ public class Lobby extends ScoreBoard {
                     String title = RunningData.languageFile.getString(Messages.LOBBY_SCOREBOARD_TITLE);
                     Objective MainOBJ = sb.getObjective(Utils.reColor(title));
                     if (MainOBJ == null) MainOBJ = sb.registerNewObjective(Utils.reColor(title), "dummy");
-                    List<String> lines = RunningData.languageFile.getStringList(Messages.LOBBY_SCOREBOARD_LINES);
-                    for (int i = 0; i < lines.size(); i++) {
-                        Score score = MainOBJ.getScore(Utils.reColor(PlaceholderAPISupport.setPlaceholders(player, lines.get(i))));
+                    for (int i = 0; i < RunningData.lobbyScoreboardLines.size(); i++) {
+                        Score score = MainOBJ.getScore(Utils.reColor(PlaceholderAPISupport.setPlaceholders(player, RunningData.lobbyScoreboardLines.get(i))));
                         score.setScore(-i);
                     }
                     MainOBJ.setDisplaySlot(DisplaySlot.SIDEBAR);
