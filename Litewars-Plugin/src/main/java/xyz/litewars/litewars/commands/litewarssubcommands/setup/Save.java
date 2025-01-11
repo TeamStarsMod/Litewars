@@ -28,7 +28,7 @@ public class Save extends SubCommand {
         Player player = (Player) sender;
         Arena arena = RunningData.onSetupPlayerMap.get(player);
         try {
-            arena.getYaml().save(new File(Litewars.dataFolder, "Data/Arenas/" + arena.getName() + ".yml"));
+            arena.getYaml().save(new File(Litewars.dataFolder, "Arenas/" + arena.getName() + ".yml"));
         } catch (IOException e) {
             player.sendMessage("竞技场配置文件保存失败！请查看控制台！");
             Litewars.logger.severe("无法保存竞技场配置文件，请检查您的文件系统！" + e);
@@ -36,6 +36,8 @@ public class Save extends SubCommand {
         }
 
         RunningData.onSetupPlayerMap.remove(player);
+        RunningData.lobby.addPlayer(player);
+        RunningData.playersInLobby.add(player);
         sender.sendMessage(Messages.readMessage(Messages.SETTINGS_SAVED, "&a"));
         Teleport.tpPlayerToWorld(player, Bukkit.getWorlds().get(0)); // 将玩家传送回默认世界
         return true;

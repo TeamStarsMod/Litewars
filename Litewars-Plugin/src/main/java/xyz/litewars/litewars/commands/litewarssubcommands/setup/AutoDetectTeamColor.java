@@ -20,6 +20,7 @@ import xyz.litewars.litewars.commands.LitewarsCommand;
 import xyz.litewars.litewars.utils.Utils;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class AutoDetectTeamColor extends SubCommand {
@@ -33,7 +34,7 @@ public class AutoDetectTeamColor extends SubCommand {
         YamlConfiguration arenaConfig = Utils.getArenaConfig(player);
 
         World w = player.getWorld();
-        if (arenaConfig != null && arenaConfig.get("Team") == null) {
+        if (arenaConfig != null) {
             player.sendMessage(Utils.reColor(Messages.readLanguageFile(Messages.PREFIX) + "&7正在搜索队伍，这可能会导致些许卡顿"));
 
             Set<String> found = new HashSet<>();
@@ -52,7 +53,7 @@ public class AutoDetectTeamColor extends SubCommand {
                                     for (int dy = -15; dy <= 15; dy++) {
                                         for (int dz = -15; dz <= 15; dz++) {
                                             Block b2 = new Location(w, x + dx, y + dy, z + dz).getBlock();
-                                            if (isWool(b2) && getWoolColor(b2).equals(woolType)) {
+                                            if (isWool(b2) && Objects.equals(getWoolColor(b2), woolType)) {
                                                 count++;
                                             }
                                         }
@@ -61,12 +62,14 @@ public class AutoDetectTeamColor extends SubCommand {
                                 // 如果找到5个或更多相同类型的羊毛块
                                 if (count >= 5) {
                                     try {
-                                        Colors color = Colors.valueOf(woolType.replace("_WOOL", ""));
+                                        Colors color = null;
+                                        if (woolType != null) {
+                                            color = Colors.valueOf(woolType.replace("_WOOL", ""));
+                                        }
                                         if (arenaConfig.get("Team." + color) == null) {
                                             found.add(woolType);
                                         }
-                                    } catch (IllegalArgumentException ignored) {
-                                    }
+                                    } catch (IllegalArgumentException ignored) {}
                                 }
                             }
                         }
