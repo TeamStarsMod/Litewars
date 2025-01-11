@@ -35,6 +35,8 @@ public class Messages {
     public static String COMMAND_NOT_FOUND = "command_not_found";
     public static String NO_PERMISSION = "no_permission";
     public static String SETTINGS_SAVED = "settings_saved";
+    public static String LOBBY_SCOREBOARD_TITLE = "lobby_scoreboard_title";
+    public static String LOBBY_SCOREBOARD_LINES = "lobby_scoreboard_lines";
 
     public static Object readLanguageFile(String key) {
         YamlConfiguration languageFile = RunningData.languageFile;

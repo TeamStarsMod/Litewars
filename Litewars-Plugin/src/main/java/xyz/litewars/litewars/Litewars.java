@@ -1,6 +1,7 @@
 package xyz.litewars.litewars;
 
 import org.bukkit.Server;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,6 +17,7 @@ import xyz.litewars.litewars.commands.LitewarsCommand;
 import xyz.litewars.litewars.commands.Party;
 import xyz.litewars.litewars.database.CreateTables;
 import xyz.litewars.litewars.event.OnPlayerJoin;
+import xyz.litewars.litewars.event.OnPlayerLeave;
 import xyz.litewars.litewars.lobby.tips.Tips;
 import xyz.litewars.litewars.supports.papi.LobbyPlaceHolder;
 
@@ -129,6 +131,7 @@ public final class Litewars extends JavaPlugin {
 
         //Events
         pluginManager.registerEvents(new OnPlayerJoin(), plugin);
+        pluginManager.registerEvents(new OnPlayerLeave(), plugin);
 
         // Commands
         getCommand("version-control").setExecutor(nms.VCMainCommand());

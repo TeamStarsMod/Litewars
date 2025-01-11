@@ -73,5 +73,10 @@
             <version>2.11.6</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>5.8.25</version>
+        </dependency>
     </dependencies>
 </project>

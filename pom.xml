@@ -20,6 +20,7 @@
         <module>version-control_1_12_R1</module>
         <module>Litewars-Plugin</module>
         <module>Litewars-Bukkit</module>
+        <module>Litewars-Helper</module>
     </modules>
     <build>
         <plugins>
