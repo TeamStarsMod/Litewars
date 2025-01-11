@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import xyz.litewars.litewars.api.command.ParentCommand;
 import xyz.litewars.litewars.commands.litewarssubcommands.normal.*;
 import xyz.litewars.litewars.commands.litewarssubcommands.setup.AddTeamColor;
+import xyz.litewars.litewars.commands.litewarssubcommands.setup.AutoDetectTeamColor;
 import xyz.litewars.litewars.commands.litewarssubcommands.setup.Save;
 
 public class LitewarsCommand extends ParentCommand {
@@ -15,7 +16,10 @@ public class LitewarsCommand extends ParentCommand {
         addSubCommand(new Join(this));
         addSubCommand(new Setup(this));
         addSubCommand(new Tp(this));
+        addSubCommand(new Reload(this));
+        // Setup
         addSubCommand(new AddTeamColor(this));
+        addSubCommand(new AutoDetectTeamColor(this));
         addSubCommand(new Save(this));
     }
 

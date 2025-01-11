@@ -20,7 +20,7 @@ import java.util.*;
 
 import static xyz.litewars.litewars.Litewars.*;
 
-public class RunningData {
+public class RunningData { //有端口转发，你可以进服务器
     public static boolean hasPlaceholderAPI = false;
 
     public static List<ArenaGroup> arenaGroups = new ArrayList<>();

@@ -11,7 +11,6 @@ import xyz.litewars.litewars.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -25,7 +24,10 @@ public class Tips {
     private static int currentTipIndex = -1;
 
     public static void init() throws IOException {
-        Files.copy(Objects.requireNonNull(Tips.class.getClassLoader().getResourceAsStream("Tips.yml")), Path.of(Litewars.dataFolder + "Tips.yml"));
+        File tipsFile1 = new File(Litewars.dataFolder + "Tips.yml");
+        if (!tipsFile1.exists()) {
+            Files.copy(Objects.requireNonNull(Tips.class.getClassLoader().getResourceAsStream("Tips.yml")), tipsFile1.toPath());
+        }
         File tipsFile = new File(Litewars.dataFolder, "Tips.yml");
         tipsYaml = YamlConfiguration.loadConfiguration(tipsFile);
         tips = tipsYaml.getStringList("Tips");

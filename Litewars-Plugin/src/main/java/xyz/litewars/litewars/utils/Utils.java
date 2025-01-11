@@ -23,7 +23,7 @@ public class Utils {
             String arenaName = RunningData.onSetupPlayerMap.get(player);
             if ((new File(Litewars.dataFolder, "Data/Arenas").mkdirs())) Litewars.logger.info("已创建竞技场配置文件夹");
             File arenaFile = new File(Litewars.dataFolder, "Data/Arenas/" + arenaName + ".yml");
-            if (arenaFile.createNewFile()) Litewars.logger.info("已创建新竞技场配置文件：" + arenaFile + ".yml");
+            if (arenaFile.createNewFile()) Litewars.logger.info("已创建新竞技场配置文件：" + arenaFile.getName());
             return YamlConfiguration.loadConfiguration(arenaFile);
         }catch (IOException e){
             Litewars.logger.severe("发生错误！" + e.getMessage());
