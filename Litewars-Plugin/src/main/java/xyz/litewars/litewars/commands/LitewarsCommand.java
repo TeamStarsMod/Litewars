@@ -6,6 +6,7 @@ import xyz.litewars.litewars.api.command.ParentCommand;
 import xyz.litewars.litewars.commands.litewarssubcommands.normal.*;
 import xyz.litewars.litewars.commands.litewarssubcommands.setup.AddTeamColor;
 import xyz.litewars.litewars.commands.litewarssubcommands.setup.AutoDetectTeamColor;
+import xyz.litewars.litewars.commands.litewarssubcommands.setup.EditTeam;
 import xyz.litewars.litewars.commands.litewarssubcommands.setup.Save;
 
 public class LitewarsCommand extends ParentCommand {
@@ -21,6 +22,7 @@ public class LitewarsCommand extends ParentCommand {
         addSubCommand(new AddTeamColor(this));
         addSubCommand(new AutoDetectTeamColor(this));
         addSubCommand(new Save(this));
+        addSubCommand(new EditTeam(this));
     }
 
     @Override

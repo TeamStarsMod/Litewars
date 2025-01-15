@@ -49,6 +49,7 @@ public class AddTeamColor extends SubCommand {
             configuration.set(team_key + ".Emerald", new ArrayList<Float>());
             configuration.set(team_key + ".Shop", new ArrayList<Float>());
             configuration.set(team_key + ".Upgrade", new ArrayList<Float>());
+            configuration.set(team_key + ".Bed", new ArrayList<Float>());
         } catch (IllegalArgumentException e) {
             player.sendMessage(Utils.reColor("&c未知的颜色"));
             return false;
