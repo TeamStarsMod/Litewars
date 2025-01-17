@@ -7,6 +7,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import xyz.litewars.litewars.RunningData;
+import xyz.litewars.litewars.api.arena.team.Colors;
+import xyz.litewars.litewars.api.arena.team.Team;
 import xyz.litewars.litewars.api.command.SubCommand;
 import xyz.litewars.litewars.commands.LitewarsCommand;
 import xyz.litewars.litewars.utils.Utils;
@@ -23,9 +26,20 @@ public class EditTeam extends SubCommand {
         Player p = (Player) sender;
         YamlConfiguration config = Utils.getArenaConfig(p);
         Map<String, Object> keys = Utils.getYamlKeys(config, "Team");
+
         if (args.length >= 1) {
             if (keys.containsKey(args[0])) {
-                p.sendMessage("正在编辑队伍 " + args[0]);
+                Colors color = Colors.valueOf(args[0]);
+                if (RunningData.playerTeamMap.containsKey(p)) {
+                    if (RunningData.playerTeamMap.get(p).getColors().equals(
+                            Colors.valueOf(config.getString("Team." + args[0] + ".Color"))
+                    )) {
+                        p.sendMessage("你已经在编辑此队伍了哦~");
+                        return true;
+                    }
+                }
+                p.sendMessage("正在编辑队伍 " + color.getColor() + args[0]);
+                RunningData.playerTeamMap.put(p, new Team(Colors.valueOf(config.getString("Team." + args[0] + ".Color")), true));
             } else {
                 p.sendMessage("没有这个队伍哦~");
             }
@@ -35,7 +49,8 @@ public class EditTeam extends SubCommand {
                 return false;
             }
             keys.forEach((s1, v) -> {
-                ComponentBuilder builder = new ComponentBuilder(" - " + s1 + " [ 点击编辑 ]");
+                Colors color = Colors.valueOf(config.getString("Team." + s1 + ".Color"));
+                ComponentBuilder builder = new ComponentBuilder(" - " + color.getColor() + s1 + " [ 点击编辑 ]");
                 builder.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/lw edit-team " + s1));
                 builder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("/lw edit-team " + s1).create()));
                 p.spigot().sendMessage(builder.create());

@@ -2,55 +2,33 @@ package xyz.litewars.litewars.api.arena.team;
 
 import org.bukkit.ChatColor;
 
-public enum Colors {
-    RED,
-    BLUE,
-    GREEN,
-    YELLOW,
-    WHITE,
-    AQUA,
-    GRAY,
-    DARK_GRAY,
-    PINK,
-    DARK_GREEN,
-    CYAN,
-    LIME;
+import java.util.Locale;
 
-    public static ChatColor getTeamColor(String team) {
-        switch (team.toLowerCase()) {
-            case "red" -> {
-                return ChatColor.RED;
-            }
-            case "blue" -> {
-                return ChatColor.BLUE;
-            }
-            case "green", "lime" -> {
-                return ChatColor.GREEN;
-            }
-            case "yellow" -> {
-                return ChatColor.YELLOW;
-            }
-            case "white" -> {
-                return ChatColor.WHITE;
-            }
-            case "aqua", "cyan" -> {
-                return ChatColor.AQUA;
-            }
-            case "gray" -> {
-                return ChatColor.GRAY;
-            }
-            case "dark_gray" -> {
-                return ChatColor.DARK_GRAY;
-            }
-            case "pink" -> {
-                return ChatColor.LIGHT_PURPLE;
-            }
-            case "dark_green" -> {
-                return ChatColor.DARK_GREEN;
-            }
-            default -> {
-                return null;
-            }
-        }
+public enum Colors {
+    RED (ChatColor.RED.toString()),
+    BLUE (ChatColor.BLUE.toString()),
+    GREEN (ChatColor.GREEN.toString()),
+    YELLOW (ChatColor.YELLOW.toString()),
+    WHITE (ChatColor.WHITE.toString()),
+    AQUA (ChatColor.AQUA.toString()),
+    GRAY (ChatColor.GRAY.toString()),
+    DARK_GRAY (ChatColor.DARK_GRAY.toString()),
+    PINK (ChatColor.LIGHT_PURPLE.toString()),
+    DARK_GREEN (ChatColor.DARK_GREEN.toString()),
+    CYAN (ChatColor.AQUA.toString()),
+    LIME (ChatColor.GREEN.toString());
+
+    private final String color;
+
+    Colors (String color) {
+        this.color = color;
+    }
+
+    public static String getTeamColor(String team) {
+        return Colors.valueOf(team.toUpperCase(Locale.ROOT)).getColor();
+    }
+
+    public String getColor() {
+        return color;
     }
 }
