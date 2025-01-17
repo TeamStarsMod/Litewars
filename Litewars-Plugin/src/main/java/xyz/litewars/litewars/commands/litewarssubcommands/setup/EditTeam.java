@@ -31,7 +31,7 @@ public class EditTeam extends SubCommand {
             if (keys.containsKey(args[0])) {
                 Colors color = Colors.valueOf(args[0]);
                 if (RunningData.playerTeamMap.containsKey(p)) {
-                    if (RunningData.playerTeamMap.get(p).getColors().equals(
+                    if (config != null && RunningData.playerTeamMap.get(p).getColors().equals(
                             Colors.valueOf(config.getString("Team." + args[0] + ".Color"))
                     )) {
                         p.sendMessage("你已经在编辑此队伍了哦~");
@@ -39,7 +39,9 @@ public class EditTeam extends SubCommand {
                     }
                 }
                 p.sendMessage("正在编辑队伍 " + color.getColor() + args[0]);
-                RunningData.playerTeamMap.put(p, new Team(Colors.valueOf(config.getString("Team." + args[0] + ".Color")), true));
+                if (config != null) {
+                    RunningData.playerTeamMap.put(p, new Team(Colors.valueOf(config.getString("Team." + args[0] + ".Color")), true));
+                }
             } else {
                 p.sendMessage("没有这个队伍哦~");
             }
@@ -49,11 +51,19 @@ public class EditTeam extends SubCommand {
                 return false;
             }
             keys.forEach((s1, v) -> {
-                Colors color = Colors.valueOf(config.getString("Team." + s1 + ".Color"));
-                ComponentBuilder builder = new ComponentBuilder(" - " + color.getColor() + s1 + " [ 点击编辑 ]");
-                builder.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/lw edit-team " + s1));
-                builder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("/lw edit-team " + s1).create()));
-                p.spigot().sendMessage(builder.create());
+                Colors color = null;
+                if (config != null) {
+                    color = Colors.valueOf(config.getString("Team." + s1 + ".Color"));
+                }
+                ComponentBuilder builder = null;
+                if (color != null) {
+                    builder = new ComponentBuilder(" - " + color.getColor() + s1 + " [ 点击编辑 ]");
+                }
+                if (builder != null) {
+                    builder.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/lw edit-team " + s1));
+                    builder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("/lw edit-team " + s1).create()));
+                    p.spigot().sendMessage(builder.create());
+                }
             });
             p.sendMessage("当前共有 " + keys.size() + " 个队伍可以编辑！");
         }
