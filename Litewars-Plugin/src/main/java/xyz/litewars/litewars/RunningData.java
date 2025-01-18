@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import xyz.litewars.litewars.api.arena.Arena;
 import xyz.litewars.litewars.api.arena.ArenaGroup;
 import xyz.litewars.litewars.api.arena.team.Team;
+import xyz.litewars.litewars.api.data.DataSet;
 import xyz.litewars.litewars.api.database.hikaricp.DatabaseManager;
 import xyz.litewars.litewars.api.database.hikaricp.HikariCPSupport;
 import xyz.litewars.litewars.api.game.GameManager;
@@ -34,8 +35,9 @@ public class RunningData {
     private static final List<String> languages = new ArrayList<>();
     public static HikariCPSupport cpSupport;
     public static DatabaseManager databaseManager;
-    public static Map<Player, Arena> onSetupPlayerMap = new HashMap<>();// <玩家, 地图名> 要不写在Arena类里吧
-    public static Map<Player, Team> playerTeamMap = new HashMap<>();
+    public static Map<Player, Arena> onSetupPlayerMap;// <玩家, 地图名> 要不写在Arena类里吧
+    public static Map<Player, Team> playerTeamMap;
+    public static DataSet<String, Player, Object> onSetupData = new DataSet<>();
     public static String serverVersion; // Just like 1_12_R1, 1_8_R3...
     public static List<Player> playersInLobby = new ArrayList<>();
     public static List<String> lobbyScoreboardLines;
@@ -57,6 +59,10 @@ public class RunningData {
         languageFile = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Languages/" + languageName + ".yml"));
         List<String> list = languageFile.getStringList(Messages.LOBBY_SCOREBOARD_LINES);
         lobbyScoreboardLines = new ArrayList<>();
+        onSetupData.newDataMap("PlayerMap");
+        onSetupData.newDataMap("PlayerTeam");
+        onSetupPlayerMap = onSetupData.getArenaMap("PlayerMap");
+        playerTeamMap = onSetupData.getTeamMap("PlayerTeam");
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).isEmpty()) {
                 String[] strings = String.valueOf(i).split("");

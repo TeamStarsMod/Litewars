@@ -2,6 +2,7 @@ package xyz.litewars.litewars.api.arena.team;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
 import xyz.litewars.litewars.utils.LocationUtils;
 
@@ -13,6 +14,7 @@ public class Team {
     private Location spawn;
     private Location iron;
     private Location gold;
+    private Block bed;
     private boolean isEditing;
 
     public Team (Colors colors, boolean isEditing, String name, YamlConfiguration configuration, World world) {
@@ -24,6 +26,8 @@ public class Team {
         this.spawn = LocationUtils.getLocation(configuration.getFloatList(getKey("Spawn")), world);
         this.iron = LocationUtils.getLocation(configuration.getFloatList(getKey("Iron")), world);
         this.gold = LocationUtils.getLocation(configuration.getFloatList(getKey("Gold")), world);
+        Location bedLoc = LocationUtils.getLocation(configuration.getFloatList(getKey("Bed")), world);
+        this.bed = bedLoc == null ? null : bedLoc.getBlock();
     }
 
     public Colors getColors() {
@@ -76,7 +80,16 @@ public class Team {
 
     public void setGold(Location gold) {
         this.gold = gold;
-        configuration.set(getKey("Gold"), LocationUtils.getLocationList(iron));
+        configuration.set(getKey("Gold"), LocationUtils.getLocationList(gold));
+    }
+
+    public Block getBed () {
+        return this.bed;
+    }
+
+    public void setBed (Block bed) {
+        this.bed = bed;
+        configuration.set(getKey("Bed"), LocationUtils.getLocationList(bed.getLocation()));
     }
 
     private String getKey (String key) {
