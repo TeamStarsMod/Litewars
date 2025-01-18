@@ -1,9 +1,6 @@
 package xyz.litewars.litewars.commands.litewarssubcommands.setup;
 
 import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
-import org.bukkit.WorldType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -36,6 +33,7 @@ public class Save extends SubCommand {
         }
 
         RunningData.onSetupPlayerMap.remove(player);
+        RunningData.playerTeamMap.remove(player);
         RunningData.lobby.addPlayer(player);
         RunningData.playersInLobby.add(player);
         sender.sendMessage(Messages.readMessage(Messages.SETTINGS_SAVED, "&a"));

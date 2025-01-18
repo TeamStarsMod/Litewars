@@ -40,7 +40,7 @@ public class EditTeam extends SubCommand {
                 }
                 p.sendMessage("正在编辑队伍 " + color.getColor() + args[0]);
                 if (config != null) {
-                    RunningData.playerTeamMap.put(p, new Team(Colors.valueOf(config.getString("Team." + args[0] + ".Color")), true));
+                    RunningData.playerTeamMap.put(p, new Team(Colors.valueOf(config.getString("Team." + args[0] + ".Color")), true, args[0], config, RunningData.onSetupPlayerMap.get(p).getArenaWorld()));
                 }
             } else {
                 p.sendMessage("没有这个队伍哦~");

@@ -4,10 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import xyz.litewars.litewars.api.command.ParentCommand;
 import xyz.litewars.litewars.commands.litewarssubcommands.normal.*;
-import xyz.litewars.litewars.commands.litewarssubcommands.setup.AddTeamColor;
-import xyz.litewars.litewars.commands.litewarssubcommands.setup.AutoDetectTeamColor;
-import xyz.litewars.litewars.commands.litewarssubcommands.setup.EditTeam;
-import xyz.litewars.litewars.commands.litewarssubcommands.setup.Save;
+import xyz.litewars.litewars.commands.litewarssubcommands.setup.*;
 
 public class LitewarsCommand extends ParentCommand {
     public LitewarsCommand() {
@@ -23,6 +20,7 @@ public class LitewarsCommand extends ParentCommand {
         addSubCommand(new AutoDetectTeamColor(this));
         addSubCommand(new Save(this));
         addSubCommand(new EditTeam(this));
+        addSubCommand(new SetLocations(this));
     }
 
     @Override
