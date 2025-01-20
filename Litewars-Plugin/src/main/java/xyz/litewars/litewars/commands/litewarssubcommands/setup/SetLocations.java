@@ -33,6 +33,18 @@ public class SetLocations extends SubCommand {
                         team.setGold(p.getLocation());
                         p.sendMessage(Utils.reColor("&a设置成功！"));
                     }
+                    case "emerald" -> {
+                        team.setEmerald(p.getLocation());
+                        p.sendMessage(Utils.reColor("&a设置成功！"));
+                    }
+                    case "shop" -> {
+                        team.setShop(p.getLocation());
+                        p.sendMessage(Utils.reColor("&a设置成功！"));
+                    }
+                    case "upgrade" -> {
+                        team.setUpgrade(p.getLocation());
+                        p.sendMessage(Utils.reColor("&a设置成功！"));
+                    }
                 }
             }
         } else {

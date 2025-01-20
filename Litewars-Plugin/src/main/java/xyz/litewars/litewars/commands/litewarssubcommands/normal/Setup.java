@@ -64,7 +64,10 @@ public class Setup extends SubCommand {
             } catch (IOException e) {
                 Litewars.logger.severe("无法创建竞技场文件：" + e.getMessage());
             }
-            RunningData.onSetupPlayerMap.put(player, new Arena(world1.getName(), YamlConfiguration.loadConfiguration(arenaFile)));
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(arenaFile);
+            if (config.get("World") == null) config.set("World", world1.getName());
+            if (config.get("Name") == null) config.set("Name", world1.getName());
+            RunningData.onSetupPlayerMap.put(player, new Arena(world1.getName(), config));
             RunningData.lobby.removePlayer(player);
             RunningData.playersInLobby.remove(player);
             ScoreboardManager manager = Bukkit.getScoreboardManager();

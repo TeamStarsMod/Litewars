@@ -15,6 +15,7 @@ import xyz.litewars.litewars.commands.AddKillCount;
 import xyz.litewars.litewars.commands.LitewarsCommand;
 import xyz.litewars.litewars.commands.Party;
 import xyz.litewars.litewars.database.CreateTables;
+import xyz.litewars.litewars.event.OnBedSetting;
 import xyz.litewars.litewars.event.OnPlayerJoin;
 import xyz.litewars.litewars.event.OnPlayerLeave;
 import xyz.litewars.litewars.lobby.listener.OnLobbyMessage;
@@ -133,6 +134,7 @@ public final class Litewars extends JavaPlugin {
         pluginManager.registerEvents(new OnPlayerJoin(), plugin);
         pluginManager.registerEvents(new OnPlayerLeave(), plugin);
         pluginManager.registerEvents(new OnLobbyMessage(), plugin);
+        pluginManager.registerEvents(new OnBedSetting(), plugin);
 
         // Commands
         getCommand("version-control").setExecutor(nms.VCMainCommand());

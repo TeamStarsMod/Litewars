@@ -14,6 +14,9 @@ public class Team {
     private Location spawn;
     private Location iron;
     private Location gold;
+    private Location emerald;
+    private Location shop;
+    private Location upgrade;
     private Block bed;
     private boolean isEditing;
 
@@ -26,7 +29,11 @@ public class Team {
         this.spawn = LocationUtils.getLocation(configuration.getFloatList(getKey("Spawn")), world);
         this.iron = LocationUtils.getLocation(configuration.getFloatList(getKey("Iron")), world);
         this.gold = LocationUtils.getLocation(configuration.getFloatList(getKey("Gold")), world);
+        this.emerald = LocationUtils.getLocation(configuration.getFloatList(getKey("Emerald")), world);
+        this.shop = LocationUtils.getLocation(configuration.getFloatList("Shop"), world);
+        this.upgrade = LocationUtils.getLocation(configuration.getFloatList("Upgrade"), world);
         Location bedLoc = LocationUtils.getLocation(configuration.getFloatList(getKey("Bed")), world);
+        System.out.println(world);
         this.bed = bedLoc == null ? null : bedLoc.getBlock();
     }
 
@@ -90,6 +97,33 @@ public class Team {
     public void setBed (Block bed) {
         this.bed = bed;
         configuration.set(getKey("Bed"), LocationUtils.getLocationList(bed.getLocation()));
+    }
+
+    public Location getEmerald () {
+        return this.emerald;
+    }
+
+    public void setEmerald (Location emerald) {
+        this.emerald = emerald;
+        configuration.set(getKey("Emerald"), LocationUtils.getLocationList(emerald));
+    }
+
+    public Location getShop () {
+        return this.shop;
+    }
+
+    public void setShop (Location shop) {
+        this.shop = shop;
+        configuration.set(getKey("Shop"), LocationUtils.getLocationList(shop));
+    }
+
+    public Location getUpgrade () {
+        return this.upgrade;
+    }
+
+    public void setUpgrade (Location upgrade) {
+        this.upgrade = upgrade;
+        configuration.set(getKey("Upgrade"), LocationUtils.getLocationList(upgrade));
     }
 
     private String getKey (String key) {

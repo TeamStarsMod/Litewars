@@ -61,6 +61,7 @@ public class RunningData {
         lobbyScoreboardLines = new ArrayList<>();
         onSetupData.newDataMap("PlayerMap");
         onSetupData.newDataMap("PlayerTeam");
+        onSetupData.newDataMap("PlayerBedSetting");
         onSetupPlayerMap = onSetupData.getArenaMap("PlayerMap");
         playerTeamMap = onSetupData.getTeamMap("PlayerTeam");
         for (int i = 0; i < list.size(); i++) {

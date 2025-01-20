@@ -21,10 +21,16 @@ public class LitewarsCommand extends ParentCommand {
         addSubCommand(new Save(this));
         addSubCommand(new EditTeam(this));
         addSubCommand(new SetLocations(this));
+        addSubCommand(new SetBed(this));
     }
 
     @Override
     public boolean execute(CommandSender commandSender, Command command, String s, String[] strings) {
         return true;
+    }
+
+    @Override
+    public String getDescription () {
+        return "Litewars主命令";
     }
 }

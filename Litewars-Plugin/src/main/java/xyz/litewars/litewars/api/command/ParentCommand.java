@@ -10,6 +10,7 @@ import xyz.litewars.litewars.api.languages.Messages;
 import xyz.litewars.litewars.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static xyz.litewars.litewars.Litewars.commandManager;
@@ -17,6 +18,7 @@ import static xyz.litewars.litewars.Litewars.commandManager;
 public abstract class ParentCommand implements CommandExecutor, TabCompleter {
     private final List<SubCommand> subCommands = new ArrayList<>();
     private final String[] name;
+    private String description = "";
 
     public ParentCommand (String... name) {
         this.name = name;
@@ -181,5 +183,20 @@ public abstract class ParentCommand implements CommandExecutor, TabCompleter {
             }
         }
         return completions;
+    }
+
+    @Override
+    public String toString () {
+        return "Litewars-ParentCommand [" + this.getClass().getName() + "]\n" +
+                "{name=" + Arrays.toString(name) + "}" +
+                "Subs [" + subCommands + "]";
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

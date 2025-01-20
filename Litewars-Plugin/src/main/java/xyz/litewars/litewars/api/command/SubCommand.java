@@ -99,4 +99,11 @@ public abstract class SubCommand implements CommandExecutor {
     public TabCompleter getTabcompleter () {
         return (commandSender, command, s, strings) -> Arrays.stream(this.subs).toList();
     }
+
+    @Override
+    public String toString () {
+        return "Litewars-SubCommand [" + this.getClass().getName() + "]\n" +
+                "{parent=" + parent + ", name=" + name + ", description=" + getDescription() + ", permission=" + permission + ", isOnlyPlayer=" + isOnlyPlayer + ", isOnlySetup=" + isOnlySetup + "}" +
+                "Subs [" + Arrays.toString(subs) + "]";
+    }
 }

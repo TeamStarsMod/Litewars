@@ -1,7 +1,6 @@
 package xyz.litewars.litewars.api.command;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.SimplePluginManager;
@@ -31,7 +30,7 @@ public class LiteCommandManager {
         return null;
     }
 
-    public void registerCommands(String[] commandNames, CommandExecutor executor) {
+    public void registerCommands(String[] commandNames, ParentCommand executor) {
         CommandMap commandMap = getCommandMap();
         if (commandMap != null) {
             for (String commandName : commandNames) {
@@ -42,6 +41,8 @@ public class LiteCommandManager {
                         constructor.setAccessible(true);
                         command = constructor.newInstance(commandName, plugin);
                         command.setExecutor(executor);
+                        command.setTabCompleter(executor);
+                        command.setDescription(executor.getDescription());
                         commandMap.register(plugin.getName(), command);
                         plugin.getLogger().info("注册命令：" + commandName.toLowerCase());
                     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
@@ -49,6 +50,7 @@ public class LiteCommandManager {
                     }
                 } else {
                     command.setExecutor(executor);
+                    command.setTabCompleter(executor);
                     plugin.getLogger().info("为命令 " + commandName + " 增加处理器中");
                 }
             }

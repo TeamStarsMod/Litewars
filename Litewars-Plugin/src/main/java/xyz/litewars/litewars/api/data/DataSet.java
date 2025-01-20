@@ -49,4 +49,12 @@ public class DataSet<K, MK, V> {
             return null;
         }
     }
+
+    public Map<MK, Boolean> getBooleanMap (K name) {
+        try {
+            return (Map<MK, Boolean>) values.get(name);
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
 }
