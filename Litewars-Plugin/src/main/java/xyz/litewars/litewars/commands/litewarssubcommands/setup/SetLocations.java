@@ -11,7 +11,13 @@ import xyz.litewars.litewars.utils.Utils;
 
 public class SetLocations extends SubCommand {
     public SetLocations(LitewarsCommand parent) {
-        super(parent, "set-locations", "", "Litewars.admin", true, true, "spawn", "iron", "gold");
+        super(parent, "set-locations", "", "Litewars.admin", true, true,
+                "spawn",
+                "iron",
+                "gold",
+                "emerald",
+                "shop",
+                "upgrade");
     }
 
     @Override
