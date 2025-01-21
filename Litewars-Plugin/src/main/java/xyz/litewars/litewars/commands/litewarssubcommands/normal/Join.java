@@ -41,18 +41,16 @@ public class Join extends SubCommand {
             }
             //如果没有，查找是否有相同竞技场组
             if (!isFound) {
-                for (ArenaGroup arenaGroup : RunningData.arenaGroups) {
-                    if (arenaGroup.getName().equalsIgnoreCase(arenaName)) {
-                        isFound = true;
-                        player.sendMessage(Messages.readMessage(Messages.FOUND_ARENA_GROUP, "&a"));
-                        Arena mostPlayersArena = getArena(arenaGroup);
-                        if (mostPlayersArena != null) {
-                            mostPlayersArena.getGame().addPlayer(player);
-                        }else {
-                            logger.warning("没有获取到任何竞技场！这可能是个错误！");
-                            player.sendMessage(ChatColor.RED + "Something was wrong, please see Console.");
-                        }
-                        break;
+                ArenaGroup arenaGroup = RunningData.arenaGroupMap.get(arenaName.toLowerCase());
+                if (arenaGroup != null) {
+                    isFound = true;
+                    player.sendMessage(Messages.readMessage(Messages.FOUND_ARENA_GROUP, "&a"));
+                    Arena mostPlayersArena = getArena(arenaGroup);
+                    if (mostPlayersArena != null) {
+                        mostPlayersArena.getGame().addPlayer(player);
+                    } else {
+                        logger.warning("没有获取到人数最多的竞技场！这可能是个错误！");
+                        player.sendMessage(ChatColor.RED + "Something was wrong, please see Console.");
                     }
                 }
             }

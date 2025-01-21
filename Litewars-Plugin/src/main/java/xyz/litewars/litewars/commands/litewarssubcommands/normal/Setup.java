@@ -30,12 +30,12 @@ public class Setup extends SubCommand {
     @Override
     public boolean execute (CommandSender sender, Command command, String s, String[] strings) {
         Player player = (Player) sender;
-        if (strings.length < 1){
+        if (strings.length < 1) {
             sender.sendMessage(Messages.readMessage(Messages.NEED_MORE_ARGS, "&c"));
             return false;
         }
 
-        if (!(new File("./" + strings[0]).exists())){
+        if (!(new File("./" + strings[0]).exists())) {
             sender.sendMessage(Messages.readMessage(Messages.WORLD_NOT_FOUND, "&c"));
             return false;
         }

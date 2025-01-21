@@ -20,7 +20,7 @@ public class LitewarsCommand extends ParentCommand {
         addSubCommand(new AutoDetectTeamColor(this));
         addSubCommand(new Save(this));
         addSubCommand(new EditTeam(this));
-        addSubCommand(new SetLocations(this));
+        addSubCommand(new SetTeamLocations(this));
         addSubCommand(new SetBed(this));
     }
 

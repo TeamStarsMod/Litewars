@@ -1,10 +1,12 @@
 package xyz.litewars.litewars.api.arena;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import xyz.litewars.litewars.api.arena.interfaces.GameArena;
 import xyz.litewars.litewars.api.game.Game;
+import xyz.litewars.litewars.utils.LocationUtils;
 
 public class Arena implements GameArena {
     private String name;
@@ -13,12 +15,14 @@ public class Arena implements GameArena {
     private ArenaGroup arenaGroup = null;
     private Game bindGame = null;
     private final YamlConfiguration yaml;
+    private final Location waitingLobbyLocation;
 
     public Arena (String name, YamlConfiguration yaml) {
         this.name = name;
         this.yaml = yaml;
         this.world = Bukkit.getWorld(yaml.getString("World"));
         this.name = yaml.getString("Name");
+        this.waitingLobbyLocation = LocationUtils.getLocation(yaml.getFloatList("Waiting"), world);
     }
 
     @Override
@@ -74,5 +78,10 @@ public class Arena implements GameArena {
     @Override
     public YamlConfiguration getYaml () {
         return yaml;
+    }
+
+    @Override
+    public Location getWaitingLobbyLocation () {
+        return waitingLobbyLocation;
     }
 }

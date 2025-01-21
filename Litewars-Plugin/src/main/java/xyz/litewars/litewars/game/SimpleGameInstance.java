@@ -15,6 +15,10 @@ public class SimpleGameInstance implements Game {
     int maxPlayers = 0;
     int minPlayers = 0;
 
+    public SimpleGameInstance (Arena bindArena) {
+        this.bindArena = bindArena;
+    }
+
     @Override
     public List<Player> getPlayers () {
         return players;
@@ -22,6 +26,7 @@ public class SimpleGameInstance implements Game {
 
     @Override
     public void addPlayer (Player player) {
+        player.teleport(bindArena.getWaitingLobbyLocation());
         players.add(player);
     }
 

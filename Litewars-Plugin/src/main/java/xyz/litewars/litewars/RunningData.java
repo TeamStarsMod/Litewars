@@ -11,6 +11,7 @@ import xyz.litewars.litewars.api.database.hikaricp.DatabaseManager;
 import xyz.litewars.litewars.api.database.hikaricp.HikariCPSupport;
 import xyz.litewars.litewars.api.game.GameManager;
 import xyz.litewars.litewars.api.languages.Messages;
+import xyz.litewars.litewars.commands.litewarssubcommands.normal.Arenas;
 import xyz.litewars.litewars.game.SimpleGameManager;
 import xyz.litewars.litewars.lobby.scoreboard.Lobby;
 import xyz.litewars.litewars.utils.Utils;
@@ -26,16 +27,19 @@ import static xyz.litewars.litewars.Litewars.*;
 public class RunningData {
     public static boolean hasPlaceholderAPI = false;
 
-    public static List<ArenaGroup> arenaGroups = new ArrayList<>();
+    public static Map<String, ArenaGroup> arenaGroupMap;
     public static GameManager gameManager = new SimpleGameManager();
     public static YamlConfiguration languageFile;
     public static YamlConfiguration config;
+    public static YamlConfiguration dataConfig;
+    public static File configFile;
+    public static File dataConfigFile;
     public static String languageName;
     public static Lobby lobby;
     private static final List<String> languages = new ArrayList<>();
     public static HikariCPSupport cpSupport;
     public static DatabaseManager databaseManager;
-    public static Map<Player, Arena> onSetupPlayerMap;// <玩家, 地图名> 要不写在Arena类里吧
+    public static Map<Player, Arena> onSetupPlayerMap;
     public static Map<Player, Team> playerTeamMap;
     public static DataSet<String, Player, Object> onSetupData = new DataSet<>();
     public static String serverVersion; // Just like 1_12_R1, 1_8_R3...
@@ -44,6 +48,7 @@ public class RunningData {
 
     public static void init () throws URISyntaxException, IOException {
         languages.add("zh_cn");
+        arenaGroupMap = new HashMap<>();
         for (String languageName : languages){
             if (!(new File(dataFolder + "/Languages/" + languageName + ".yml").exists())) {
                 Files.copy(Objects.requireNonNull(
@@ -52,9 +57,15 @@ public class RunningData {
                 );
             }
         }
-
         lobby = new Lobby();
-        config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
+        configFile = new File(plugin.getDataFolder(), "config.yml");
+        config = YamlConfiguration.loadConfiguration(configFile);
+        dataConfigFile = new File(plugin.getDataFolder(), "Data/Data.yml");
+        if (dataConfigFile.createNewFile()) logger.info("已创建数据文件");
+        dataConfig = YamlConfiguration.loadConfiguration(dataConfigFile);
+        for (String name : dataConfig.getStringList(Arenas.arenaGroupListName)) {
+            arenaGroupMap.put(name, new ArenaGroup(name));
+        }
         languageName = config.getString("language");
         languageFile = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Languages/" + languageName + ".yml"));
         List<String> list = languageFile.getStringList(Messages.LOBBY_SCOREBOARD_LINES);

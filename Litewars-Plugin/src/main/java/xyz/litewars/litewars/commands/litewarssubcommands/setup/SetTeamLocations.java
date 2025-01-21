@@ -9,10 +9,13 @@ import xyz.litewars.litewars.api.command.SubCommand;
 import xyz.litewars.litewars.commands.LitewarsCommand;
 import xyz.litewars.litewars.utils.Utils;
 
-public class SetLocations extends SubCommand {
-    public SetLocations(LitewarsCommand parent) {
-        super(parent, "set-locations", "", "Litewars.admin", true, true,
-                "waiting");
+public class SetTeamLocations extends SubCommand {
+    public SetTeamLocations(LitewarsCommand parent) {
+        super(parent, "set-team-locations", "", "Litewars.admin", true, true,
+                "spawn",
+                "resources",
+                "shop",
+                "upgrade");
     }
 
     @Override
@@ -43,7 +46,7 @@ public class SetLocations extends SubCommand {
                 }
             }
         } else {
-            p.sendMessage(Utils.reColor("&c请先使用/EditTeam <TeamName>选择一个队伍编辑！"));
+            p.sendMessage(Utils.reColor("&c请先使用/EditTeam选择一个队伍编辑！"));
         }
         return true;
     }

@@ -1,5 +1,6 @@
 package xyz.litewars.litewars.api.arena.interfaces;
 
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import xyz.litewars.litewars.api.arena.ArenaGroup;
@@ -18,4 +19,5 @@ public interface GameArena {
     Game getGame();
     void setGame(Game game);
     YamlConfiguration getYaml ();
+    Location getWaitingLobbyLocation ();
 }
