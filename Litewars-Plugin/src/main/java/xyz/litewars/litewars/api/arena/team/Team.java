@@ -4,7 +4,10 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import xyz.litewars.litewars.utils.LocationUtils;
+
+import java.util.List;
 
 public class Team {
     private final Colors colors;
@@ -20,6 +23,7 @@ public class Team {
     private Block bed;
     private int maxPlayer;
     private boolean isEditing;
+    private List<Player> players;
 
     public Team (Colors colors, boolean isEditing, String name, YamlConfiguration configuration, World world) {
         this.colors = colors;
@@ -138,5 +142,18 @@ public class Team {
 
     private String getKey (String key) {
         return "Team." + name + "." + key;
+    }
+
+    public List<Player> getPlayers() {
+        return this.players;
+    }
+
+    public void removePlayer (Player player) {
+        this.players.remove(player);
+    }
+
+    public void addPlayer(Player player) {
+        this.players.add(player);
+        player.teleport(getSpawn());
     }
 }

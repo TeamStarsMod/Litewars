@@ -125,14 +125,13 @@ public class Join extends SubCommand {
     private static Arena getArena(ArenaGroup arenaGroup) {
         Arena mostPlayersArena = null;
         int arenaPlayers = 0;
-        for (Arena arena : arenaGroup.getArenas()){
-            int currArenaPlayer = arena.getGame().getPlayers().size();
-            if (arena.getGame() != null) {
-                if (!arena.getGame().isStart()) {
-                    if (currArenaPlayer >= arenaPlayers) {
-                        arenaPlayers = currArenaPlayer;
-                        mostPlayersArena = arena;
-                    }
+        for (Arena arena : arenaGroup.getArenas()) {
+            Game game = arena.getGame();
+            if (game != null && !game.isStart()) {
+                int currArenaPlayer = game.getPlayers().size();
+                if (currArenaPlayer >= arenaPlayers) {
+                    arenaPlayers = currArenaPlayer;
+                    mostPlayersArena = arena;
                 }
             }
         }

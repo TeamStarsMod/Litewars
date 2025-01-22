@@ -93,8 +93,6 @@ public final class Litewars extends JavaPlugin {
                     RunningData.config.getString("database-password")
             ), false);
         } else if (databaseType.equalsIgnoreCase("SQLite")) {
-            File cacheFolder = new File(dataFolder + "/Data");
-            if (cacheFolder.mkdirs()) logger.info("已创建数据文件夹");
             String url = "jdbc:sqlite:" + dataFolder + "/Data/database.db";
             RunningData.cpSupport = new HikariCPSupport(new HikariCPConfig(
                     url,

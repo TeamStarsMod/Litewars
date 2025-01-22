@@ -12,10 +12,9 @@ import xyz.litewars.litewars.api.arena.team.Team;
 import xyz.litewars.litewars.api.data.DataSet;
 import xyz.litewars.litewars.api.database.hikaricp.DatabaseManager;
 import xyz.litewars.litewars.api.database.hikaricp.HikariCPSupport;
-import xyz.litewars.litewars.api.game.GameManager;
 import xyz.litewars.litewars.api.languages.Messages;
 import xyz.litewars.litewars.commands.litewarssubcommands.normal.Arenas;
-import xyz.litewars.litewars.game.SimpleGameManager;
+import xyz.litewars.litewars.game.GameManager;
 import xyz.litewars.litewars.lobby.scoreboard.Lobby;
 import xyz.litewars.litewars.utils.Utils;
 
@@ -32,7 +31,7 @@ public class RunningData {
     public static boolean hasPlaceholderAPI = false;
 
     public static Map<String, ArenaGroup> arenaGroupMap;
-    public static GameManager gameManager = new SimpleGameManager();
+    public static xyz.litewars.litewars.api.game.GameManager gameManager = new GameManager();
     public static YamlConfiguration languageFile;
     public static YamlConfiguration config;
     public static YamlConfiguration dataConfig;
@@ -64,6 +63,8 @@ public class RunningData {
         lobby = new Lobby();
         configFile = new File(plugin.getDataFolder(), "config.yml");
         config = YamlConfiguration.loadConfiguration(configFile);
+        File dataFolder1 = new File(dataFolder, "Data");
+        if (dataFolder1.mkdirs()) logger.info("已创建数据文件夹");
         dataConfigFile = new File(plugin.getDataFolder(), "Data/Data.yml");
         if (dataConfigFile.createNewFile()) logger.info("已创建数据文件");
         dataConfig = YamlConfiguration.loadConfiguration(dataConfigFile);
@@ -78,11 +79,11 @@ public class RunningData {
                     try {
                         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(f);
                         Map<String, Object> teams = Utils.getYamlKeys(yaml, "Team");
-                        if (yaml.get("Name") == null) {//创建Arena的时候有null值不会炸
+                        if (yaml.get("Name") == null) {
                             logger.warning("竞技场配置文件 " + f.getName() + " 的键不完整！已跳过加载");
                             return;
                         }
-                        Arena arena = new Arena(yaml.getString("Name"), yaml); //大概率明天（
+                        Arena arena = new Arena(yaml.getString("Name"), yaml);
                         teams.forEach((s, o) -> {
                             Colors color = Colors.valueOf(yaml.getString("Team." + s + ".Color"));
                             Team team = new Team(color, false, s, yaml, arena.getArenaWorld());

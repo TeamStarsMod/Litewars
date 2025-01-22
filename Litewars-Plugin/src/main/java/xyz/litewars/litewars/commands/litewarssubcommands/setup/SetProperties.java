@@ -23,7 +23,7 @@ public class SetProperties extends SubCommand {
             Arena arena = RunningData.onSetupPlayerMap.get(player);
             switch (args[0].toLowerCase()) {
                 case "arenagroup" -> {
-                    ArenaGroup arenaGroup = RunningData.arenaGroupMap.get(args[1]);
+                    ArenaGroup arenaGroup = RunningData.arenaGroupMap.get(args[1].toLowerCase());
                     if (arenaGroup != null) {
                         arena.setArenaGroup(arenaGroup);
                         player.sendMessage(Utils.reColor("&a设置完成！"));

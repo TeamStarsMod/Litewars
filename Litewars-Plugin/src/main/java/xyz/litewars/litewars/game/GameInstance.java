@@ -1,27 +1,31 @@
 package xyz.litewars.litewars.game;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.litewars.litewars.Litewars;
 import xyz.litewars.litewars.api.arena.Arena;
+import xyz.litewars.litewars.api.arena.ArenaStatus;
+import xyz.litewars.litewars.api.arena.team.Team;
 import xyz.litewars.litewars.api.events.AsyncGameWaitingEvent;
 import xyz.litewars.litewars.api.events.AsyncGameEndEvent;
 import xyz.litewars.litewars.api.events.AsyncGameStartEvent;
 import xyz.litewars.litewars.api.game.Game;
+import xyz.litewars.litewars.game.gaming.GameLogic;
 import xyz.litewars.litewars.utils.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class SimpleGameInstance implements Game {
+public class GameInstance implements Game {
     private final List<Player> players = new ArrayList<>();
     private final List<String> offlinePlayers = new ArrayList<>();
+    private Map<Player, Team> playerTeams = new HashMap<>();
     private Arena bindArena;
     private boolean start;
     int maxPlayers = 8;
     int minPlayers = 2;
 
-    public SimpleGameInstance (Arena bindArena) {
+    public GameInstance(Arena bindArena) {
         this.bindArena = bindArena;
     }
 
@@ -57,9 +61,9 @@ public class SimpleGameInstance implements Game {
             @Override
             public void run () {
                 runTicks++;
-                Litewars.pluginManager.callEvent(new AsyncGameWaitingEvent(SimpleGameInstance.this));
+                Litewars.pluginManager.callEvent(new AsyncGameWaitingEvent(GameInstance.this));
                 for (Player p : players) {
-                    p.teleport(bindArena.getWaitingLobbyLocation());
+                    Bukkit.getServer().getScheduler().runTask(Litewars.plugin, () -> p.teleport(bindArena.getWaitingLobbyLocation()));
                     p.sendMessage("Litewars >>> 游戏等待开始……");
                 }
                 if (players.size() >= minPlayers) {
@@ -72,7 +76,8 @@ public class SimpleGameInstance implements Game {
                     }
                     if (countDown <= 0) {
                         start = true;
-                        gameLogic();
+                        new GameLogic(GameInstance.this);
+                        bindArena.setStatus(ArenaStatus.PLAYING);
                         this.cancel();
                     }
                 } else {
@@ -120,14 +125,5 @@ public class SimpleGameInstance implements Game {
     @Override
     public int getMaxPlayers() {
         return minPlayers;
-    }
-
-    public void gameLogic () {
-        new BukkitRunnable() {
-            @Override
-            public void run () {
-                Litewars.pluginManager.callEvent(new AsyncGameStartEvent(SimpleGameInstance.this));
-            }
-        }.runTaskTimerAsynchronously(Litewars.plugin, 0L, 20L);
     }
 }
