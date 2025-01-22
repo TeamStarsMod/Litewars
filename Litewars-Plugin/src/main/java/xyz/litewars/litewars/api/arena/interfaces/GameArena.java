@@ -5,7 +5,10 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import xyz.litewars.litewars.api.arena.ArenaGroup;
 import xyz.litewars.litewars.api.arena.ArenaStatus;
+import xyz.litewars.litewars.api.arena.team.Team;
 import xyz.litewars.litewars.api.game.Game;
+
+import java.util.List;
 
 public interface GameArena {
     void setName(String name);
@@ -21,4 +24,7 @@ public interface GameArena {
     YamlConfiguration getYaml ();
     Location getWaitingLobbyLocation ();
     void setWaitingLobbyLocation (Location location);
+    List<Team> getTeams();
+    void addTeam (Team team);
+    void removeTeam (Team team);
 }

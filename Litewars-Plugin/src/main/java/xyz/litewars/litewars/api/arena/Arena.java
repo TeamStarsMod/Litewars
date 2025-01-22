@@ -5,8 +5,12 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import xyz.litewars.litewars.api.arena.interfaces.GameArena;
+import xyz.litewars.litewars.api.arena.team.Team;
 import xyz.litewars.litewars.api.game.Game;
 import xyz.litewars.litewars.utils.LocationUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Arena implements GameArena {
     private String name;
@@ -16,6 +20,7 @@ public class Arena implements GameArena {
     private Game bindGame = null;
     private final YamlConfiguration yaml;
     private Location waitingLobbyLocation;
+    private final List<Team> teams = new ArrayList<>();
 
     public Arena (String name, YamlConfiguration yaml) {
         this.name = name;
@@ -89,5 +94,20 @@ public class Arena implements GameArena {
     public void setWaitingLobbyLocation(Location location) {
         this.waitingLobbyLocation = location;
         yaml.set("Waiting", LocationUtils.getLocationList(location));
+    }
+
+    @Override
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    @Override
+    public void removeTeam(Team team) {
+        this.teams.remove(team);
+    }
+
+    @Override
+    public void addTeam (Team team) {
+        this.teams.add(team);
     }
 }

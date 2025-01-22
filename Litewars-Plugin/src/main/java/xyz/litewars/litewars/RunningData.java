@@ -3,8 +3,11 @@ package xyz.litewars.litewars;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import xyz.litewars.litewars.api.arena.Arena;
 import xyz.litewars.litewars.api.arena.ArenaGroup;
+import xyz.litewars.litewars.api.arena.team.Colors;
 import xyz.litewars.litewars.api.arena.team.Team;
 import xyz.litewars.litewars.api.data.DataSet;
 import xyz.litewars.litewars.api.database.hikaricp.DatabaseManager;
@@ -25,6 +28,7 @@ import java.util.*;
 import static xyz.litewars.litewars.Litewars.*;
 
 public class RunningData {
+    private static final Logger log = LoggerFactory.getLogger(RunningData.class);
     public static boolean hasPlaceholderAPI = false;
 
     public static Map<String, ArenaGroup> arenaGroupMap;
@@ -49,7 +53,7 @@ public class RunningData {
     public static void init () throws URISyntaxException, IOException {
         languages.add("zh_cn");
         arenaGroupMap = new HashMap<>();
-        for (String languageName : languages){
+        for (String languageName : languages) {
             if (!(new File(dataFolder + "/Languages/" + languageName + ".yml").exists())) {
                 Files.copy(Objects.requireNonNull(
                                 RunningData.class.getClassLoader().getResourceAsStream("languages/" + languageName + ".yml")),
@@ -63,8 +67,35 @@ public class RunningData {
         dataConfigFile = new File(plugin.getDataFolder(), "Data/Data.yml");
         if (dataConfigFile.createNewFile()) logger.info("已创建数据文件");
         dataConfig = YamlConfiguration.loadConfiguration(dataConfigFile);
+        File arenaFolder = new File(dataFolder, "Arenas");
+        File[] arenaFiles = arenaFolder.listFiles();
         for (String name : dataConfig.getStringList(Arenas.arenaGroupListName)) {
             arenaGroupMap.put(name, new ArenaGroup(name));
+        }
+        if (arenaFiles != null) {
+            for (File f : arenaFiles) {
+                if (f.getName().endsWith(".yml") || f.getName().endsWith(".yaml")) {
+                    try {
+                        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(f);
+                        Map<String, Object> teams = Utils.getYamlKeys(yaml, "Team");
+                        if (yaml.get("Name") == null) {//创建Arena的时候有null值不会炸
+                            logger.warning("竞技场配置文件 " + f.getName() + " 的键不完整！已跳过加载");
+                            return;
+                        }
+                        Arena arena = new Arena(yaml.getString("Name"), yaml); //大概率明天（
+                        teams.forEach((s, o) -> {
+                            Colors color = Colors.valueOf(yaml.getString("Team." + s + ".Color"));
+                            Team team = new Team(color, false, s, yaml, arena.getArenaWorld());
+                            arena.addTeam(team);
+                        });
+                        arenaGroupMap.get(yaml.getString("ArenaGroup")).addArena(arena);
+                    } catch (NullPointerException e) {
+                        logger.warning("竞技场配置文件 " + f.getName() + " 的键不完整！已跳过加载！");
+                    } catch (Exception e) {
+                        logger.warning("加载竞技场文件 " + f.getName() + " 时发生异常，已跳过！");
+                    }
+                }
+            }
         }
         languageName = config.getString("language");
         languageFile = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Languages/" + languageName + ".yml"));

@@ -11,8 +11,8 @@ import java.util.List;
 public class SimpleGameManager implements GameManager {
     private final List<Game> runningGames = new ArrayList<>();
     @Override
-    public Game[] getRunningGames () {
-        return runningGames.toArray(new Game[0]);
+    public List<Game> getRunningGames () {
+        return runningGames;
     }
 
     @Override
