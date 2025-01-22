@@ -20,4 +20,5 @@ public interface GameArena {
     void setGame(Game game);
     YamlConfiguration getYaml ();
     Location getWaitingLobbyLocation ();
+    void setWaitingLobbyLocation (Location location);
 }

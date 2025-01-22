@@ -15,7 +15,7 @@ public class Arena implements GameArena {
     private ArenaGroup arenaGroup = null;
     private Game bindGame = null;
     private final YamlConfiguration yaml;
-    private final Location waitingLobbyLocation;
+    private Location waitingLobbyLocation;
 
     public Arena (String name, YamlConfiguration yaml) {
         this.name = name;
@@ -83,5 +83,11 @@ public class Arena implements GameArena {
     @Override
     public Location getWaitingLobbyLocation () {
         return waitingLobbyLocation;
+    }
+
+    @Override
+    public void setWaitingLobbyLocation(Location location) {
+        this.waitingLobbyLocation = location;
+        yaml.set("Waiting", LocationUtils.getLocationList(location));
     }
 }

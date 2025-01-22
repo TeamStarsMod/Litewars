@@ -59,7 +59,7 @@ public class AutoDetectTeamColor extends SubCommand {
                                         }
                                     }
                                 }
-                                // 如果找到5个或更多相同类型的羊毛块
+                                // 如果找到5个或更多相同类型的羊毛块 添加队伍
                                 if (count >= 5) {
                                     try {
                                         Colors color = null;

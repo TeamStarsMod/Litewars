@@ -25,13 +25,20 @@ public class SetLocations extends SubCommand {
         }
         switch (args[0].toLowerCase()) {
             case "waitinglobby" -> {
+                arena.setWaitingLobbyLocation(player.getLocation());
+                player.sendMessage(Utils.reColor("&a设置完成！"));
+                return true;
+            }
+
+            default -> {
+                player.sendMessage(Utils.reColor("&c没有这个参数！"));
+                return false;
             }
         }
-        return true;
     }
 
     @Override
     public String getDescription() {
-        return "";
+        return "<set-locations> 设置位置";
     }
 }

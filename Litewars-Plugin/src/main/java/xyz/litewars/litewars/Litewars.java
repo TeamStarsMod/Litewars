@@ -10,6 +10,7 @@ import xyz.litewars.litewars.api.command.LiteCommandManager;
 import xyz.litewars.litewars.api.database.hikaricp.DatabaseManager;
 import xyz.litewars.litewars.api.database.hikaricp.HikariCPConfig;
 import xyz.litewars.litewars.api.database.hikaricp.HikariCPSupport;
+import xyz.litewars.litewars.api.exceptions.PluginLoadException;
 import xyz.litewars.litewars.api.versionsupport.VersionControl;
 import xyz.litewars.litewars.commands.AddKillCount;
 import xyz.litewars.litewars.commands.LitewarsCommand;
@@ -60,6 +61,7 @@ public final class Litewars extends JavaPlugin {
         nms = getNMS();
         if (nms == null) {
             pluginManager.disablePlugin(this);
+            throw new PluginLoadException("无法找到当前版本NMS支持类！");
         }else {
             logger.info("成功寻找到当前版本NMS支持类！");
         }

@@ -23,4 +23,9 @@ public class VersionControl implements xyz.litewars.litewars.api.versionsupport.
     public void sendActionBar(Player player, String message) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
     }
+
+    @Override
+    public void sendTitle (Player player, String s, String s1, int i1, int i2, int i3) {
+        player.sendTitle(s, s1, i1, i2, i3);
+    }
 }

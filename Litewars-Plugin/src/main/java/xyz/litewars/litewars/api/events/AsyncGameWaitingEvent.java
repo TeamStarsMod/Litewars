@@ -4,11 +4,12 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import xyz.litewars.litewars.api.game.Game;
 
-public class GameEndEvent extends Event {
+public class AsyncGameWaitingEvent extends Event {
     private final Game game;
     private static final HandlerList handlers = new HandlerList();
 
-    public GameEndEvent(Game game){
+    public AsyncGameWaitingEvent(Game game){
+        super(true);
         this.game = game;
     }
 
@@ -16,6 +17,7 @@ public class GameEndEvent extends Event {
         return game;
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

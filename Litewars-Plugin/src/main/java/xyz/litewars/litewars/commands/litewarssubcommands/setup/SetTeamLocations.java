@@ -53,6 +53,6 @@ public class SetTeamLocations extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "<set-team-location> 设置队伍出生点";
+        return "<set-team-location> 设置队伍位置";
     }
 }
