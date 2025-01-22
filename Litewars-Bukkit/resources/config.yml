@@ -34,3 +34,8 @@ Tips: true
 #主大厅聊天格式
 LobbyMessageType: "&7[%litewars-lobby_level%] %litewars-lobby_player-name% > {message}"
 
+#杂项
+#是否修改加入游戏提示?
+EditJoinMessage: true
+#如果修改，要修改为什么? (关闭加入提示设置为"") (支持PlaceholderAPI)
+JoinMessage: "&7{player} >> 加入了游戏"

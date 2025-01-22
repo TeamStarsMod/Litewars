@@ -2,6 +2,9 @@ package xyz.litewars.litewars.support.v1_8_R3;
 
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
+import net.minecraft.server.v1_8_R3.PlayerConnection;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -34,5 +37,28 @@ public class VersionControl implements xyz.litewars.litewars.api.versionsupport.
 
         // 将Packet发送给玩家
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+    }
+
+    @Override
+    public void sendTitle(Player player, String title, String subTitle, int fadeIn, int stay, int fadeOut) {
+        if (player == null) return;
+
+        PlayerConnection connection = ((org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer) player).getHandle().playerConnection;
+
+        // 创建标题和副标题的IChatBaseComponent对象
+        IChatBaseComponent titleComponent = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + ChatColor.translateAlternateColorCodes('&', title) + "\"}");
+        IChatBaseComponent subTitleComponent = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + ChatColor.translateAlternateColorCodes('&', subTitle) + "\"}");
+
+        // 发送设置标题的包
+        PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE, titleComponent);
+        connection.sendPacket(titlePacket);
+
+        // 发送设置副标题的包
+        PacketPlayOutTitle subTitlePacket = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.SUBTITLE, subTitleComponent);
+        connection.sendPacket(subTitlePacket);
+
+        // 发送标题持续时间 淡入时间和淡出时间的包
+        PacketPlayOutTitle lengthPacket = new PacketPlayOutTitle(fadeIn, stay, fadeOut);
+        connection.sendPacket(lengthPacket);
     }
 }

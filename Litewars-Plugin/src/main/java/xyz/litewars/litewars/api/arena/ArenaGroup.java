@@ -7,6 +7,11 @@ import java.util.List;
 public class ArenaGroup implements GameArenaGroup {
     private final List<Arena> arenas = new ArrayList<>();
     private String name;
+
+    public ArenaGroup(String name) {
+        this.name = name;
+    }
+
     @Override
     public void addArena (Arena arena) {
         this.arenas.add(arena);
