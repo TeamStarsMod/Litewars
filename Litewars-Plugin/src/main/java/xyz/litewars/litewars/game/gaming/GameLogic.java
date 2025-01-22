@@ -1,5 +1,6 @@
 package xyz.litewars.litewars.game.gaming;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -7,13 +8,15 @@ import org.bukkit.entity.Player;
 import xyz.litewars.litewars.Litewars;
 import xyz.litewars.litewars.api.arena.Arena;
 import xyz.litewars.litewars.api.arena.team.Team;
-import xyz.litewars.litewars.api.events.AsyncGameStartEvent;
+import xyz.litewars.litewars.api.events.GameStartEvent;
 import xyz.litewars.litewars.api.game.Game;
 import xyz.litewars.litewars.utils.Utils;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static xyz.litewars.litewars.Litewars.logger;
 
 public class GameLogic {
     private final Game bindGame;
@@ -27,11 +30,11 @@ public class GameLogic {
         this.players = game.getPlayers();
 
         // Start the game
-        start();
+        Bukkit.getScheduler().runTask(Litewars.plugin, this::start);
     }
 
     public void start() {
-        Litewars.pluginManager.callEvent(new AsyncGameStartEvent(this.bindGame));
+        Litewars.pluginManager.callEvent(new GameStartEvent(this.bindGame));
         List<Team> teams = bindArena.getTeams();
         int playersPerTeam = players.size() / teams.size();
         int remainingPlayers = players.size() % teams.size();
@@ -40,6 +43,7 @@ public class GameLogic {
         for (Team team : teams) { //炸了
             //生成(升级)商店
             Location shop = team.getShop();
+            logger.info(shop.toString());
             Entity shopEntity = bindArena.getArenaWorld().spawnEntity(shop, EntityType.VILLAGER);
             shopEntity.setCustomName(Utils.reColor("&b没错我是商店！\n&c没错我在测试第二行！"));
             shopEntity.setCustomNameVisible(true);

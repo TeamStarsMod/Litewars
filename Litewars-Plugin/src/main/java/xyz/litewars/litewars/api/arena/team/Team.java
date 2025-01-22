@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import xyz.litewars.litewars.utils.LocationUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Team {
@@ -23,7 +24,7 @@ public class Team {
     private Block bed;
     private int maxPlayer;
     private boolean isEditing;
-    private List<Player> players;
+    private final List<Player> players;
 
     public Team (Colors colors, boolean isEditing, String name, YamlConfiguration configuration, World world) {
         this.colors = colors;
@@ -35,11 +36,12 @@ public class Team {
         this.iron = LocationUtils.getLocation(configuration.getFloatList(getKey("Iron")), world);
         this.gold = LocationUtils.getLocation(configuration.getFloatList(getKey("Gold")), world);
         this.emerald = LocationUtils.getLocation(configuration.getFloatList(getKey("Emerald")), world);
-        this.shop = LocationUtils.getLocation(configuration.getFloatList("Shop"), world);
-        this.upgrade = LocationUtils.getLocation(configuration.getFloatList("Upgrade"), world);
+        this.shop = LocationUtils.getLocation(configuration.getFloatList(getKey("Shop")), world);
+        this.upgrade = LocationUtils.getLocation(configuration.getFloatList(getKey("Upgrade")), world);
         Location bedLoc = LocationUtils.getLocation(configuration.getFloatList(getKey("Bed")), world);
         this.maxPlayer = configuration.getInt(getKey("MaxPlayer"));
         this.bed = bedLoc == null ? null : bedLoc.getBlock();
+        players = new ArrayList<>();
     }
 
     public Colors getColors() {

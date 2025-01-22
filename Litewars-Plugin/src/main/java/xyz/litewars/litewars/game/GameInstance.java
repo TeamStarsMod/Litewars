@@ -9,7 +9,7 @@ import xyz.litewars.litewars.api.arena.ArenaStatus;
 import xyz.litewars.litewars.api.arena.team.Team;
 import xyz.litewars.litewars.api.events.AsyncGameWaitingEvent;
 import xyz.litewars.litewars.api.events.AsyncGameEndEvent;
-import xyz.litewars.litewars.api.events.AsyncGameStartEvent;
+import xyz.litewars.litewars.api.events.GameStartEvent;
 import xyz.litewars.litewars.api.game.Game;
 import xyz.litewars.litewars.game.gaming.GameLogic;
 import xyz.litewars.litewars.utils.Utils;
@@ -54,24 +54,25 @@ public class GameInstance implements Game {
 
     @Override
     public void startWaiting () {
+        for (Player p : players) {
+            Bukkit.getServer().getScheduler().runTask(Litewars.plugin, () -> p.teleport(bindArena.getWaitingLobbyLocation()));
+            p.sendMessage("Litewars >>> 游戏等待开始……");
+        }
         new BukkitRunnable() {
-            private int countDown = 800;
+            private int countDown = 20;
             private boolean counting = false;
             private int runTicks = 0;
             @Override
             public void run () {
                 runTicks++;
                 Litewars.pluginManager.callEvent(new AsyncGameWaitingEvent(GameInstance.this));
-                for (Player p : players) {
-                    Bukkit.getServer().getScheduler().runTask(Litewars.plugin, () -> p.teleport(bindArena.getWaitingLobbyLocation()));
-                    p.sendMessage("Litewars >>> 游戏等待开始……");
-                }
                 if (players.size() >= minPlayers) {
                     if (!counting) counting = true;
                     countDown--;
                     if (countDown % 20 == 0) {
                         for (Player p : players) {
-                            Litewars.nms.sendTitle(p, Utils.reColor("&b" + countDown), "", 0, 23, 0);
+                            p.sendMessage(Utils.reColor("&b" + countDown / 20));
+                            Litewars.nms.sendTitle(p, Utils.reColor("&b" + countDown / 20), "", 0, 23, 0);
                         }
                     }
                     if (countDown <= 0) {
@@ -107,7 +108,7 @@ public class GameInstance implements Game {
 
     @Override
     public void forceStart () {
-        Litewars.pluginManager.callEvent(new AsyncGameStartEvent(this));
+        Litewars.pluginManager.callEvent(new GameStartEvent(this));
         this.start = true;
     }
 
