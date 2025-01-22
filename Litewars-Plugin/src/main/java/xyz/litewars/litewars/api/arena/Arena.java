@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
+import xyz.litewars.litewars.RunningData;
 import xyz.litewars.litewars.api.arena.interfaces.GameArena;
 import xyz.litewars.litewars.api.arena.team.Team;
 import xyz.litewars.litewars.api.game.Game;
@@ -28,6 +29,7 @@ public class Arena implements GameArena {
         this.world = Bukkit.getWorld(yaml.getString("World"));
         this.name = yaml.getString("Name");
         this.waitingLobbyLocation = LocationUtils.getLocation(yaml.getFloatList("Waiting"), world);
+        this.arenaGroup = RunningData.arenaGroupMap.get(yaml.getString("ArenaGroup"));
     }
 
     @Override
@@ -68,6 +70,7 @@ public class Arena implements GameArena {
     @Override
     public void setArenaGroup(ArenaGroup arenaGroup) {
         this.arenaGroup = arenaGroup;
+        yaml.set("ArenaGroup", arenaGroup.getName());
     }
 
     @Override

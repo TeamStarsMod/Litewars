@@ -8,6 +8,7 @@ import xyz.litewars.litewars.api.events.AsyncGameWaitingEvent;
 import xyz.litewars.litewars.api.events.AsyncGameEndEvent;
 import xyz.litewars.litewars.api.events.AsyncGameStartEvent;
 import xyz.litewars.litewars.api.game.Game;
+import xyz.litewars.litewars.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,7 @@ public class SimpleGameInstance implements Game {
     public void startWaiting () {
         new BukkitRunnable() {
             private int countDown = 800;
+            private boolean counting = false;
             private int runTicks = 0;
             @Override
             public void run () {
@@ -61,11 +63,22 @@ public class SimpleGameInstance implements Game {
                     p.sendMessage("Litewars >>> 游戏等待开始……");
                 }
                 if (players.size() >= minPlayers) {
+                    if (!counting) counting = true;
                     countDown--;
                     if (countDown % 20 == 0) {
                         for (Player p : players) {
-                            Litewars.nms.sendTitle(p, String.valueOf(countDown), "", 0, 23, 0);
+                            Litewars.nms.sendTitle(p, Utils.reColor("&b" + countDown), "", 0, 23, 0);
                         }
+                    }
+                    if (countDown <= 0) {
+                        start = true;
+                        gameLogic();
+                        this.cancel();
+                    }
+                } else {
+                    if (counting) {
+                        counting = false;
+                        countDown = 800;
                     }
                 }
             }
@@ -107,5 +120,14 @@ public class SimpleGameInstance implements Game {
     @Override
     public int getMaxPlayers() {
         return minPlayers;
+    }
+
+    public void gameLogic () {
+        new BukkitRunnable() {
+            @Override
+            public void run () {
+                Litewars.pluginManager.callEvent(new AsyncGameStartEvent(SimpleGameInstance.this));
+            }
+        }.runTaskTimerAsynchronously(Litewars.plugin, 0L, 20L);
     }
 }

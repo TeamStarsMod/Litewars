@@ -38,4 +38,6 @@ LobbyMessageType: "&7[%litewars-lobby_level%] %litewars-lobby_player-name% > {me
 #是否修改加入游戏提示?
 EditJoinMessage: true
 #如果修改，要修改为什么? (关闭加入提示设置为"") (支持PlaceholderAPI)
+#如果您没有安装PlaceholderAPI，我们有几个默认占位符供您使用
+# {player} : 将替换为加入的玩家的名称
 JoinMessage: "&7{player} >> 加入了游戏"

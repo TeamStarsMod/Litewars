@@ -24,6 +24,7 @@ public class LitewarsCommand extends ParentCommand {
         addSubCommand(new SetLocations(this));
         addSubCommand(new SetTeamLocations(this));
         addSubCommand(new SetBed(this));
+        addSubCommand(new SetProperties(this));
     }
 
     @Override

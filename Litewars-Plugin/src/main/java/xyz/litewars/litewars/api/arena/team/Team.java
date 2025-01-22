@@ -18,6 +18,7 @@ public class Team {
     private Location shop;
     private Location upgrade;
     private Block bed;
+    private int maxPlayer;
     private boolean isEditing;
 
     public Team (Colors colors, boolean isEditing, String name, YamlConfiguration configuration, World world) {
@@ -33,7 +34,7 @@ public class Team {
         this.shop = LocationUtils.getLocation(configuration.getFloatList("Shop"), world);
         this.upgrade = LocationUtils.getLocation(configuration.getFloatList("Upgrade"), world);
         Location bedLoc = LocationUtils.getLocation(configuration.getFloatList(getKey("Bed")), world);
-        System.out.println(world);
+        this.maxPlayer = configuration.getInt(getKey("MaxPlayer"));
         this.bed = bedLoc == null ? null : bedLoc.getBlock();
     }
 
@@ -124,6 +125,15 @@ public class Team {
     public void setUpgrade (Location upgrade) {
         this.upgrade = upgrade;
         configuration.set(getKey("Upgrade"), LocationUtils.getLocationList(upgrade));
+    }
+
+    public void setMaxPlayer (int max) {
+        this.maxPlayer = max;
+        configuration.set(getKey("MaxPlayer"), max);
+    }
+
+    public int getMaxPlayer () {
+        return this.maxPlayer;
     }
 
     private String getKey (String key) {
