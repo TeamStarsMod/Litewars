@@ -30,6 +30,7 @@ public class Messages {
     public static String WORLD_LOAD_SUCCESS = "world_load_success";
     public static String CANT_SETUP_DEFAULT_WORLD = "cant_setup_default_world";
     public static String TP_TO_WORLD = "tp_to_world";
+    public static String TP_TO_LOBBY = "tp_to_lobby";
     public static String SOMETHING_WAS_WRONG = "something_was_wrong";
     public static String NOT_AVAILABLE_IN_YOUR_MODE = "not_available_in_your_mode";
     public static String COMMAND_NOT_FOUND = "command_not_found";

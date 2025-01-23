@@ -28,7 +28,7 @@ public class Start extends SubCommand {
                 return game.forceStart(player, false);
             }
             if (args[0].equalsIgnoreCase("debug")) {
-                if (player.hasPermission("Litewars.Admin")) {
+                if (player.hasPermission("Litewars.admin")) {
                     return game.forceStart(player, true);
                 }else {
                     player.sendMessage(Utils.reColor("&c你没有权限使用debug模式开始游戏！"));
