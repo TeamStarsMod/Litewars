@@ -1,5 +1,6 @@
 package xyz.litewars.litewars.api.game;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.litewars.litewars.api.arena.Arena;
 
@@ -14,7 +15,7 @@ public interface Game {
     Arena getArena ();
     void setArena (Arena arena);
     boolean isStart ();
-    void forceStart ();
+    boolean forceStart (CommandSender sender, boolean isDebug);
     void forceEnd ();
     int getMaxPlayers();
     int getMinPlayers();

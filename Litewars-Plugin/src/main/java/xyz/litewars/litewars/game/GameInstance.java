@@ -1,6 +1,7 @@
 package xyz.litewars.litewars.game;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.litewars.litewars.Litewars;
@@ -64,28 +65,35 @@ public class GameInstance implements Game {
             private int runTicks = 0;
             @Override
             public void run () {
-                runTicks++;
-                Litewars.pluginManager.callEvent(new AsyncGameWaitingEvent(GameInstance.this));
-                if (players.size() >= minPlayers) {
-                    if (!counting) counting = true;
-                    countDown--;
-                    if (countDown % 20 == 0) {
-                        for (Player p : players) {
-                            p.sendMessage(Utils.reColor("&b" + countDown / 20));
-                            Litewars.nms.sendTitle(p, Utils.reColor("&b" + countDown / 20), "", 0, 23, 0);
+                if (!start) {
+                    runTicks++;
+                    Litewars.pluginManager.callEvent(new AsyncGameWaitingEvent(GameInstance.this));
+                    if (players.size() >= minPlayers) {
+                        if (!counting) counting = true;
+                        countDown--;
+                        if (countDown % 20 == 0) {
+                            for (Player p : players) {
+                                p.sendMessage(Utils.reColor("&b" + countDown / 20));
+                                Litewars.nms.sendTitle(p, Utils.reColor("&b" + countDown / 20), "", 0, 23, 0);
+                            }
+                        }
+                        if (countDown <= 0) {
+                            start = true;
+                            new GameLogic(GameInstance.this);
+                            bindArena.setStatus(ArenaStatus.PLAYING);
+                            this.cancel();
+                        }
+                    } else {
+                        if (counting) {
+                            counting = false;
+                            countDown = 800;
+                            for (Player player : players) {
+                                player.sendMessage(Utils.reColor("&c人数不足！倒计时已取消！"));
+                            }
                         }
                     }
-                    if (countDown <= 0) {
-                        start = true;
-                        new GameLogic(GameInstance.this);
-                        bindArena.setStatus(ArenaStatus.PLAYING);
-                        this.cancel();
-                    }
                 } else {
-                    if (counting) {
-                        counting = false;
-                        countDown = 800;
-                    }
+                    this.cancel();
                 }
             }
         }.runTaskTimerAsynchronously(Litewars.plugin, 0L, 1L);
@@ -107,9 +115,28 @@ public class GameInstance implements Game {
     }
 
     @Override
-    public void forceStart () {
-        Litewars.pluginManager.callEvent(new GameStartEvent(this));
-        this.start = true;
+    public boolean forceStart (CommandSender sender, boolean isDebug) {
+        if (isDebug) {
+            Litewars.pluginManager.callEvent(new GameStartEvent(this));
+            this.start = true;
+            return true;
+        } else {
+            if (!start) {
+                if (players.size() >= minPlayers) {
+                    Litewars.pluginManager.callEvent(new GameStartEvent(this));
+                    this.start = true;
+                    return true;
+                } else {
+                    sender.sendMessage(Utils.reColor("&c你现在不能开始游戏！"));
+                    sender.sendMessage(Utils.reColor("&c如果你想以debug模式强制开始游戏"));
+                    sender.sendMessage(Utils.reColor("&c请输入/lw start debug！"));
+                    return false;
+                }
+            }else {
+                sender.sendMessage(Utils.reColor("&c你不能开始一个已开始的游戏！"));
+                return false;
+            }
+        }
     }
 
     @Override

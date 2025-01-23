@@ -12,6 +12,7 @@ import xyz.litewars.litewars.api.arena.team.Team;
 import xyz.litewars.litewars.api.data.DataSet;
 import xyz.litewars.litewars.api.database.hikaricp.DatabaseManager;
 import xyz.litewars.litewars.api.database.hikaricp.HikariCPSupport;
+import xyz.litewars.litewars.api.game.Game;
 import xyz.litewars.litewars.api.languages.Messages;
 import xyz.litewars.litewars.commands.litewarssubcommands.normal.Arenas;
 import xyz.litewars.litewars.game.GameManager;
@@ -123,5 +124,29 @@ public class RunningData {
             RunningData.lobby.addPlayer(p);
             RunningData.playersInLobby.add(p);
         }
+    }
+
+    public static Game getGameWithPlayer(Player player) {
+        Game game = null;
+        for (Game game1 : RunningData.gameManager.getRunningGames()) {
+            if (game1 != null) {
+                if (game1.getPlayers().contains(player)) {
+                    game = game1;
+                    break;
+                }
+            }
+        }
+        return game;
+    }
+
+    public static Game getGameWithArenaName(String name) {
+        Game game = null;
+        for (Game game1 : RunningData.gameManager.getRunningGames()) {
+            if (game1.getArena().getName().equalsIgnoreCase(name)) {
+                game = game1;
+                break;
+            }
+        }
+        return game;
     }
 }
