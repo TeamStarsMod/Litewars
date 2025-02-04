@@ -3,8 +3,6 @@ package xyz.litewars.litewars;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import xyz.litewars.litewars.api.arena.Arena;
 import xyz.litewars.litewars.api.arena.ArenaGroup;
 import xyz.litewars.litewars.api.arena.team.Colors;
@@ -28,19 +26,19 @@ import java.util.*;
 import static xyz.litewars.litewars.Litewars.*;
 
 public class RunningData {
-    private static final Logger log = LoggerFactory.getLogger(RunningData.class);
     public static boolean hasPlaceholderAPI = false;
 
     public static Map<String, ArenaGroup> arenaGroupMap;
     public static xyz.litewars.litewars.api.game.GameManager gameManager = new GameManager();
-    public static YamlConfiguration languageFile;
+    public static Map<String, YamlConfiguration> languageFiles = new HashMap<>();
     public static YamlConfiguration config;
     public static YamlConfiguration dataConfig;
     public static File configFile;
     public static File dataConfigFile;
     public static String languageName;
     public static Lobby lobby;
-    private static final List<String> languages = new ArrayList<>();
+    public static final List<String> languages = new ArrayList<>();
+    private static final List<String> cacheLanguages = new ArrayList<>();
     public static HikariCPSupport cpSupport;
     public static DatabaseManager databaseManager;
     public static Map<Player, Arena> onSetupPlayerMap;
@@ -48,17 +46,28 @@ public class RunningData {
     public static DataSet<String, Player, Object> onSetupData = new DataSet<>();
     public static String serverVersion; // Just like 1_12_R1, 1_8_R3...
     public static List<Player> playersInLobby = new ArrayList<>();
-    public static List<String> lobbyScoreboardLines;
+    public static Map<String, List<String>> lobbyScoreboardLines;
+    public static Map<Player, String> playerLanguageMap = new HashMap<>();
 
     public static void init () throws URISyntaxException, IOException {
-        languages.add("zh_cn");
+        cacheLanguages.add("zh_cn");
         arenaGroupMap = new HashMap<>();
-        for (String languageName : languages) {
+        for (String languageName : cacheLanguages) {
             if (!(new File(dataFolder + "/Languages/" + languageName + ".yml").exists())) {
                 Files.copy(Objects.requireNonNull(
                                 RunningData.class.getClassLoader().getResourceAsStream("languages/" + languageName + ".yml")),
                         Paths.get(dataFolder + "/Languages/" + languageName + ".yml")
                 );
+            }
+        }
+        for (File languageFile : (Objects.requireNonNull(new File(dataFolder, "Languages").listFiles()))) {
+            if (languageFile.getName().contains(".yml") || languageFile.getName().contains(".yaml")) {
+                String languageName = languageFile.getName().replace(".yml", "").replace(".yaml", "");
+                YamlConfiguration langYaml = YamlConfiguration.loadConfiguration(languageFile);
+                languages.add(languageName);
+                languageFiles.put(languageName, langYaml);
+                String name = langYaml.getString("Name");
+                logger.info("加载语言：" + languageName + " - " + (name == null ? "未知" : name));
             }
         }
         lobby = new Lobby();
@@ -100,26 +109,31 @@ public class RunningData {
             }
         }
         languageName = config.getString("language");
-        languageFile = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Languages/" + languageName + ".yml"));
-        List<String> list = languageFile.getStringList(Messages.LOBBY_SCOREBOARD_LINES);
-        lobbyScoreboardLines = new ArrayList<>();
+
+        lobbyScoreboardLines = new HashMap<>();
         onSetupData.newDataMap("PlayerMap");
         onSetupData.newDataMap("PlayerTeam");
         onSetupData.newDataMap("PlayerBedSetting");
         onSetupPlayerMap = onSetupData.getArenaMap("PlayerMap");
         playerTeamMap = onSetupData.getTeamMap("PlayerTeam");
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).isEmpty()) {
-                String[] strings = String.valueOf(i).split("");
-                StringBuilder line = new StringBuilder();
-                for (String s : strings) {
-                    line.append("&").append(s);
+        languageFiles.forEach((name, yaml) -> {
+            List<String> list = yaml.getStringList(Messages.LOBBY_SCOREBOARD_LINES);
+            List<String> re = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).isEmpty()) {
+                    String[] strings = String.valueOf(i).split("");
+                    StringBuilder line = new StringBuilder();
+                    for (String s : strings) {
+                        line.append("&").append(s);
+                    }
+                    re.add(i, Utils.reColor(line.toString()));
+                } else {
+                    re.add(i, list.get(i));
                 }
-                lobbyScoreboardLines.add(i, Utils.reColor(line.toString()));
-            } else {
-                lobbyScoreboardLines.add(i, list.get(i));
             }
-        }
+
+            lobbyScoreboardLines.put(name, re);
+        });
         for (Player p : Bukkit.getOnlinePlayers()) {
             RunningData.lobby.addPlayer(p);
             RunningData.playersInLobby.add(p);

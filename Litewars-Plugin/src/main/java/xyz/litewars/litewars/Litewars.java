@@ -5,7 +5,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Bukkit;
-import org.slf4j.LoggerFactory;
 import xyz.litewars.litewars.api.command.LiteCommandManager;
 import xyz.litewars.litewars.api.database.hikaricp.DatabaseManager;
 import xyz.litewars.litewars.api.database.hikaricp.HikariCPConfig;
@@ -33,7 +32,6 @@ import java.time.Instant;
 import java.util.logging.Logger;
 
 public final class Litewars extends JavaPlugin {
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(Litewars.class);
     public static Logger logger;
     public static Server server;
     public static PluginManager pluginManager;

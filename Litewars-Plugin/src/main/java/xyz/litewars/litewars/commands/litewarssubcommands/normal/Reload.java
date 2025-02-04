@@ -18,9 +18,11 @@ import xyz.litewars.litewars.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
-import static xyz.litewars.litewars.Litewars.plugin;
+import static xyz.litewars.litewars.Litewars.*;
 
 public class Reload extends SubCommand {
     public Reload(LitewarsCommand parent) {
@@ -32,21 +34,37 @@ public class Reload extends SubCommand {
         RunningData.lobby = new Lobby();
         RunningData.config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
         RunningData.languageName = RunningData.config.getString("language");
-        RunningData.languageFile = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Languages/" + RunningData.languageName + ".yml"));
-        List<String> list = RunningData.languageFile.getStringList(Messages.LOBBY_SCOREBOARD_LINES);
-        RunningData.lobbyScoreboardLines = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).isEmpty()) {
-                String[] strings = String.valueOf(i).split("");
-                StringBuilder line = new StringBuilder();
-                for (String str : strings) {
-                    line.append("&").append(str);
-                }
-                RunningData.lobbyScoreboardLines.add(i, Utils.reColor(line.toString()));
-            } else {
-                RunningData.lobbyScoreboardLines.add(i, list.get(i));
+        RunningData.languageFiles.clear();
+        RunningData.languages.clear();
+        RunningData.lobbyScoreboardLines = new HashMap<>();
+        for (File languageFile : (Objects.requireNonNull(new File(dataFolder, "Languages").listFiles()))) {
+            if (languageFile.getName().contains(".yml") || languageFile.getName().contains(".yaml")) {
+                String languageName = languageFile.getName().replace(".yml", "").replace(".yaml", "");
+                YamlConfiguration langYaml = YamlConfiguration.loadConfiguration(languageFile);
+                RunningData.languages.add(languageName);
+                RunningData.languageFiles.put(languageName, langYaml);
+                String name = langYaml.getString("Name");
+                logger.info("加载语言：" + languageName + " - " + (name == null ? "未知" : name));
             }
         }
+        RunningData.languageFiles.forEach((name, yaml) -> {
+            List<String> list = yaml.getStringList(Messages.LOBBY_SCOREBOARD_LINES);
+            List<String> re = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).isEmpty()) {
+                    String[] strings = String.valueOf(i).split("");
+                    StringBuilder line = new StringBuilder();
+                    for (String s1 : strings) {
+                        line.append("&").append(s1);
+                    }
+                    re.add(i, Utils.reColor(line.toString()));
+                } else {
+                    re.add(i, list.get(i));
+                }
+            }
+
+            RunningData.lobbyScoreboardLines.put(name, re);
+        });
         for (Player p : Bukkit.getOnlinePlayers()) {
             RunningData.lobby.addPlayer(p);
             RunningData.playersInLobby.add(p);

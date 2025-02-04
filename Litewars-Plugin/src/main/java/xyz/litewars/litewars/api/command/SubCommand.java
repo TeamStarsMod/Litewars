@@ -57,7 +57,7 @@ public abstract class SubCommand implements CommandExecutor {
 
     public abstract boolean execute (CommandSender sender, Command command, String s, String[] args);
 
-    public String getDescription() {
+    public String getDescription(Pl) {
         return description;
     }
 

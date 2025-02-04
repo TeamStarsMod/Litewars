@@ -3,6 +3,7 @@ package xyz.litewars.litewars.commands.litewarssubcommands.normal;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import xyz.litewars.litewars.ExceptionUtils;
 import xyz.litewars.litewars.RunningData;
 import xyz.litewars.litewars.api.arena.Arena;
 import xyz.litewars.litewars.api.arena.ArenaGroup;
@@ -32,7 +33,7 @@ public class Join extends SubCommand {
                 if (arena.getName().equalsIgnoreCase(arenaName)) {
                     isFound = true;
                     if (!game.isStart()) {
-                        player.sendMessage(Messages.readMessage(Messages.FOUND_ARENA, "&a"));
+                        player.sendMessage(Messages.readMessage(player, Messages.FOUND_ARENA, "&a"));
                         game.addPlayer(player);
                     } else {
                         player.sendMessage(Utils.reColor("&c您要加入的竞技场已开始游戏！"));
@@ -51,7 +52,7 @@ public class Join extends SubCommand {
                                 Thread.sleep(500);
                                 player.sendMessage(Utils.reColor("&f<CYsonHab> 所以你还想玩吗(?"));
                             } catch (InterruptedException e) {
-                                logger.severe("报错了老登 " + e);
+                                ExceptionUtils.printException(e);
                             }
                         }).start();
                         // arena.addSpectator(player); //(待定)观战模式
@@ -78,10 +79,10 @@ public class Join extends SubCommand {
                             return false;
                         }
                         RunningData.gameManager.newGameInstance(arena, player);
-                        player.sendMessage(Messages.readMessage(Messages.FOUND_ARENA_GROUP, "&a"));
+                        player.sendMessage(Messages.readMessage(player, Messages.FOUND_ARENA_GROUP, "&a"));
                     } else {
                         mostPlayersArena.getGame().addPlayer(player);
-                        player.sendMessage(Messages.readMessage(Messages.FOUND_ARENA_GROUP, "&a"));
+                        player.sendMessage(Messages.readMessage(player, Messages.FOUND_ARENA_GROUP, "&a"));
                     }
                 }
             }
@@ -108,10 +109,10 @@ public class Join extends SubCommand {
             }
 
             if (!isFound) {
-                player.sendMessage(Messages.readMessage(Messages.CANT_FOUND_GROUP_OR_ARENA, "&c"));
+                player.sendMessage(Messages.readMessage(player, Messages.CANT_FOUND_GROUP_OR_ARENA, "&c"));
             }
         } else {
-            player.sendMessage(Messages.readMessage(Messages.NEED_MORE_ARGS, "&c"));
+            player.sendMessage(Messages.readMessage(player, Messages.NEED_MORE_ARGS, "&c"));
             return false;
         }
         return false;

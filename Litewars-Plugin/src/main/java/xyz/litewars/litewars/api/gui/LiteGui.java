@@ -17,7 +17,17 @@ public abstract class LiteGui {
     }
 
     public void addPlayer (Player p) {
-        //inUsePlayers.
+        if (!inUsePlayers.contains(p)) {
+            inUsePlayers.add(p);
+            p.openInventory(inv);
+        }
+    }
+
+    public void removePlayer (Player p) {
+        if (inUsePlayers.contains(p)) {
+            inUsePlayers.remove(p);
+            p.closeInventory();
+        }
     }
 
     public List<Player> getInUsePlayers () {

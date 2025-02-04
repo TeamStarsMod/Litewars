@@ -11,5 +11,6 @@ public class OnPlayerLeave implements Listener {
     public static void onLeave(PlayerQuitEvent e){
         Player player = e.getPlayer();
         RunningData.onSetupPlayerMap.remove(player);
+        RunningData.playerLanguageMap.remove(player);
     }
 }

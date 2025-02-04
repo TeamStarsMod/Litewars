@@ -17,7 +17,8 @@ public class CreateTables {
                     "wins INTEGER NOT NULL DEFAULT 0," +
                     "deaths INTEGER NOT NULL DEFAULT 0," +
                     "final_deaths INTEGER NOT NULL DEFAULT 0," +
-                    "PRIMARY KEY (player_name)" +
+                    "language VARCHAR(255) NOT NULL DEFAULT zh_cn" +
+                    "PRIMARY KEY (player_uuid)" +
                     ");";
             RunningData.databaseManager.createTable(createTableSQL);
         }catch (SQLException e){

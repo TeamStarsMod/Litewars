@@ -1,6 +1,7 @@
 package xyz.litewars.litewars.api.languages;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import xyz.litewars.litewars.RunningData;
 import xyz.litewars.litewars.utils.Utils;
 
@@ -39,21 +40,28 @@ public class Messages {
     public static String LOBBY_SCOREBOARD_TITLE = "lobby_scoreboard_title";
     public static String LOBBY_SCOREBOARD_LINES = "lobby_scoreboard_lines";
 
-    public static Object readLanguageFile(String key) {
-        YamlConfiguration languageFile = RunningData.languageFile;
+    public static Object readLanguageFile(Player player, String key) {
+        String playerLanguage = RunningData.playerLanguageMap.get(player);
+        YamlConfiguration languageFile = RunningData.languageFiles.get(playerLanguage);
         return languageFile.get(key);
     }
 
-    public static String readMessage(String key, String color) {
-        Object read = readLanguageFile(key);
+    public static Object readLanguageFile(String key) {
+        String language = RunningData.config.getString("language");
+        YamlConfiguration languageFile = RunningData.languageFiles.get(language);
+        return languageFile.get(key);
+    }
+
+    public static String readMessage(Player player, String key, String color) {
+        Object read = readLanguageFile(player, key);
         if (read instanceof String readString){
-            return Utils.reColor(readLanguageFile(Messages.PREFIX) + color + readString);
+            return Utils.reColor(readLanguageFile(player, Messages.PREFIX) + color + readString);
         }else {
             return null;
         }
     }
 
-    public static String readMessage(String key) {
-        return readMessage(key, "");
+    public static String readMessage(Player player, String key) {
+        return readMessage(player, key, "");
     }
 }
