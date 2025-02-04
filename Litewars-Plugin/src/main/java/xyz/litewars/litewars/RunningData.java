@@ -51,7 +51,7 @@ public class RunningData {
     public static List<String> lobbyScoreboardLines;
 
     public static void init () throws URISyntaxException, IOException {
-        languages.add("zh_cn");
+        addLanguages(); //请将所有语言的文件名写到这里
         arenaGroupMap = new HashMap<>();
         for (String languageName : languages) {
             if (!(new File(dataFolder + "/Languages/" + languageName + ".yml").exists())) {
@@ -124,6 +124,10 @@ public class RunningData {
             RunningData.lobby.addPlayer(p);
             RunningData.playersInLobby.add(p);
         }
+    }
+    private static void addLanguages() {
+        languages.add("zh_cn");
+        languages.add("en_us");
     }
 
     public static Game getGameWithPlayer(Player player) {

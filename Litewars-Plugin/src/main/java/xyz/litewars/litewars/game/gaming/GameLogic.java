@@ -29,7 +29,7 @@ public class GameLogic {
         this.bindArena = game.getArena();
         this.players = game.getPlayers();
 
-        // Start the game
+        // 开始游戏
         Bukkit.getScheduler().runTask(Litewars.plugin, this::start);
     }
 
@@ -40,7 +40,7 @@ public class GameLogic {
         int remainingPlayers = players.size() % teams.size();
 
         int playerIndex = 0;
-        for (Team team : teams) { //炸了
+        for (Team team : teams) {
             //生成(升级)商店
             Location shop = team.getShop();
             logger.info(shop.toString());

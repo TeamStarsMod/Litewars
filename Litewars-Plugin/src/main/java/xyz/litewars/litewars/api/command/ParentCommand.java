@@ -39,7 +39,7 @@ public abstract class ParentCommand implements CommandExecutor, TabCompleter {
             boolean exe = this.execute(sender, command, s, args);
             StringBuilder sb = new StringBuilder();
             if (RunningData.config.getBoolean("ConsoleColor")) {
-                sb.append(String.format("&3Lite&ewars &7%s%n", Messages.readLanguageFile(Messages.COMMAND_SYSTEM)));
+                sb.append(String.format("&9Lite&bwars &7%s%n", Messages.readLanguageFile(Messages.COMMAND_SYSTEM)));
                 sb.append(Utils.reColor("&6" + Messages.readLanguageFile(Messages.AVAILABLE_COMMANDS) + "\n"));
             } else {
                 sb.append(String.format("Litewars %s%n", Messages.readLanguageFile(Messages.COMMAND_SYSTEM)));
