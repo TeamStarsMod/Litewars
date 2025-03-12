@@ -18,7 +18,7 @@ public class Arenas extends SubCommand {
     public static String arenaGroupListName = "ArenaGroups";
 
     public Arenas(LitewarsCommand parent) {
-        super (parent, "arenas", "", null, false, false, "create", "remove", "list"); //a
+        super (parent, "arenas", "", null, false, false, "create", "remove", "list");
     }
 
     @Override

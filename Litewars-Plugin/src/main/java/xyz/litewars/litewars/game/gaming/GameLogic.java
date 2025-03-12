@@ -45,11 +45,11 @@ public class GameLogic {
             Location shop = team.getShop();
             logger.info(shop.toString());
             Entity shopEntity = bindArena.getArenaWorld().spawnEntity(shop, EntityType.VILLAGER);
-            shopEntity.setCustomName(Utils.reColor("&b没错我是商店！\n&c没错我在测试第二行！"));
+            shopEntity.setCustomName(Utils.reColor("&b没错我是商店！"));
             shopEntity.setCustomNameVisible(true);
             Location upgrade = team.getUpgrade();
             Entity upgradeEntity = bindArena.getArenaWorld().spawnEntity(upgrade, EntityType.VILLAGER);
-            upgradeEntity.setCustomName(Utils.reColor("&b没错我是升级商店！\n&c没错我在测试第二行！"));
+            upgradeEntity.setCustomName(Utils.reColor("&b没错我是升级商店！"));
             upgradeEntity.setCustomNameVisible(true);
 
             // 开始分队 (假设目前只有Solo)

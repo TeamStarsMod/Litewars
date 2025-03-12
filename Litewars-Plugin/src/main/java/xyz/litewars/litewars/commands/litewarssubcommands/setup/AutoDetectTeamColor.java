@@ -39,7 +39,7 @@ public class AutoDetectTeamColor extends SubCommand {
 
             Set<String> found = new HashSet<>();
 
-            // 遍历200x100x200的区域
+            // 遍历200x100(50-150)x200的区域
             for (int x = -100; x < 100; x++) {
                 for (int y = 50; y < 150; y++) {
                     for (int z = -100; z < 100; z++) {

@@ -13,6 +13,7 @@ import xyz.litewars.litewars.api.events.AsyncGameEndEvent;
 import xyz.litewars.litewars.api.events.GameStartEvent;
 import xyz.litewars.litewars.api.game.Game;
 import xyz.litewars.litewars.game.gaming.GameLogic;
+import xyz.litewars.litewars.utils.Teleport;
 import xyz.litewars.litewars.utils.Utils;
 
 import java.util.*;
@@ -56,6 +57,7 @@ public class GameInstance implements Game {
     @Override
     public void startWaiting () {
         for (Player p : players) {
+            Bukkit.broadcastMessage("" + bindArena.getWaitingLobbyLocation());//是null的话toString会炸
             Bukkit.getServer().getScheduler().runTask(Litewars.plugin, () -> p.teleport(bindArena.getWaitingLobbyLocation()));
             p.sendMessage("Litewars >>> 游戏等待开始……");
         }
