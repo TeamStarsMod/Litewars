@@ -4,7 +4,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import xyz.litewars.litewars.RunningData;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Utils {
     public static String reColor(String message) {
@@ -13,10 +14,10 @@ public class Utils {
     }
 
     public static YamlConfiguration getArenaConfig(Player player) {
-        if (!RunningData.onSetupPlayerMap.containsKey(player)) {
+        if (!RunningData.playerSetupArenaMap.containsKey(player)) {
             return null;
         }
-        return RunningData.onSetupPlayerMap.get(player).getYaml();
+        return RunningData.playerSetupArenaMap.get(player).getYaml();
     }
 
     public static Map<String, Object> getYamlKeys (YamlConfiguration yaml, String key) {

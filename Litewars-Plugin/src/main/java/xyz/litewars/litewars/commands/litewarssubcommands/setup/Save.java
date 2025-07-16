@@ -25,7 +25,7 @@ public class Save extends SubCommand {
     @Override
     public boolean execute(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
-        Arena arena = RunningData.onSetupPlayerMap.get(player);
+        Arena arena = RunningData.playerSetupArenaMap.get(player);
         YamlConfiguration arenaYaml = arena.getYaml();
         try {
             arenaYaml.save(new File(Litewars.dataFolder, "Arenas/" + arena.getName() + ".yml"));
@@ -35,10 +35,10 @@ public class Save extends SubCommand {
             return false;
         }
 
-        RunningData.onSetupPlayerMap.remove(player);
-        RunningData.playerTeamMap.remove(player);
-        RunningData.lobby.addPlayer(player);
-        RunningData.playersInLobby.add(player);
+        RunningData.playerSetupArenaMap.remove(player);
+        RunningData.playerSetupTeamMap.remove(player);
+        RunningData.lobbyManager.addPlayer(player);
+        RunningData.lobbyPlayers.add(player);
         ArenaGroup arenaGroup = RunningData.arenaGroupMap.get(arenaYaml.getString("ArenaGroup"));
         arenaGroup.addArena(arena);
         sender.sendMessage(Messages.readMessage(Messages.SETTINGS_SAVED, "&a"));

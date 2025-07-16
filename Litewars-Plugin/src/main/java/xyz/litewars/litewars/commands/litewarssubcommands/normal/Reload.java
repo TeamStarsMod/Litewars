@@ -29,11 +29,11 @@ public class Reload extends SubCommand {
 
     @Override
     public boolean execute(CommandSender sender, Command command, String s, String[] args) {
-        RunningData.lobby = new Lobby();
-        RunningData.config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
-        RunningData.languageName = RunningData.config.getString("language");
-        RunningData.languageFile = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Languages/" + RunningData.languageName + ".yml"));
-        List<String> list = RunningData.languageFile.getStringList(Messages.LOBBY_SCOREBOARD_LINES);
+        RunningData.lobbyManager = new Lobby();
+        RunningData.mainConfig = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
+        RunningData.languageCode = RunningData.mainConfig.getString("language");
+        RunningData.languageConfig = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Languages/" + RunningData.languageCode + ".yml"));
+        List<String> list = RunningData.languageConfig.getStringList(Messages.LOBBY_SCOREBOARD_LINES);
         RunningData.lobbyScoreboardLines = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).isEmpty()) {
@@ -48,8 +48,8 @@ public class Reload extends SubCommand {
             }
         }
         for (Player p : Bukkit.getOnlinePlayers()) {
-            RunningData.lobby.addPlayer(p);
-            RunningData.playersInLobby.add(p);
+            RunningData.lobbyManager.addPlayer(p);
+            RunningData.lobbyPlayers.add(p);
         }
         Tips.stopTips();
         try {

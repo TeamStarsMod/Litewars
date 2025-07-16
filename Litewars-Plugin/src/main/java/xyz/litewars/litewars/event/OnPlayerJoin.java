@@ -14,12 +14,12 @@ public class OnPlayerJoin implements Listener {
     public void onJoin (PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        if (RunningData.config.getBoolean("EditJoinMessage")) {
+        if (RunningData.mainConfig.getBoolean("EditJoinMessage")) {
             event.setJoinMessage(
                     Utils.reColor(
                             PlaceholderAPISupport.setPlaceholders(
                                     player,
-                                    RunningData.config.getString("JoinMessage").replace(
+                                    RunningData.mainConfig.getString("JoinMessage").replace(
                                             "{player}",
                                             player.getDisplayName()
                                     )
@@ -28,8 +28,8 @@ public class OnPlayerJoin implements Listener {
             );
         }
 
-        RunningData.lobby.addPlayer(event.getPlayer());
-        RunningData.playersInLobby.add(event.getPlayer());
+        RunningData.lobbyManager.addPlayer(event.getPlayer());
+        RunningData.lobbyPlayers.add(event.getPlayer());
 
         Teleport.tpPlayerToLobby(player, true); //"Silent"参数指是否显示传送信息
     }

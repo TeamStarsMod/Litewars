@@ -17,8 +17,8 @@ public class OnBedSetting implements Listener {
         if (event.getClickedBlock() != null) {
             if (event.getClickedBlock().getType().equals(Material.BED_BLOCK)) {
                 Player p = event.getPlayer();
-                Map<Player, Boolean> booleanMap = RunningData.onSetupData.getBooleanMap("PlayerBedSetting");
-                Map<Player, Team> teamMap = RunningData.onSetupData.getTeamMap("PlayerTeam");
+                Map<Player, Boolean> booleanMap = RunningData.playerBedSettingMap;
+                Map<Player, Team> teamMap = RunningData.playerSetupTeamMap;
                 if (booleanMap.containsKey(p)) {
                     p.sendMessage("设置成功！");
                     Team team = teamMap.get(p);
@@ -34,8 +34,8 @@ public class OnBedSetting implements Listener {
     public void onBedSetting$1 (BlockBreakEvent event) {
         if (event.getBlock().getType().equals(Material.BED_BLOCK)) {
             Player p = event.getPlayer();
-            Map<Player, Boolean> booleanMap = RunningData.onSetupData.getBooleanMap("PlayerBedSetting");
-            Map<Player, Team> teamMap = RunningData.onSetupData.getTeamMap("PlayerTeam");
+            Map<Player, Boolean> booleanMap = RunningData.playerBedSettingMap;
+            Map<Player, Team> teamMap = RunningData.playerSetupTeamMap;
             if (booleanMap.containsKey(p)) {
                 p.sendMessage("设置成功！");
                 Team team = teamMap.get(p);

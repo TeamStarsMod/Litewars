@@ -10,6 +10,6 @@ public class OnPlayerLeave implements Listener {
     @EventHandler
     public static void onLeave(PlayerQuitEvent e){
         Player player = e.getPlayer();
-        RunningData.onSetupPlayerMap.remove(player);
+        RunningData.playerSetupArenaMap.remove(player);
     }
 }

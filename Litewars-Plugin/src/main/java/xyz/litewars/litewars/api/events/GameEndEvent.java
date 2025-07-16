@@ -4,12 +4,12 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import xyz.litewars.litewars.api.game.Game;
 
-public class AsyncGameEndEvent extends Event {
+public class GameEndEvent extends Event {
     private final Game game;
     private static final HandlerList handlers = new HandlerList();
 
-    public AsyncGameEndEvent(Game game){
-        super(true);
+    public GameEndEvent(Game game){
+        super(false);
         this.game = game;
     }
 

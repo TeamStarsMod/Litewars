@@ -13,13 +13,13 @@ public class OnLobbyMessage implements Listener {
     @EventHandler
     public static void onMessage(AsyncPlayerChatEvent e) {
         Player player = e.getPlayer();
-        if (RunningData.playersInLobby.contains(player)) {
+        if (RunningData.lobbyPlayers.contains(player)) {
             e.setCancelled(true);
             Bukkit.broadcastMessage(
                     Utils.reColor(
                             PlaceholderAPISupport.setPlaceholders(
                                     player,
-                                    RunningData.config.getString("LobbyMessageType")
+                                    RunningData.mainConfig.getString("LobbyMessageType")
                                             .replace("{message}", e.getMessage())
                             )
                     )

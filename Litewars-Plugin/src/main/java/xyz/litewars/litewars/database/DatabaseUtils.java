@@ -5,7 +5,7 @@ import xyz.litewars.litewars.RunningData;
 
 import java.sql.SQLException;
 
-public class CreateTables {
+public class DatabaseUtils {
     public static void initDatabase() {
         try {
             String createTableSQL = "CREATE TABLE IF NOT EXISTS player_datas (" +

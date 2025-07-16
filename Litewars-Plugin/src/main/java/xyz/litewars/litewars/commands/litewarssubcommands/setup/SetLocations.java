@@ -18,7 +18,7 @@ public class SetLocations extends SubCommand {
     @Override
     public boolean execute(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
-        Arena arena = RunningData.onSetupPlayerMap.get(player);
+        Arena arena = RunningData.playerSetupArenaMap.get(player);
         if (args.length == 0) {
             player.sendMessage(Utils.reColor("&c需要更多参数！"));
             return false;

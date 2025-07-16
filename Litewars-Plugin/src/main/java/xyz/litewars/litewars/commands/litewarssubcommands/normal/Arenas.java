@@ -108,7 +108,7 @@ public class Arenas extends SubCommand {
             }
 
             default -> {
-                sender.sendMessage(Utils.reColor("&c你要不要看看你自己写的什么傻逼东西"));
+                sender.sendMessage(Utils.reColor("&c参数不对哦亲"));
                 return false;
             }
         }

@@ -17,7 +17,7 @@ public class SetBed extends SubCommand {
     public boolean execute(CommandSender sender, Command command, String s, String[] args) {
         Player p = (Player) sender;
         p.sendMessage(Utils.reColor("&a请右键单击一张床的床尾来设置床~"));
-        RunningData.onSetupData.getBooleanMap("PlayerBedSetting").put(p, true);
+        RunningData.playerBedSettingMap.put(p, true);
         return true;
     }
 }

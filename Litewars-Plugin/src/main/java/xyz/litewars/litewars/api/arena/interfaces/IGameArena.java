@@ -10,7 +10,7 @@ import xyz.litewars.litewars.api.game.Game;
 
 import java.util.List;
 
-public interface GameArena {
+public interface IGameArena {
     void setName(String name);
     String getName();
     void setStatus (ArenaStatus status);

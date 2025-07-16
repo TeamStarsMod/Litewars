@@ -6,6 +6,8 @@ import xyz.litewars.litewars.api.arena.team.Team;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+
+@Deprecated
 public class DataSet<K, MK, V> {
     private final Map<K, Map<MK, V>> values = new ConcurrentHashMap<>();
 

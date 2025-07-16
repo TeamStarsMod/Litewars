@@ -67,9 +67,9 @@ public class Setup extends SubCommand {
             YamlConfiguration config = YamlConfiguration.loadConfiguration(arenaFile);
             if (config.get("World") == null) config.set("World", world1.getName());
             if (config.get("Name") == null) config.set("Name", world1.getName());
-            RunningData.onSetupPlayerMap.put(player, new Arena(world1.getName(), config));
-            RunningData.lobby.removePlayer(player);
-            RunningData.playersInLobby.remove(player);
+            RunningData.playerSetupArenaMap.put(player, new Arena(world1.getName(), config));
+            RunningData.lobbyManager.removePlayer(player);
+            RunningData.lobbyPlayers.remove(player);
             ScoreboardManager manager = Bukkit.getScoreboardManager();
             Scoreboard defaultScoreboard = manager.getMainScoreboard();
             player.setScoreboard(defaultScoreboard);

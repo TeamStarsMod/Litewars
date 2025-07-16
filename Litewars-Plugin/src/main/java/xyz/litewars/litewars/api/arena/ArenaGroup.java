@@ -1,10 +1,11 @@
 package xyz.litewars.litewars.api.arena;
 
-import xyz.litewars.litewars.api.arena.interfaces.GameArenaGroup;
+import xyz.litewars.litewars.api.arena.interfaces.IGameArenaGroup;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArenaGroup implements GameArenaGroup {
+public class ArenaGroup implements IGameArenaGroup {
     private final List<Arena> arenas = new ArrayList<>();
     private String name;
 

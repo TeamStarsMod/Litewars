@@ -5,7 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import xyz.litewars.litewars.RunningData;
-import xyz.litewars.litewars.api.arena.interfaces.GameArena;
+import xyz.litewars.litewars.api.arena.interfaces.IGameArena;
 import xyz.litewars.litewars.api.arena.team.Team;
 import xyz.litewars.litewars.api.game.Game;
 import xyz.litewars.litewars.utils.LocationUtils;
@@ -13,7 +13,7 @@ import xyz.litewars.litewars.utils.LocationUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Arena implements GameArena {
+public class Arena implements IGameArena {
     private String name;
     private ArenaStatus arenaStatus = ArenaStatus.WAITING;
     private World world;
@@ -28,7 +28,7 @@ public class Arena implements GameArena {
         this.yaml = yaml;
         this.world = Bukkit.getWorld(yaml.getString("World"));
         this.name = yaml.getString("Name");
-        this.waitingLobbyLocation = LocationUtils.getLocation(yaml.getFloatList("Waiting"), world);
+        this.waitingLobbyLocation = LocationUtils.getLocation(yaml.getFloatList("Waiting"), world);// 我感觉这一块有问题
         this.arenaGroup = RunningData.arenaGroupMap.get(yaml.getString("ArenaGroup"));
     }
 

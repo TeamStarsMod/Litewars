@@ -3,7 +3,6 @@ package xyz.litewars.litewars.game.gaming;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import xyz.litewars.litewars.Litewars;
 import xyz.litewars.litewars.api.arena.Arena;
@@ -12,11 +11,12 @@ import xyz.litewars.litewars.api.events.GameStartEvent;
 import xyz.litewars.litewars.api.game.Game;
 import xyz.litewars.litewars.utils.Utils;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static xyz.litewars.litewars.Litewars.logger;
+import static xyz.litewars.litewars.Litewars.nms;
 
 public class GameLogic {
     private final Game bindGame;
@@ -35,34 +35,27 @@ public class GameLogic {
 
     public void start() {
         Litewars.pluginManager.callEvent(new GameStartEvent(this.bindGame));
+
         List<Team> teams = bindArena.getTeams();
-        int playersPerTeam = players.size() / teams.size();
-        int remainingPlayers = players.size() % teams.size();
+        Collections.shuffle(players);
 
-        int playerIndex = 0;
+        int teamIndex = 0;
+        for (Player player : players) {
+            Team team = teams.get(teamIndex % teams.size());
+            team.addPlayer(player);
+            playerTeams.put(player, team);
+            teamIndex++;
+        }
+
         for (Team team : teams) {
-            //生成(升级)商店
             Location shop = team.getShop();
-            logger.info(shop.toString());
-            Entity shopEntity = bindArena.getArenaWorld().spawnEntity(shop, EntityType.VILLAGER);
-            shopEntity.setCustomName(Utils.reColor("&b没错我是商店！"));
-            shopEntity.setCustomNameVisible(true);
+            if (shop != null) {
+                Entity shopVillager = nms.spawnNoAIVillagerEntity(shop, Utils.reColor("&b没错我是商店！")); // 变量备用
+            }
+
             Location upgrade = team.getUpgrade();
-            Entity upgradeEntity = bindArena.getArenaWorld().spawnEntity(upgrade, EntityType.VILLAGER);
-            upgradeEntity.setCustomName(Utils.reColor("&b没错我是升级商店！"));
-            upgradeEntity.setCustomNameVisible(true);
-
-            // 开始分队 (假设目前只有Solo)
-            int playersToAdd = playersPerTeam + (remainingPlayers > 0 ? 1 : 0);
-            remainingPlayers--;
-
-            for (int i = 0; i < playersToAdd; i++) {
-                if (playerIndex < players.size()) {
-                    Player player = players.get(playerIndex);
-                    team.addPlayer(player);
-                    playerTeams.put(player, team);
-                    playerIndex++;
-                }
+            if (upgrade != null) {
+                Entity upgradeVillager = nms.spawnNoAIVillagerEntity(upgrade, Utils.reColor("&b没错我是升级商店！"));  // 变量备用
             }
         }
     }

@@ -20,7 +20,7 @@ public class SetProperties extends SubCommand {
     public boolean execute (CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
         if (args.length >= 2) {
-            Arena arena = RunningData.onSetupPlayerMap.get(player);
+            Arena arena = RunningData.playerSetupArenaMap.get(player);
             switch (args[0].toLowerCase()) {
                 case "arenagroup" -> {
                     ArenaGroup arenaGroup = RunningData.arenaGroupMap.get(args[1].toLowerCase());
@@ -35,7 +35,7 @@ public class SetProperties extends SubCommand {
                 }
 
                 case "maxplayer" -> {
-                    Team team = RunningData.onSetupData.getValue("PlayerTeam", player, Team.class);
+                    Team team = RunningData.playerSetupTeamMap.get(player);
                     if (team == null) {
                         player.sendMessage(Utils.reColor("&c您要先使用/lw edit-team [TeamName] 来编辑一个队伍"));
                         return false;

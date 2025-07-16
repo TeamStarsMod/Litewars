@@ -1,11 +1,10 @@
 package xyz.litewars.litewars;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.Bukkit;
-import org.slf4j.LoggerFactory;
 import xyz.litewars.litewars.api.command.LiteCommandManager;
 import xyz.litewars.litewars.api.database.hikaricp.DatabaseManager;
 import xyz.litewars.litewars.api.database.hikaricp.HikariCPConfig;
@@ -14,7 +13,7 @@ import xyz.litewars.litewars.api.exceptions.PluginLoadException;
 import xyz.litewars.litewars.api.versionsupport.VersionControl;
 import xyz.litewars.litewars.commands.LitewarsCommand;
 import xyz.litewars.litewars.commands.Party;
-import xyz.litewars.litewars.database.CreateTables;
+import xyz.litewars.litewars.database.DatabaseUtils;
 import xyz.litewars.litewars.event.OnBedSetting;
 import xyz.litewars.litewars.event.OnPlayerJoin;
 import xyz.litewars.litewars.event.OnPlayerLeave;
@@ -33,7 +32,6 @@ import java.time.Instant;
 import java.util.logging.Logger;
 
 public final class Litewars extends JavaPlugin {
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(Litewars.class);
     public static Logger logger;
     public static Server server;
     public static PluginManager pluginManager;
@@ -51,10 +49,15 @@ public final class Litewars extends JavaPlugin {
         server = getServer();
         pluginManager = server.getPluginManager();
         dataFolder = getDataFolder();
-        commandManager= new LiteCommandManager(this);
-        RunningData.serverVersion = Bukkit.getServer().getClass().getName().split("\\.")[3];
-        saveDefaultConfig();
+        commandManager = new LiteCommandManager(this);
+        logger.info(Bukkit.getServer().getClass().getName());
 
+        String bukkitVersion = Bukkit.getBukkitVersion(); // 例如 "1.21-R0.1-SNAPSHOT"
+        String[] parts = bukkitVersion.split("-")[0].split("\\."); // ["1", "21"]
+        String revision = bukkitVersion.split("-")[1].replace("R", "").split("\\.")[0]; // "0"
+        RunningData.nmsVersion = "v" + parts[0] + "_" + parts[1] + "_R" + revision; // "v1_21_R0"
+
+        saveDefaultConfig();
         // NMS
         logger.info("正在检查当前版本NMS...");
         nms = getNMS();
@@ -74,7 +77,7 @@ public final class Litewars extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
-        String databaseType = RunningData.config.getString("database-type");
+        String databaseType = RunningData.mainConfig.getString("database-type");
         if (!databaseType.equalsIgnoreCase("MySQL") && !databaseType.equalsIgnoreCase("SQLite")){
             databaseType = "SQLite";
             logger.warning("未知的数据库类型，已自动设置为SQLite！");
@@ -83,17 +86,17 @@ public final class Litewars extends JavaPlugin {
         if (databaseType.equalsIgnoreCase("MySQL")) {
             //jdbc:mysql://database-host:database-port/database-name
             String url = "jdbc:mysql://" +
-                    RunningData.config.getString("database-host") +
-                    ":" + RunningData.config.getString("database-port") +
-                    "/" + RunningData.config.getString("database-name");
-            RunningData.cpSupport = new HikariCPSupport(new HikariCPConfig(
+                    RunningData.mainConfig.getString("database-host") +
+                    ":" + RunningData.mainConfig.getString("database-port") +
+                    "/" + RunningData.mainConfig.getString("database-name");
+            RunningData.hikariCPSupport = new HikariCPSupport(new HikariCPConfig(
                     url,
-                    RunningData.config.getString("database-user"),
-                    RunningData.config.getString("database-password")
+                    RunningData.mainConfig.getString("database-user"),
+                    RunningData.mainConfig.getString("database-password")
             ), false);
         } else if (databaseType.equalsIgnoreCase("SQLite")) {
             String url = "jdbc:sqlite:" + dataFolder + "/Data/database.db";
-            RunningData.cpSupport = new HikariCPSupport(new HikariCPConfig(
+            RunningData.hikariCPSupport = new HikariCPSupport(new HikariCPConfig(
                     url,
                     null,
                     null
@@ -115,9 +118,9 @@ public final class Litewars extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
-        RunningData.cpSupport.start();
-        RunningData.databaseManager = new DatabaseManager(RunningData.cpSupport);
-        CreateTables.initDatabase();
+        RunningData.hikariCPSupport.start();
+        RunningData.databaseManager = new DatabaseManager(RunningData.hikariCPSupport);
+        DatabaseUtils.initDatabase();
 
         // SoftDepends
         if (pluginManager.getPlugin("PlaceholderAPI") == null) {
@@ -140,10 +143,10 @@ public final class Litewars extends JavaPlugin {
         new LitewarsCommand();
         new Party();
 
-        RunningData.lobby.run();
+        RunningData.lobbyManager.run();
 
         try {
-            if (RunningData.config.getBoolean("Tips")) {
+            if (RunningData.mainConfig.getBoolean("Tips")) {
                 Tips.init();
                 Tips.startTips();
             }
@@ -158,7 +161,7 @@ public final class Litewars extends JavaPlugin {
     public void onDisable() {
         long start = Instant.now().toEpochMilli();
         logger.info("Litewars正在卸载中...");
-        RunningData.cpSupport.stop();
+        RunningData.hikariCPSupport.stop();
         Tips.stopTips();
         logger.info("本次卸载耗时 " + (Instant.now().toEpochMilli() - start) + " ms");
     }
@@ -168,7 +171,7 @@ public final class Litewars extends JavaPlugin {
             return nms;
         }
         try {
-            Class<?> versionControlClass = Class.forName("xyz.litewars.litewars.support." + RunningData.serverVersion + ".VersionControl");
+            Class<?> versionControlClass = Class.forName("xyz.litewars.litewars.support." + RunningData.nmsVersion + ".VersionControl");
             Constructor<?> constructor = versionControlClass.getDeclaredConstructor();
             constructor.setAccessible(true);
             return (VersionControl) constructor.newInstance();

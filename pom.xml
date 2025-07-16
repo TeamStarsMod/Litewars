@@ -21,6 +21,7 @@
         <module>Litewars-Plugin</module>
         <module>Litewars-Bukkit</module>
         <module>Litewars-Helper</module>
+        <module>version-control_1_21_R0</module>
     </modules>
     <build>
         <plugins>
@@ -85,4 +86,14 @@
             <url>https://repo.codemc.io/repository/nms/</url>
         </repository>
     </repositories>
+
+    <dependencies>
+        <!--Jetbrains注释库-->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>26.0.2</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 </project>

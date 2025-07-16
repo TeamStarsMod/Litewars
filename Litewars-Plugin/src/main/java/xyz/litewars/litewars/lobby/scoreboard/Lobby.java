@@ -13,8 +13,6 @@ import xyz.litewars.litewars.api.scoreboard.ScoreBoard;
 import xyz.litewars.litewars.supports.papi.PlaceholderAPISupport;
 import xyz.litewars.litewars.utils.Utils;
 
-import java.util.List;
-
 import static xyz.litewars.litewars.Litewars.server;
 
 public class Lobby extends ScoreBoard {
@@ -24,7 +22,7 @@ public class Lobby extends ScoreBoard {
             public void run() {
                 for (Player player : getPlayers()) {
                     Scoreboard sb = server.getScoreboardManager().getNewScoreboard();
-                    String title = RunningData.languageFile.getString(Messages.LOBBY_SCOREBOARD_TITLE);
+                    String title = RunningData.languageConfig.getString(Messages.LOBBY_SCOREBOARD_TITLE);
                     Objective MainOBJ = sb.getObjective(Utils.reColor(title));
                     if (MainOBJ == null) MainOBJ = sb.registerNewObjective(Utils.reColor(title), "dummy");
                     for (int i = 0; i < RunningData.lobbyScoreboardLines.size(); i++) {

@@ -5,7 +5,7 @@ import xyz.litewars.litewars.api.arena.ArenaGroup;
 
 import java.util.List;
 
-public interface GameArenaGroup {
+public interface IGameArenaGroup {
     void addArena (Arena arena);
     void removeArena (Arena arena);
     List<Arena> getArenas ();

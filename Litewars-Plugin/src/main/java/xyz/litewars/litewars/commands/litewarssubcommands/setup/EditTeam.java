@@ -30,8 +30,8 @@ public class EditTeam extends SubCommand {
         if (args.length >= 1) {
             if (keys.containsKey(args[0])) {
                 Colors color = Colors.valueOf(args[0]);
-                if (RunningData.playerTeamMap.containsKey(p)) {
-                    if (config != null && RunningData.playerTeamMap.get(p).getColors().equals(
+                if (RunningData.playerSetupTeamMap.containsKey(p)) {
+                    if (config != null && RunningData.playerSetupTeamMap.get(p).getColors().equals(
                             Colors.valueOf(config.getString("Team." + args[0] + ".Color"))
                     )) {
                         p.sendMessage("你已经在编辑此队伍了哦~");
@@ -40,7 +40,7 @@ public class EditTeam extends SubCommand {
                 }
                 p.sendMessage("正在编辑队伍 " + color.getColor() + args[0]);
                 if (config != null) {
-                    RunningData.playerTeamMap.put(p, new Team(Colors.valueOf(config.getString("Team." + args[0] + ".Color")), true, args[0], config, RunningData.onSetupPlayerMap.get(p).getArenaWorld()));
+                    RunningData.playerSetupTeamMap.put(p, new Team(Colors.valueOf(config.getString("Team." + args[0] + ".Color")), true, args[0], config, RunningData.playerSetupArenaMap.get(p).getArenaWorld()));
                 }
             } else {
                 p.sendMessage("没有这个队伍哦~");
