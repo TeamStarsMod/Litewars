@@ -40,7 +40,7 @@ public class Messages {
     public static String LOBBY_SCOREBOARD_LINES = "lobby_scoreboard_lines";
 
     public static Object readLanguageFile(String key) {
-        YamlConfiguration languageFile = RunningData.languageFile;
+        YamlConfiguration languageFile = RunningData.languageConfig;
         return languageFile.get(key);
     }
 

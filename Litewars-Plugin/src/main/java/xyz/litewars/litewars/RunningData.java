@@ -78,8 +78,6 @@ public class RunningData {
     public static Map<Player, Team> playerSetupTeamMap;
     /** 玩家是否正在设置床的标记 */
     public static Map<Player, Boolean> playerBedSettingMap = new HashMap<>();
-    /** 旧版 setup 数据结构（已废弃） */
-    @Deprecated public static DataSet<String, Player, Object> legacySetupData = new DataSet<>();
 
     /** 大厅记分板显示内容 */
     public static List<String> lobbyScoreboardLines;

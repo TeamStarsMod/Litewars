@@ -49,7 +49,7 @@ public class Tips {
                 }
 
                 String tip = tips.get(currentTipIndex);
-                for (Player player : RunningData.playersInLobby) {
+                for (Player player : RunningData.lobbyPlayers) {
                     Litewars.nms.sendActionBar(player, Utils.reColor("&e" + tip));
                 }
 
