@@ -4,7 +4,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import xyz.litewars.litewars.LitewarsRunningData;
+import xyz.litewars.litewars.api.arena.Arena;
 import xyz.litewars.litewars.api.arena.team.Colors;
+import xyz.litewars.litewars.api.arena.team.Team;
 import xyz.litewars.litewars.api.command.SubCommand;
 import xyz.litewars.litewars.api.languages.Messages;
 import xyz.litewars.litewars.commands.LitewarsCommand;
@@ -28,7 +31,8 @@ public class AddTeamColor extends SubCommand {
     @Override
     public boolean execute(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
-        YamlConfiguration configuration = Utils.getArenaConfig(player);
+        Arena arena = LitewarsRunningData.playerSetupArenaMap.get(player);
+        YamlConfiguration configuration = arena.getYaml();
         if (configuration == null) {
             return false;
         }
@@ -49,6 +53,13 @@ public class AddTeamColor extends SubCommand {
             configuration.set(team_key + ".Shop", new ArrayList<Float>());
             configuration.set(team_key + ".Upgrade", new ArrayList<Float>());
             configuration.set(team_key + ".Bed", new ArrayList<Float>());
+            arena.addTeam(new Team(
+                    color,
+                    true,
+                    color.toString(),
+                    configuration,
+                    arena.getArenaWorld()
+            ));
             player.sendMessage(Utils.reColor("添加队伍 " + color.getColor() + color + " 成功！"));
         } catch (IllegalArgumentException e) {
             player.sendMessage(Utils.reColor("&c未知的颜色"));

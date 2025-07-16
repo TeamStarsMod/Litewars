@@ -9,6 +9,7 @@ import xyz.litewars.litewars.Litewars;
 import xyz.litewars.litewars.LitewarsRunningData;
 import xyz.litewars.litewars.api.arena.Arena;
 import xyz.litewars.litewars.api.arena.ArenaGroup;
+import xyz.litewars.litewars.api.arena.team.Team;
 import xyz.litewars.litewars.api.command.SubCommand;
 import xyz.litewars.litewars.api.languages.Messages;
 import xyz.litewars.litewars.commands.LitewarsCommand;
@@ -34,11 +35,13 @@ public class Save extends SubCommand {
             Litewars.logger.severe("无法保存竞技场配置文件，请检查您的文件系统！" + e);
             return false;
         }
-
         LitewarsRunningData.playerSetupArenaMap.remove(player);
         LitewarsRunningData.playerSetupTeamMap.remove(player);
         LitewarsRunningData.lobbyManager.addPlayer(player);
         LitewarsRunningData.lobbyPlayers.add(player);
+        for (Team team : arena.getTeams()) {
+            team.setIsEditing(false);
+        }
         ArenaGroup arenaGroup = LitewarsRunningData.arenaGroupMap.get(arenaYaml.getString("ArenaGroup"));
         arenaGroup.addArena(arena);
         sender.sendMessage(Messages.readMessage(Messages.SETTINGS_SAVED, "&a"));

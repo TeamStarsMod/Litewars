@@ -158,4 +158,8 @@ public class Team {
         this.players.add(player);
         player.teleport(getSpawn());
     }
+
+    public void setIsEditing (boolean editing) {
+        this.isEditing = editing;
+    }
 }

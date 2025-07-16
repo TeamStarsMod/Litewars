@@ -140,7 +140,7 @@ public class LitewarsRunningData {
                         teams.forEach((s, o) -> {
                             Colors color = Colors.valueOf(yaml.getString("Team." + s + ".Color"));
                             Team team = new Team(color, false, s, yaml, arena.getArenaWorld());
-                            arena.addTeam(team);
+                            arena.addTeam(team); // 只有init会加队伍
                         });
 
                         String arenaGroupName = yaml.getString("ArenaGroup");
