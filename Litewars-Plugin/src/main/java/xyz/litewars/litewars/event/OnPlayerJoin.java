@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import xyz.litewars.litewars.RunningData;
+import xyz.litewars.litewars.LitewarsRunningData;
 import xyz.litewars.litewars.supports.papi.PlaceholderAPISupport;
 import xyz.litewars.litewars.utils.Teleport;
 import xyz.litewars.litewars.utils.Utils;
@@ -14,12 +14,12 @@ public class OnPlayerJoin implements Listener {
     public void onJoin (PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        if (RunningData.mainConfig.getBoolean("EditJoinMessage")) {
+        if (LitewarsRunningData.mainConfig.getBoolean("EditJoinMessage")) {
             event.setJoinMessage(
                     Utils.reColor(
                             PlaceholderAPISupport.setPlaceholders(
                                     player,
-                                    RunningData.mainConfig.getString("JoinMessage").replace(
+                                    LitewarsRunningData.mainConfig.getString("JoinMessage").replace(
                                             "{player}",
                                             player.getDisplayName()
                                     )
@@ -28,8 +28,8 @@ public class OnPlayerJoin implements Listener {
             );
         }
 
-        RunningData.lobbyManager.addPlayer(event.getPlayer());
-        RunningData.lobbyPlayers.add(event.getPlayer());
+        LitewarsRunningData.lobbyManager.addPlayer(event.getPlayer());
+        LitewarsRunningData.lobbyPlayers.add(event.getPlayer());
 
         Teleport.tpPlayerToLobby(player, true); //"Silent"参数指是否显示传送信息
     }

@@ -3,7 +3,7 @@ package xyz.litewars.litewars.commands.litewarssubcommands.setup;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import xyz.litewars.litewars.RunningData;
+import xyz.litewars.litewars.LitewarsRunningData;
 import xyz.litewars.litewars.api.arena.Arena;
 import xyz.litewars.litewars.api.command.SubCommand;
 import xyz.litewars.litewars.commands.LitewarsCommand;
@@ -18,7 +18,7 @@ public class SetLocations extends SubCommand {
     @Override
     public boolean execute(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
-        Arena arena = RunningData.playerSetupArenaMap.get(player);
+        Arena arena = LitewarsRunningData.playerSetupArenaMap.get(player);
         if (args.length == 0) {
             player.sendMessage(Utils.reColor("&c需要更多参数！"));
             return false;

@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import xyz.litewars.litewars.Litewars;
-import xyz.litewars.litewars.RunningData;
+import xyz.litewars.litewars.LitewarsRunningData;
 import xyz.litewars.litewars.api.languages.Messages;
 
 import java.util.Objects;
@@ -27,7 +27,7 @@ public class Teleport {
         if (!silent) {
             player.sendMessage(Objects.requireNonNull(Messages.readMessage(Messages.TP_TO_LOBBY, "&a")));
         }
-        String lobbyWorldName = RunningData.dataConfig.getString("Lobby.world");
+        String lobbyWorldName = LitewarsRunningData.dataConfig.getString("Lobby.world");
         if (lobbyWorldName == null) {
             player.sendMessage(Messages.readMessage(Messages.SOMETHING_WAS_WRONG, "&c"));
             Litewars.logger.warning("未配置主大厅！玩家 " + player.getDisplayName() + " 已被传送至默认世界出生点！");
@@ -35,7 +35,7 @@ public class Teleport {
             return;
         }
         Location location = LocationUtils.getLocation(
-                RunningData.dataConfig.getFloatList("Lobby.login-location"),
+                LitewarsRunningData.dataConfig.getFloatList("Lobby.login-location"),
                 Bukkit.getWorld(lobbyWorldName)
         );
 

@@ -9,7 +9,7 @@ public class RemoveTeamColor extends SubCommand {
     public RemoveTeamColor(LitewarsCommand parent) {
         super(
                 parent,
-                "removeTeamColor",
+                "remove-team-color",
                 "",
                 "Litewars.admin",
                 true,

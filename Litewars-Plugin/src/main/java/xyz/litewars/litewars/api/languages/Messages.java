@@ -1,7 +1,7 @@
 package xyz.litewars.litewars.api.languages;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-import xyz.litewars.litewars.RunningData;
+import xyz.litewars.litewars.LitewarsRunningData;
 import xyz.litewars.litewars.utils.Utils;
 
 public class Messages {
@@ -40,7 +40,7 @@ public class Messages {
     public static String LOBBY_SCOREBOARD_LINES = "lobby_scoreboard_lines";
 
     public static Object readLanguageFile(String key) {
-        YamlConfiguration languageFile = RunningData.languageConfig;
+        YamlConfiguration languageFile = LitewarsRunningData.languageConfig;
         return languageFile.get(key);
     }
 

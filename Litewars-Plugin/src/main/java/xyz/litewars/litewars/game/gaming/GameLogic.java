@@ -41,21 +41,21 @@ public class GameLogic {
 
         int teamIndex = 0;
         for (Player player : players) {
-            Team team = teams.get(teamIndex % teams.size());
+            Team team = teams.get(teamIndex % teams.size()); // wait me sec
             team.addPlayer(player);
             playerTeams.put(player, team);
             teamIndex++;
         }
 
         for (Team team : teams) {
-            Location shop = team.getShop();
-            if (shop != null) {
-                Entity shopVillager = nms.spawnNoAIVillagerEntity(shop, Utils.reColor("&b没错我是商店！")); // 变量备用
+            Location shopLoc = team.getShop();
+            if (shopLoc != null) {
+                Entity shopVillager = nms.spawnNoAIVillagerEntity(shopLoc, Utils.reColor("&b没错我是商店！")); // 变量备用
             }
 
-            Location upgrade = team.getUpgrade();
-            if (upgrade != null) {
-                Entity upgradeVillager = nms.spawnNoAIVillagerEntity(upgrade, Utils.reColor("&b没错我是升级商店！"));  // 变量备用
+            Location upgradeLoc = team.getUpgrade();
+            if (upgradeLoc != null) {
+                Entity upgradeVillager = nms.spawnNoAIVillagerEntity(upgradeLoc, Utils.reColor("&b没错我是升级商店！"));  // 变量备用
             }
         }
     }

@@ -10,7 +10,7 @@ import xyz.litewars.litewars.utils.Utils;
 
 import java.sql.SQLException;
 
-import static xyz.litewars.litewars.RunningData.databaseManager;
+import static xyz.litewars.litewars.LitewarsRunningData.databaseManager;
 
 public class LobbyPlaceHolder extends PlaceholderExpansion {
     @Override

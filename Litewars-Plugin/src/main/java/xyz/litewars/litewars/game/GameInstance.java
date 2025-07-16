@@ -85,7 +85,7 @@ public class GameInstance implements Game {
         }
 
         new BukkitRunnable() {
-            private int countDown = 120;
+            private int countDown = 80;
             private boolean counting = false;
 
             @Override

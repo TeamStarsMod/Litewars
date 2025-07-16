@@ -3,7 +3,7 @@ package xyz.litewars.litewars.commands.litewarssubcommands.normal;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import xyz.litewars.litewars.RunningData;
+import xyz.litewars.litewars.LitewarsRunningData;
 import xyz.litewars.litewars.api.command.SubCommand;
 import xyz.litewars.litewars.api.game.Game;
 import xyz.litewars.litewars.commands.LitewarsCommand;
@@ -18,7 +18,7 @@ public class Start extends SubCommand {
     public boolean execute(CommandSender sender, Command command, String s, String[] args) {
         if (sender instanceof Player player) {
             // Player logic
-            Game game = RunningData.getGameWithPlayer(player);
+            Game game = LitewarsRunningData.getGameWithPlayer(player);
             boolean isFound = (game != null);
             if (!isFound) {
                 player.sendMessage(Utils.reColor("&c你没在任何竞技场里！"));
@@ -45,7 +45,7 @@ public class Start extends SubCommand {
                 return false;
             }
             String arenaName = args[0];
-            Game game = RunningData.getGameWithArenaName(arenaName);
+            Game game = LitewarsRunningData.getGameWithArenaName(arenaName);
             String arg;
             boolean isDebug = false;
             if (args.length > 1) arg = args[1]; else arg = "";

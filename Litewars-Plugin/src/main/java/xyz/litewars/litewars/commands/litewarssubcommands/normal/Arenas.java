@@ -3,7 +3,7 @@ package xyz.litewars.litewars.commands.litewarssubcommands.normal;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import xyz.litewars.litewars.Litewars;
-import xyz.litewars.litewars.RunningData;
+import xyz.litewars.litewars.LitewarsRunningData;
 import xyz.litewars.litewars.api.arena.ArenaGroup;
 import xyz.litewars.litewars.api.command.SubCommand;
 import xyz.litewars.litewars.api.languages.Messages;
@@ -23,7 +23,7 @@ public class Arenas extends SubCommand {
 
     @Override
     public boolean execute (CommandSender sender, Command command, String s, String[] strings) {
-        if (RunningData.dataConfig == null) {
+        if (LitewarsRunningData.dataConfig == null) {
             sender.sendMessage(Utils.reColor("&c似乎你的配置文件没有加载上..."));
             return false;
         }
@@ -37,7 +37,7 @@ public class Arenas extends SubCommand {
                     sender.sendMessage(Utils.reColor("&c你也许需要输入竞技场名称..."));
                     return false;
                 }
-                List<String> arenaGroupList = RunningData.dataConfig.getStringList(arenaGroupListName);
+                List<String> arenaGroupList = LitewarsRunningData.dataConfig.getStringList(arenaGroupListName);
                 arenaGroupList = arenaGroupList == null ? new ArrayList<>() : arenaGroupList; //神秘三元运算符(
                 StringBuilder builder = new StringBuilder();
                 for (int i = 1; i < strings.length; i++) {
@@ -49,13 +49,13 @@ public class Arenas extends SubCommand {
                     return false;
                 }
                 arenaGroupList.add(result);
-                RunningData.dataConfig.set(arenaGroupListName, arenaGroupList);
+                LitewarsRunningData.dataConfig.set(arenaGroupListName, arenaGroupList);
                 try {
-                    RunningData.dataConfig.save(RunningData.dataConfigFile);
+                    LitewarsRunningData.dataConfig.save(LitewarsRunningData.dataConfigFile);
                 }catch (IOException e) {
                     Litewars.logger.severe("憨批你写的代码又炸了！！！！！！ " + e);
                 }
-                RunningData.arenaGroupMap.put(result, new ArenaGroup(result));
+                LitewarsRunningData.arenaGroupMap.put(result, new ArenaGroup(result));
                 sender.sendMessage(Utils.reColor("&a添加完成咯~ &e" + result));
                 return true;
             }
@@ -65,7 +65,7 @@ public class Arenas extends SubCommand {
                     sender.sendMessage(Utils.reColor("&c参数都不填完，你还是人吗！"));
                     return false;
                 }
-                List<String> arenaGroupList = RunningData.dataConfig.getStringList(arenaGroupListName);
+                List<String> arenaGroupList = LitewarsRunningData.dataConfig.getStringList(arenaGroupListName);
                 if (arenaGroupList == null) {
                     sender.sendMessage(Utils.reColor("&c你的配置文件被你玩坏了！"));
                     return false;
@@ -81,18 +81,18 @@ public class Arenas extends SubCommand {
                     sender.sendMessage(Utils.reColor("&c你真的确定有这个掉东西吗^_^"));
                     return false;
                 }
-                RunningData.dataConfig.set(arenaGroupListName, arenaGroupList);
+                LitewarsRunningData.dataConfig.set(arenaGroupListName, arenaGroupList);
                 try {
-                    RunningData.dataConfig.save(RunningData.dataConfigFile);
+                    LitewarsRunningData.dataConfig.save(LitewarsRunningData.dataConfigFile);
                 }catch (IOException e) {
                     Litewars.logger.severe("憨批你写的代码又炸了！！！！！！ " + e);
                 }
-                RunningData.arenaGroupMap.remove(result);
+                LitewarsRunningData.arenaGroupMap.remove(result);
                 return true;
             }
 
             case "list" -> {
-                List<String> arenaList = RunningData.dataConfig.getStringList(arenaGroupListName);
+                List<String> arenaList = LitewarsRunningData.dataConfig.getStringList(arenaGroupListName);
                 if (arenaList == null) {
                     sender.sendMessage(Utils.reColor("&c你没有配置文件了！"));
                     return false;

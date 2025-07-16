@@ -5,6 +5,7 @@ import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.litewars.litewars.api.LitewarsAPI;
 import xyz.litewars.litewars.api.command.LiteCommandManager;
 import xyz.litewars.litewars.api.database.hikaricp.DatabaseManager;
 import xyz.litewars.litewars.api.database.hikaricp.HikariCPConfig;
@@ -39,6 +40,7 @@ public final class Litewars extends JavaPlugin {
     public static File dataFolder;
     public static VersionControl nms;
     public static LiteCommandManager commandManager;
+    public static LitewarsCommand litewarsCommand;
 
     @Override
     public void onEnable() {
@@ -55,7 +57,7 @@ public final class Litewars extends JavaPlugin {
         String bukkitVersion = Bukkit.getBukkitVersion(); // 例如 "1.21-R0.1-SNAPSHOT"
         String[] parts = bukkitVersion.split("-")[0].split("\\."); // ["1", "21"]
         String revision = bukkitVersion.split("-")[1].replace("R", "").split("\\.")[0]; // "0"
-        RunningData.nmsVersion = "v" + parts[0] + "_" + parts[1] + "_R" + revision; // "v1_21_R0"
+        LitewarsRunningData.nmsVersion = "v" + parts[0] + "_" + parts[1] + "_R" + revision; // "v1_21_R0"
 
         saveDefaultConfig();
         // NMS
@@ -72,12 +74,12 @@ public final class Litewars extends JavaPlugin {
         if (languageFolder.mkdirs()) logger.info("已创建语言文件夹");
         try {
             // ScoreBoard in here
-            RunningData.init();
+            LitewarsRunningData.init();
         } catch (URISyntaxException | IOException e) {
             throw new RuntimeException(e);
         }
 
-        String databaseType = RunningData.mainConfig.getString("database-type");
+        String databaseType = LitewarsRunningData.mainConfig.getString("database-type");
         if (!databaseType.equalsIgnoreCase("MySQL") && !databaseType.equalsIgnoreCase("SQLite")){
             databaseType = "SQLite";
             logger.warning("未知的数据库类型，已自动设置为SQLite！");
@@ -86,17 +88,17 @@ public final class Litewars extends JavaPlugin {
         if (databaseType.equalsIgnoreCase("MySQL")) {
             //jdbc:mysql://database-host:database-port/database-name
             String url = "jdbc:mysql://" +
-                    RunningData.mainConfig.getString("database-host") +
-                    ":" + RunningData.mainConfig.getString("database-port") +
-                    "/" + RunningData.mainConfig.getString("database-name");
-            RunningData.hikariCPSupport = new HikariCPSupport(new HikariCPConfig(
+                    LitewarsRunningData.mainConfig.getString("database-host") +
+                    ":" + LitewarsRunningData.mainConfig.getString("database-port") +
+                    "/" + LitewarsRunningData.mainConfig.getString("database-name");
+            LitewarsRunningData.hikariCPSupport = new HikariCPSupport(new HikariCPConfig(
                     url,
-                    RunningData.mainConfig.getString("database-user"),
-                    RunningData.mainConfig.getString("database-password")
+                    LitewarsRunningData.mainConfig.getString("database-user"),
+                    LitewarsRunningData.mainConfig.getString("database-password")
             ), false);
         } else if (databaseType.equalsIgnoreCase("SQLite")) {
             String url = "jdbc:sqlite:" + dataFolder + "/Data/database.db";
-            RunningData.hikariCPSupport = new HikariCPSupport(new HikariCPConfig(
+            LitewarsRunningData.hikariCPSupport = new HikariCPSupport(new HikariCPConfig(
                     url,
                     null,
                     null
@@ -118,16 +120,16 @@ public final class Litewars extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
-        RunningData.hikariCPSupport.start();
-        RunningData.databaseManager = new DatabaseManager(RunningData.hikariCPSupport);
+        LitewarsRunningData.hikariCPSupport.start();
+        LitewarsRunningData.databaseManager = new DatabaseManager(LitewarsRunningData.hikariCPSupport);
         DatabaseUtils.initDatabase();
 
         // SoftDepends
         if (pluginManager.getPlugin("PlaceholderAPI") == null) {
-            RunningData.hasPlaceholderAPI = false;
+            LitewarsRunningData.hasPlaceholderAPI = false;
             logger.warning("未找到PlaceholderAPI，我们推荐您安装此插件");
         }else {
-            RunningData.hasPlaceholderAPI = true;
+            LitewarsRunningData.hasPlaceholderAPI = true;
             logger.info("已找到PlaceholderAPI，正在加载支持...");
             new LobbyPlaceHolder().register();
         }
@@ -139,14 +141,14 @@ public final class Litewars extends JavaPlugin {
         pluginManager.registerEvents(new OnBedSetting(), plugin);
 
         // Commands
-        getCommand("version-control").setExecutor(nms.VCMainCommand());
-        new LitewarsCommand();
+        litewarsCommand = new LitewarsCommand();
+        getCommand("litewars-version-control").setExecutor(nms.VCMainCommand());
         new Party();
 
-        RunningData.lobbyManager.run();
+        LitewarsRunningData.lobbyManager.run();
 
         try {
-            if (RunningData.mainConfig.getBoolean("Tips")) {
+            if (LitewarsRunningData.mainConfig.getBoolean("Tips")) {
                 Tips.init();
                 Tips.startTips();
             }
@@ -161,7 +163,7 @@ public final class Litewars extends JavaPlugin {
     public void onDisable() {
         long start = Instant.now().toEpochMilli();
         logger.info("Litewars正在卸载中...");
-        RunningData.hikariCPSupport.stop();
+        LitewarsRunningData.hikariCPSupport.stop();
         Tips.stopTips();
         logger.info("本次卸载耗时 " + (Instant.now().toEpochMilli() - start) + " ms");
     }
@@ -171,7 +173,7 @@ public final class Litewars extends JavaPlugin {
             return nms;
         }
         try {
-            Class<?> versionControlClass = Class.forName("xyz.litewars.litewars.support." + RunningData.nmsVersion + ".VersionControl");
+            Class<?> versionControlClass = Class.forName("xyz.litewars.litewars.support." + LitewarsRunningData.nmsVersion + ".VersionControl");
             Constructor<?> constructor = versionControlClass.getDeclaredConstructor();
             constructor.setAccessible(true);
             return (VersionControl) constructor.newInstance();

@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import xyz.litewars.litewars.RunningData;
+import xyz.litewars.litewars.LitewarsRunningData;
 import xyz.litewars.litewars.api.languages.Messages;
 import xyz.litewars.litewars.utils.Utils;
 
@@ -38,7 +38,7 @@ public abstract class ParentCommand implements CommandExecutor, TabCompleter {
         if (args.length == 0) {
             boolean exe = this.execute(sender, command, s, args);
             StringBuilder sb = new StringBuilder();
-            if (RunningData.mainConfig.getBoolean("ConsoleColor")) {
+            if (LitewarsRunningData.mainConfig.getBoolean("ConsoleColor")) {
                 sb.append(String.format("&9Lite&bwars &7%s%n", Messages.readLanguageFile(Messages.COMMAND_SYSTEM)));
                 sb.append(Utils.reColor("&6" + Messages.readLanguageFile(Messages.AVAILABLE_COMMANDS) + "\n"));
             } else {
@@ -54,7 +54,7 @@ public abstract class ParentCommand implements CommandExecutor, TabCompleter {
 
                 // 检查是否处于设置模式，并且子命令是否仅适用于设置模式
                 if (sender instanceof Player player) {
-                    boolean playerInSetupMap = RunningData.playerSetupArenaMap.containsKey(player);
+                    boolean playerInSetupMap = LitewarsRunningData.playerSetupArenaMap.containsKey(player);
                     if ((playerInSetupMap && !sub.getIsOnlySetup()) || (!playerInSetupMap && sub.getIsOnlySetup())) {
                         // 如果玩家在设置模式中，但子命令不适用于设置模式，或者玩家不在设置模式中，但子命令仅适用于设置模式，则跳过
                         return;
@@ -72,7 +72,7 @@ public abstract class ParentCommand implements CommandExecutor, TabCompleter {
                                 .append("\n");
                     } else {
                         // 防止因控制台不能正常解析颜色代码而导致不可读问题
-                        if (!RunningData.mainConfig.getBoolean("ConsoleColor")) {
+                        if (!LitewarsRunningData.mainConfig.getBoolean("ConsoleColor")) {
                             sb.append("  + ")
                                     .append(sub.getName())
                                     .append(" | ")
@@ -106,7 +106,7 @@ public abstract class ParentCommand implements CommandExecutor, TabCompleter {
 
                     boolean isPlayer = sender instanceof Player;
                     Player player = isPlayer ? (Player) sender : null;
-                    boolean isSetupMode = isPlayer && RunningData.playerSetupArenaMap.containsKey(player);
+                    boolean isSetupMode = isPlayer && LitewarsRunningData.playerSetupArenaMap.containsKey(player);
 
                     if (sub.getIsOnlyPlayer() && !isPlayer) {
                         sender.sendMessage(Messages.readMessage(Messages.ONLY_PLAYERS, "&c"));
@@ -146,7 +146,7 @@ public abstract class ParentCommand implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
             for (SubCommand subCommand : subCommands) {
                 boolean isPlayer = commandSender instanceof Player;
-                boolean playerInSetupMode = isPlayer && RunningData.playerSetupArenaMap.containsKey((Player) commandSender);
+                boolean playerInSetupMode = isPlayer && LitewarsRunningData.playerSetupArenaMap.containsKey((Player) commandSender);
 
                 if ((subCommand.getIsOnlySetup() && playerInSetupMode) || (!subCommand.getIsOnlySetup() && !playerInSetupMode)) {
                     if (subCommand.getIsOnlyPlayer() && !isPlayer) {
@@ -164,7 +164,7 @@ public abstract class ParentCommand implements CommandExecutor, TabCompleter {
                 if (sub.getSubs() != null) {
                     if (sub.getName().equals(args[0])) {
                         boolean isPlayer = commandSender instanceof Player;
-                        boolean playerInSetupMode = isPlayer && RunningData.playerSetupArenaMap.containsKey((Player) commandSender);
+                        boolean playerInSetupMode = isPlayer && LitewarsRunningData.playerSetupArenaMap.containsKey((Player) commandSender);
 
                         if ((sub.getIsOnlySetup() && playerInSetupMode) || (!sub.getIsOnlySetup() && !playerInSetupMode)) {
                             if (sub.getIsOnlyPlayer() && !isPlayer) {

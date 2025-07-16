@@ -1,7 +1,7 @@
 package xyz.litewars.litewars.database;
 
 import xyz.litewars.litewars.Litewars;
-import xyz.litewars.litewars.RunningData;
+import xyz.litewars.litewars.LitewarsRunningData;
 
 import java.sql.SQLException;
 
@@ -19,7 +19,7 @@ public class DatabaseUtils {
                     "final_deaths INTEGER NOT NULL DEFAULT 0," +
                     "PRIMARY KEY (player_name)" +
                     ");";
-            RunningData.databaseManager.createTable(createTableSQL);
+            LitewarsRunningData.databaseManager.createTable(createTableSQL);
         }catch (SQLException e){
             Litewars.logger.severe("在操作数据库时遇到错误！" + e.getMessage());
         }

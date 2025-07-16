@@ -17,7 +17,7 @@ public class AddTeamColor extends SubCommand {
     public AddTeamColor(LitewarsCommand parent) {
         super(
                 parent,
-                "addTeamColor",
+                "add-team-color",
                 "",
                 "Litewars.admin",
                 true,

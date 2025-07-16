@@ -9,7 +9,7 @@ softdepend:
   - "PlaceholderAPI"
 
 commands:
-  version-control:
+  litewars-version-control:
     description: ""
     permission: Litewars.admin
     aliases: [ "vc" ]

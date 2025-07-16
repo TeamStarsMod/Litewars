@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import xyz.litewars.litewars.Litewars;
-import xyz.litewars.litewars.RunningData;
+import xyz.litewars.litewars.LitewarsRunningData;
 import xyz.litewars.litewars.utils.Utils;
 
 import java.io.File;
@@ -49,7 +49,7 @@ public class Tips {
                 }
 
                 String tip = tips.get(currentTipIndex);
-                for (Player player : RunningData.lobbyPlayers) {
+                for (Player player : LitewarsRunningData.lobbyPlayers) {
                     Litewars.nms.sendActionBar(player, Utils.reColor("&e" + tip));
                 }
 

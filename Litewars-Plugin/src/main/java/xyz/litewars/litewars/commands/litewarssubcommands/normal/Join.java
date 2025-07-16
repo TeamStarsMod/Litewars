@@ -3,7 +3,7 @@ package xyz.litewars.litewars.commands.litewarssubcommands.normal;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import xyz.litewars.litewars.RunningData;
+import xyz.litewars.litewars.LitewarsRunningData;
 import xyz.litewars.litewars.api.arena.Arena;
 import xyz.litewars.litewars.api.arena.ArenaGroup;
 import xyz.litewars.litewars.api.command.SubCommand;
@@ -27,7 +27,7 @@ public class Join extends SubCommand {
             String arenaName = strings[0];
             boolean isFound = false;
             //查找有没有同名的竞技场，如果找到了，但此游戏没有在等待，则新建此游戏
-            for (Game game : RunningData.gameManager.getRunningGames()) {
+            for (Game game : LitewarsRunningData.gameManager.getRunningGames()) {
                 Arena arena = game.getArena();
                 if (arena.getName().equalsIgnoreCase(arenaName)) {
                     isFound = true;
@@ -61,7 +61,7 @@ public class Join extends SubCommand {
             }
             //如果没有，查找是否有相同竞技场组，如果找到了，但没有正在等待的游戏，则新建游戏实例
             if (!isFound) {
-                ArenaGroup arenaGroup = RunningData.arenaGroupMap.get(arenaName.toLowerCase());
+                ArenaGroup arenaGroup = LitewarsRunningData.arenaGroupMap.get(arenaName.toLowerCase());
                 if (arenaGroup != null) {
                     isFound = true;
                     Arena mostPlayersArena = getArena(arenaGroup);
@@ -77,7 +77,7 @@ public class Join extends SubCommand {
                             player.sendMessage(Utils.reColor("&c此竞技场组没有空闲地图 :("));
                             return false;
                         }
-                        RunningData.gameManager.newGameInstance(arena, player);
+                        LitewarsRunningData.gameManager.newGameInstance(arena, player);
                         player.sendMessage(Messages.readMessage(Messages.FOUND_ARENA_GROUP, "&a"));
                     } else {
                         mostPlayersArena.getGame().addPlayer(player);
@@ -87,13 +87,13 @@ public class Join extends SubCommand {
             }
 
             if (!isFound) {
-                for (ArenaGroup arenaG : RunningData.arenaGroupMap.values()) {
+                for (ArenaGroup arenaG : LitewarsRunningData.arenaGroupMap.values()) {
                     for (Arena arena : arenaG.getArenas()) {
                         if (arena.getName().equals(arenaName)) {
                             isFound = true;
                             Game game = arena.getGame();
                             if (game == null) {
-                                RunningData.gameManager.newGameInstance(arena, player);
+                                LitewarsRunningData.gameManager.newGameInstance(arena, player);
                             } else {
                                 if (!game.isStart()) {
                                     game.addPlayer(player);

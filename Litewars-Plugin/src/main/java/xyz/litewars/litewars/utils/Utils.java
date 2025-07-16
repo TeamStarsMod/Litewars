@@ -2,7 +2,7 @@ package xyz.litewars.litewars.utils;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import xyz.litewars.litewars.RunningData;
+import xyz.litewars.litewars.LitewarsRunningData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,10 +14,10 @@ public class Utils {
     }
 
     public static YamlConfiguration getArenaConfig(Player player) {
-        if (!RunningData.playerSetupArenaMap.containsKey(player)) {
+        if (!LitewarsRunningData.playerSetupArenaMap.containsKey(player)) {
             return null;
         }
-        return RunningData.playerSetupArenaMap.get(player).getYaml();
+        return LitewarsRunningData.playerSetupArenaMap.get(player).getYaml();
     }
 
     public static Map<String, Object> getYamlKeys (YamlConfiguration yaml, String key) {

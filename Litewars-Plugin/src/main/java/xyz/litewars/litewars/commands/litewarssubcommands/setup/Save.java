@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import xyz.litewars.litewars.Litewars;
-import xyz.litewars.litewars.RunningData;
+import xyz.litewars.litewars.LitewarsRunningData;
 import xyz.litewars.litewars.api.arena.Arena;
 import xyz.litewars.litewars.api.arena.ArenaGroup;
 import xyz.litewars.litewars.api.command.SubCommand;
@@ -25,7 +25,7 @@ public class Save extends SubCommand {
     @Override
     public boolean execute(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
-        Arena arena = RunningData.playerSetupArenaMap.get(player);
+        Arena arena = LitewarsRunningData.playerSetupArenaMap.get(player);
         YamlConfiguration arenaYaml = arena.getYaml();
         try {
             arenaYaml.save(new File(Litewars.dataFolder, "Arenas/" + arena.getName() + ".yml"));
@@ -35,11 +35,11 @@ public class Save extends SubCommand {
             return false;
         }
 
-        RunningData.playerSetupArenaMap.remove(player);
-        RunningData.playerSetupTeamMap.remove(player);
-        RunningData.lobbyManager.addPlayer(player);
-        RunningData.lobbyPlayers.add(player);
-        ArenaGroup arenaGroup = RunningData.arenaGroupMap.get(arenaYaml.getString("ArenaGroup"));
+        LitewarsRunningData.playerSetupArenaMap.remove(player);
+        LitewarsRunningData.playerSetupTeamMap.remove(player);
+        LitewarsRunningData.lobbyManager.addPlayer(player);
+        LitewarsRunningData.lobbyPlayers.add(player);
+        ArenaGroup arenaGroup = LitewarsRunningData.arenaGroupMap.get(arenaYaml.getString("ArenaGroup"));
         arenaGroup.addArena(arena);
         sender.sendMessage(Messages.readMessage(Messages.SETTINGS_SAVED, "&a"));
         Teleport.tpPlayerToWorld(player, Bukkit.getWorlds().get(0)); // 将玩家传送回默认世界

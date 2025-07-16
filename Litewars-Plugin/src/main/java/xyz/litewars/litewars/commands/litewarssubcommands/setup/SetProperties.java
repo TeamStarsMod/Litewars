@@ -3,7 +3,7 @@ package xyz.litewars.litewars.commands.litewarssubcommands.setup;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import xyz.litewars.litewars.RunningData;
+import xyz.litewars.litewars.LitewarsRunningData;
 import xyz.litewars.litewars.api.arena.Arena;
 import xyz.litewars.litewars.api.arena.ArenaGroup;
 import xyz.litewars.litewars.api.arena.team.Team;
@@ -20,10 +20,10 @@ public class SetProperties extends SubCommand {
     public boolean execute (CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
         if (args.length >= 2) {
-            Arena arena = RunningData.playerSetupArenaMap.get(player);
+            Arena arena = LitewarsRunningData.playerSetupArenaMap.get(player);
             switch (args[0].toLowerCase()) {
                 case "arenagroup" -> {
-                    ArenaGroup arenaGroup = RunningData.arenaGroupMap.get(args[1].toLowerCase());
+                    ArenaGroup arenaGroup = LitewarsRunningData.arenaGroupMap.get(args[1].toLowerCase());
                     if (arenaGroup != null) {
                         arena.setArenaGroup(arenaGroup);
                         player.sendMessage(Utils.reColor("&a设置完成！"));
@@ -35,7 +35,7 @@ public class SetProperties extends SubCommand {
                 }
 
                 case "maxplayer" -> {
-                    Team team = RunningData.playerSetupTeamMap.get(player);
+                    Team team = LitewarsRunningData.playerSetupTeamMap.get(player);
                     if (team == null) {
                         player.sendMessage(Utils.reColor("&c您要先使用/lw edit-team [TeamName] 来编辑一个队伍"));
                         return false;
@@ -64,7 +64,7 @@ public class SetProperties extends SubCommand {
                     return false;
                 }
             }
-        }else {
+        } else {
             player.sendMessage(Utils.reColor("&c参数不足！"));
             return false;
         }

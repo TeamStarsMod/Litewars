@@ -8,7 +8,6 @@ import xyz.litewars.litewars.api.arena.Arena;
 import xyz.litewars.litewars.api.arena.ArenaGroup;
 import xyz.litewars.litewars.api.arena.team.Colors;
 import xyz.litewars.litewars.api.arena.team.Team;
-import xyz.litewars.litewars.api.data.DataSet;
 import xyz.litewars.litewars.api.database.hikaricp.DatabaseManager;
 import xyz.litewars.litewars.api.database.hikaricp.HikariCPSupport;
 import xyz.litewars.litewars.api.game.Game;
@@ -33,7 +32,7 @@ import static xyz.litewars.litewars.Litewars.*;
 /**
  * 全局运行时数据管理类，存储插件运行期间的各种全局状态和缓存。
  */
-public class RunningData {
+public class LitewarsRunningData {
     /** 当前语言文件名（如 zh_cn） */
     public static String languageCode;
     /** 服务器 NMS 版本号（如 v1_21_R0） */
@@ -96,7 +95,7 @@ public class RunningData {
             File langFile = new File(dataFolder + "/Languages/" + lang + ".yml");
             if (!langFile.exists()) {
                 logger.info("缺失语言文件: " + lang + "，从jar中复制");
-                Files.copy(Objects.requireNonNull(RunningData.class.getClassLoader().getResourceAsStream("languages/" + lang + ".yml")),
+                Files.copy(Objects.requireNonNull(LitewarsRunningData.class.getClassLoader().getResourceAsStream("languages/" + lang + ".yml")),
                         Paths.get(langFile.toURI()));
             }
         }

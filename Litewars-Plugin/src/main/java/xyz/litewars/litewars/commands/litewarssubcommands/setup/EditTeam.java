@@ -7,7 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import xyz.litewars.litewars.RunningData;
+import xyz.litewars.litewars.LitewarsRunningData;
 import xyz.litewars.litewars.api.arena.team.Colors;
 import xyz.litewars.litewars.api.arena.team.Team;
 import xyz.litewars.litewars.api.command.SubCommand;
@@ -30,8 +30,8 @@ public class EditTeam extends SubCommand {
         if (args.length >= 1) {
             if (keys.containsKey(args[0])) {
                 Colors color = Colors.valueOf(args[0]);
-                if (RunningData.playerSetupTeamMap.containsKey(p)) {
-                    if (config != null && RunningData.playerSetupTeamMap.get(p).getColors().equals(
+                if (LitewarsRunningData.playerSetupTeamMap.containsKey(p)) {
+                    if (config != null && LitewarsRunningData.playerSetupTeamMap.get(p).getColors().equals(
                             Colors.valueOf(config.getString("Team." + args[0] + ".Color"))
                     )) {
                         p.sendMessage("你已经在编辑此队伍了哦~");
@@ -40,7 +40,7 @@ public class EditTeam extends SubCommand {
                 }
                 p.sendMessage("正在编辑队伍 " + color.getColor() + args[0]);
                 if (config != null) {
-                    RunningData.playerSetupTeamMap.put(p, new Team(Colors.valueOf(config.getString("Team." + args[0] + ".Color")), true, args[0], config, RunningData.playerSetupArenaMap.get(p).getArenaWorld()));
+                    LitewarsRunningData.playerSetupTeamMap.put(p, new Team(Colors.valueOf(config.getString("Team." + args[0] + ".Color")), true, args[0], config, LitewarsRunningData.playerSetupArenaMap.get(p).getArenaWorld()));
                 }
             } else {
                 p.sendMessage("没有这个队伍哦~");

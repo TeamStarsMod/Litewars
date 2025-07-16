@@ -25,7 +25,7 @@ import java.util.Set;
 
 public class AutoDetectTeamColor extends SubCommand {
     public AutoDetectTeamColor(LitewarsCommand parent) {
-        super(parent, "autoDetectTeamColor", "", "Litewars.admin", true, true);
+        super(parent, "auto-detect-team-color", "", "Litewars.admin", true, true);
     }
 
     @Override
